@@ -3,6 +3,8 @@ import cors from "cors";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 
+// yay
+
 dotenv.config();
 
 const app = express();
