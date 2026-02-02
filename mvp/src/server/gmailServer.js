@@ -1,15 +1,14 @@
-// gmailServer.js
-// Gmail + AI Email Agent — FIXED & OPTIMIZED WITH ALL ENDPOINTS
+import dotenv from "dotenv";
+dotenv.config(); // MUST run first
 
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { google } from "googleapis";
-import Groq from "groq-sdk";
 
-dotenv.config();
+// Groq import AFTER dotenv
+import Groq from "groq-sdk";
 
 /* ──────────────────────────── CONFIG ──────────────────────────── */
 
@@ -75,7 +74,9 @@ if (fs.existsSync(TOKEN_PATH)) {
 }
 
 const gmail = google.gmail({ version: "v1", auth: oauth2Client });
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 let groqCalls = 0;
 const processedEmails = new Set();

@@ -1,11 +1,18 @@
-.env
-*.env
+# Node modules
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+
+# Python files (if any)
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-*.log
+
+# Environment
+.env
+
+# Mac/Windows stuff
 .DS_Store
+Thumbs.db
+node_modules
