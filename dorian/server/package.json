@@ -1,0 +1,22 @@
+{
+  "name": "dorian-server",
+  "version": "1.0.0",
+  "description": "Backend API for Dorian AI Agent Builder",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "googleapis": "^129.0.0",
+    "groq-sdk": "^0.37.0",
+    "express-session": "^1.17.3",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

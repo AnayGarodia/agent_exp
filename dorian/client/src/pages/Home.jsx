@@ -5,21 +5,24 @@ import "./Home.css";
 export default function Home() {
   return (
     <div className="home">
-      {/* Hero */}
+      {/* ─── Hero ─── */}
       <section className="hero">
         <div className="container">
+          <div className="hero-badge">No-code AI automation</div>
           <h1 className="hero-title">
             Automate your business
             <br />
-            without writing code
+            <span className="hero-title-accent">without writing code</span>
           </h1>
           <p className="hero-description">
             Drag and drop AI-powered blocks to handle your emails, data, and
-            <br />
             daily tasks — the way Scratch taught a generation to program.
           </p>
           <div className="hero-actions">
-            <Link to="/builder" className="btn-primary btn-large">
+            <Link
+              to="/builder"
+              className="btn-primary btn-large hero-cta-primary"
+            >
               Launch Builder
             </Link>
             <a href="#how-it-works" className="btn-secondary btn-large">
@@ -29,15 +32,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
+      {/* ─── Features ─── */}
       <section id="features" className="features">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Features</h2>
+            <h2 className="section-title">What you can build</h2>
           </div>
 
           <div className="feature-grid">
             <div className="feature">
+              <div className="feature-icon">⬡</div>
               <h3 className="feature-title">Visual Builder</h3>
               <p className="feature-text">
                 Drag and drop blocks to create workflows. If you can play a
@@ -46,6 +50,7 @@ export default function Home() {
             </div>
 
             <div className="feature">
+              <div className="feature-icon">◎</div>
               <h3 className="feature-title">AI That Works For You</h3>
               <p className="feature-text">
                 Powered by large language models to read, analyse, and reply to
@@ -54,6 +59,7 @@ export default function Home() {
             </div>
 
             <div className="feature">
+              <div className="feature-icon">▤</div>
               <h3 className="feature-title">Ready Templates</h3>
               <p className="feature-text">
                 Pre-built workflows for customer support, sales reporting, and
@@ -62,6 +68,7 @@ export default function Home() {
             </div>
 
             <div className="feature">
+              <div className="feature-icon">◐</div>
               <h3 className="feature-title">Real-time Results</h3>
               <p className="feature-text">
                 Watch your workflow run step by step. See exactly what the AI
@@ -72,11 +79,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
+      {/* ─── How It Works ─── */}
       <section id="how-it-works" className="how-it-works">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">How It Works</h2>
+            <h2 className="section-title">How it works</h2>
           </div>
 
           <div className="steps">
@@ -88,6 +95,8 @@ export default function Home() {
                 from a blank canvas.
               </p>
             </div>
+
+            {/* connector line rendered via CSS ::after on .steps */}
 
             <div className="step">
               <div className="step-number">02</div>
@@ -110,16 +119,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ─── CTA ─── */}
       <section className="cta">
         <div className="container">
-          <h2 className="cta-title">Ready to save hours every week?</h2>
-          <p className="cta-text">
-            Build your first AI agent in under five minutes.
-          </p>
-          <Link to="/builder" className="btn-primary btn-large">
-            Get Started
-          </Link>
+          <div className="cta-inner">
+            <h2 className="cta-title">Ready to save hours every week?</h2>
+            <p className="cta-text">
+              Build your first AI agent in under five minutes.
+            </p>
+            <Link to="/builder" className="btn-primary btn-large cta-btn">
+              Get Started →
+            </Link>
+          </div>
         </div>
       </section>
     </div>

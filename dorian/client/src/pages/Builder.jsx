@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
-import {
-  WorkflowExecutor,
-  workflowTemplates,
-  getSampleDataForAgent,
-} from "../pages/workflowEngine";
+import TOOLBOX from "../config/toolbox";
+import "../config/customBlocks"; // registers blocks as a side-effect
+import { api } from "../services/api";
 import "./Builder.css";
-import "../pages/customBlocks";
 
 // ---------------------------------------------------------------------------
-// BLOCKLY THEME
+// BLOCKLY THEME  (identical to MVP)
 // ---------------------------------------------------------------------------
-
 const agentTheme = Blockly.Theme.defineTheme("agent_theme", {
   base: Blockly.Themes.Classic,
   componentStyles: {
@@ -30,91 +26,14 @@ const agentTheme = Blockly.Theme.defineTheme("agent_theme", {
 });
 
 // ---------------------------------------------------------------------------
-// TOOLBOX
-// ---------------------------------------------------------------------------
-
-const TOOLBOX = {
-  kind: "categoryToolbox",
-  contents: [
-    {
-      kind: "category",
-      name: "Control",
-      colour: "#7c3aed",
-      contents: [
-        { kind: "block", type: "agent_start" },
-        { kind: "block", type: "if_contains" },
-      ],
-    },
-    {
-      kind: "category",
-      name: "Input",
-      colour: "#f59e0b",
-      contents: [{ kind: "block", type: "input_data" }],
-    },
-    {
-      kind: "category",
-      name: "Gmail",
-      colour: "#3b82f6",
-      contents: [
-        { kind: "block", type: "gmail_fetch_unread" },
-        { kind: "block", type: "gmail_search" },
-        { kind: "block", type: "gmail_for_each_email" },
-        { kind: "block", type: "gmail_get_property" },
-        { kind: "block", type: "gmail_ai_reply" },
-        { kind: "block", type: "gmail_send_reply" },
-        { kind: "block", type: "gmail_send_new" },
-        { kind: "block", type: "gmail_mark_read" },
-        { kind: "block", type: "gmail_archive" },
-      ],
-    },
-    {
-      kind: "category",
-      name: "AI",
-      colour: "#10b981",
-      contents: [
-        { kind: "block", type: "ai_analyze" },
-        { kind: "block", type: "ai_generate" },
-        { kind: "block", type: "ai_extract" },
-      ],
-    },
-    {
-      kind: "category",
-      name: "Data",
-      colour: "#6b7280",
-      contents: [
-        { kind: "block", type: "simple_text" },
-        { kind: "block", type: "get_variable" },
-        { kind: "block", type: "combine_text" },
-      ],
-    },
-    {
-      kind: "category",
-      name: "Output",
-      colour: "#ec4899",
-      contents: [
-        { kind: "block", type: "display_result" },
-        { kind: "block", type: "log_message" },
-      ],
-    },
-    {
-      kind: "category",
-      name: "Utility",
-      colour: "#0d9488",
-      contents: [{ kind: "block", type: "wait_delay" }],
-    },
-  ],
-};
-
-// ---------------------------------------------------------------------------
 // COMPONENT
 // ---------------------------------------------------------------------------
-
 export default function Builder() {
+  /* ── refs ── */
   const blocklyDiv = useRef(null);
   const workspace = useRef(null);
-  const executor = useRef(new WorkflowExecutor());
 
-  // Workspace state
+  /* ── workspace state ── */
   const [isRunning, setIsRunning] = useState(false);
   const [outputItems, setOutputItems] = useState([]);
   const [showOutput, setShowOutput] = useState(false);
@@ -122,46 +41,38 @@ export default function Builder() {
   const [generatedCode, setGeneratedCode] = useState("");
   const [showTemplates, setShowTemplates] = useState(false);
 
-  // Gmail state
+  /* ── Gmail state ── */
   const [gmailConnected, setGmailConnected] = useState(false);
   const [gmailUserEmail, setGmailUserEmail] = useState(null);
   const [gmailTestMode, setGmailTestMode] = useState(true);
   const [groqApiCalls, setGroqApiCalls] = useState(0);
 
-  // Modal state
+  /* ── modal state ── */
   const [showGmailPrompt, setShowGmailPrompt] = useState(false);
   const [showAccountManager, setShowAccountManager] = useState(false);
   const [showDisconnectConfirm, setShowDisconnectConfirm] = useState(false);
 
   // -----------------------------------------------------------------------
-  // GMAIL STATUS
+  // GMAIL STATUS  (poll via api.js)
   // -----------------------------------------------------------------------
-
   const checkGmailStatus = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/gmail/status");
-      const data = await response.json();
-      setGmailConnected(data.connected);
-      setGmailUserEmail(data.userEmail);
+      const data = await api.checkAuthStatus();
+      setGmailConnected(data.authenticated);
+      setGmailUserEmail(data.email || null);
       setGmailTestMode(data.testMode ?? true);
       setGroqApiCalls(data.groqApiCalls || 0);
-      executor.current.setGmailStatus(data.connected);
     } catch (err) {
-      console.error("[gmail] Status check failed:", err.message);
+      console.error("[gmail] status check failed:", err.message);
       setGmailConnected(false);
       setGmailUserEmail(null);
-      executor.current.setGmailStatus(false);
     }
   }, []);
 
-  // Listen for the postMessage that the OAuth callback page sends on success.
-  // This gives us instant notification instead of waiting for the next poll tick.
+  /* listen for postMessage from the OAuth popup */
   useEffect(() => {
     const handler = (event) => {
-      if (event.origin !== "http://localhost:3000") return;
-      if (event.data && event.data.gmailAuthSuccess) {
-        checkGmailStatus();
-      }
+      if (event.data?.gmailAuthSuccess) checkGmailStatus();
     };
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
@@ -169,103 +80,55 @@ export default function Builder() {
 
   useEffect(() => {
     checkGmailStatus();
-    executor.current.setGmailRequiredCallback(handleGmailRequired);
-  }, []);
+  }, [checkGmailStatus]);
 
   // -----------------------------------------------------------------------
   // GMAIL CONNECT / DISCONNECT
   // -----------------------------------------------------------------------
-
   const connectGmail = () => {
+    /* open the OAuth URL in a popup */
     const popup = window.open(
-      "http://localhost:3001/api/gmail/auth",
+      api.getAuthUrl(),
       "gmailAuth",
       "width=600,height=700,resizable=yes"
     );
 
-    // Fallback polling in case postMessage doesn't fire (e.g. popup blocker
-    // partially allows the window but blocks messaging).
+    /* fallback poll in case postMessage doesn't fire */
     const interval = setInterval(async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/gmail/status");
-        const data = await response.json();
-        if (data.connected) {
+        const data = await api.checkAuthStatus();
+        if (data.authenticated) {
           setGmailConnected(true);
-          setGmailUserEmail(data.userEmail);
+          setGmailUserEmail(data.email || null);
           setGmailTestMode(data.testMode ?? true);
-          executor.current.setGmailStatus(true);
           setShowGmailPrompt(false);
           setShowAccountManager(false);
           clearInterval(interval);
           if (popup && !popup.closed) popup.close();
         }
-      } catch (err) {
-        console.error("[gmail] Poll error:", err.message);
+      } catch (e) {
+        /* ignore */
       }
     }, 2000);
 
-    // Stop polling after 2 minutes regardless.
-    setTimeout(() => clearInterval(interval), 120000);
+    setTimeout(() => clearInterval(interval), 120_000);
   };
 
   const disconnectGmail = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/gmail/disconnect",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const data = await response.json();
-      if (data.success) {
-        setGmailConnected(false);
-        setGmailUserEmail(null);
-        executor.current.setGmailStatus(false);
-        setShowAccountManager(false);
-        setShowDisconnectConfirm(false);
-      }
+      await api.logout();
+      setGmailConnected(false);
+      setGmailUserEmail(null);
+      setShowAccountManager(false);
+      setShowDisconnectConfirm(false);
     } catch (err) {
-      console.error("[gmail] Disconnect error:", err.message);
+      console.error("[gmail] disconnect error:", err.message);
     }
   };
 
-  // Called by the workflow engine mid-execution if a Gmail block fires
-  // before the user has connected.
-  const handleGmailRequired = () => {
-    return new Promise((resolve) => {
-      setShowGmailPrompt(true);
-
-      const interval = setInterval(async () => {
-        try {
-          const response = await fetch(
-            "http://localhost:3001/api/gmail/status"
-          );
-          const data = await response.json();
-          if (data.connected) {
-            setGmailConnected(true);
-            setGmailUserEmail(data.userEmail);
-            executor.current.setGmailStatus(true);
-            setShowGmailPrompt(false);
-            clearInterval(interval);
-            resolve(true);
-          }
-        } catch (err) {
-          console.error("[gmail] Required-callback poll:", err.message);
-        }
-      }, 1000);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        resolve(false);
-      }, 60000);
-    });
-  };
-
   // -----------------------------------------------------------------------
-  // BLOCKLY WORKSPACE INIT
+  // BLOCKLY WORKSPACE  (init once)
   // -----------------------------------------------------------------------
-
   useEffect(() => {
     if (!blocklyDiv.current || workspace.current) return;
 
@@ -285,6 +148,7 @@ export default function Builder() {
       move: { scrollbars: true, drag: true, wheel: true },
     });
 
+    /* drop a starter block */
     const starter = workspace.current.newBlock("agent_start");
     starter.initSvg();
     starter.render();
@@ -299,38 +163,25 @@ export default function Builder() {
   }, []);
 
   // -----------------------------------------------------------------------
-  // TEMPLATES
+  // TEMPLATES  (4 templates, identical logic to MVP)
   // -----------------------------------------------------------------------
-
-  const loadTemplate = (templateKey) => {
+  const loadTemplate = (key) => {
     if (!workspace.current) return;
     workspace.current.clear();
 
-    switch (templateKey) {
-      case "customerSupport":
-        buildCustomerSupportTemplate();
-        break;
-      case "salesReport":
-        buildSalesReportTemplate();
-        break;
-      case "gmailAutoReply":
-        buildGmailAutoReplyTemplate();
-        break;
-      case "gmailDigest":
-        buildGmailDigestTemplate();
-        break;
-      default:
-        break;
-    }
-
+    const builders = {
+      customerSupport: buildCustomerSupport,
+      salesReport: buildSalesReport,
+      gmailAutoReply: buildGmailAutoReply,
+      gmailDigest: buildGmailDigest,
+    };
+    builders[key]?.();
     setShowTemplates(false);
   };
 
-  // -- Customer Support: input -> analyze -> generate -> display -----------
-
-  const buildCustomerSupportTemplate = () => {
+  /* ── Customer Support ── */
+  const buildCustomerSupport = () => {
     const ws = workspace.current;
-
     const start = ws.newBlock("agent_start");
     const input = ws.newBlock("input_data");
     const analyze = ws.newBlock("ai_analyze");
@@ -388,15 +239,13 @@ export default function Builder() {
         .getInput("RESULT")
         .connection.connect(getResponse.outputConnection);
     } catch (e) {
-      console.error("[template] Connection error:", e.message);
+      console.error("[template]", e.message);
     }
   };
 
-  // -- Sales Report: input -> analyze -> generate -> display ---------------
-
-  const buildSalesReportTemplate = () => {
+  /* ── Sales Report ── */
+  const buildSalesReport = () => {
     const ws = workspace.current;
-
     const start = ws.newBlock("agent_start");
     const input = ws.newBlock("input_data");
     const analyze = ws.newBlock("ai_analyze");
@@ -446,17 +295,13 @@ export default function Builder() {
       generate.nextConnection.connect(display.previousConnection);
       display.getInput("RESULT").connection.connect(getReport.outputConnection);
     } catch (e) {
-      console.error("[template] Connection error:", e.message);
+      console.error("[template]", e.message);
     }
   };
 
-  // -- Gmail Auto-Reply: fetch -> loop -> AI reply -> send -> mark read ----
-  // This is the full end-to-end Gmail flow. Every block is wired so the user
-  // can literally hit Run and watch it work.
-
-  const buildGmailAutoReplyTemplate = () => {
+  /* ── Gmail Auto-Reply  (the flagship end-to-end demo) ── */
+  const buildGmailAutoReply = () => {
     const ws = workspace.current;
-
     const start = ws.newBlock("agent_start");
     const fetch = ws.newBlock("gmail_fetch_unread");
     const loop = ws.newBlock("gmail_for_each_email");
@@ -466,7 +311,6 @@ export default function Builder() {
     const markRead = ws.newBlock("gmail_mark_read");
     const archive = ws.newBlock("gmail_archive");
 
-    // Configure
     start.setFieldValue("email", "AGENT_TYPE");
     fetch.setFieldValue("5", "MAX_EMAILS");
     fetch.setFieldValue("emails", "VAR_NAME");
@@ -490,43 +334,30 @@ export default function Builder() {
       b.render();
     });
 
-    // Layout: start at top, fetch below it, loop below that.
-    // Inside the loop (indented): AI reply -> send -> mark read -> archive.
     start.moveBy(60, 40);
     fetch.moveBy(60, 180);
     loop.moveBy(60, 310);
-
-    // These go INSIDE the loop's DO input, so they are indented.
     aiReply.moveBy(100, 440);
     sendReply.moveBy(100, 590);
     markRead.moveBy(100, 700);
     archive.moveBy(100, 790);
-
-    // getBody is a value output — it floats next to aiReply (not connected
-    // in this template because gmail_ai_reply reads currentEmail directly).
-    // We place it off to the side as a reference block the user can see.
     getBody.moveBy(480, 440);
 
     try {
-      // start -> fetch -> loop (linear chain)
       start.getInput("STEPS").connection.connect(fetch.previousConnection);
       fetch.nextConnection.connect(loop.previousConnection);
-
-      // Inside the loop: aiReply -> sendReply -> markRead -> archive
       loop.getInput("DO").connection.connect(aiReply.previousConnection);
       aiReply.nextConnection.connect(sendReply.previousConnection);
       sendReply.nextConnection.connect(markRead.previousConnection);
       markRead.nextConnection.connect(archive.previousConnection);
     } catch (e) {
-      console.error("[template] Gmail auto-reply connection error:", e.message);
+      console.error("[template gmail-auto-reply]", e.message);
     }
   };
 
-  // -- Gmail Digest: fetch -> loop -> extract subject/sender -> display ----
-
-  const buildGmailDigestTemplate = () => {
+  /* ── Gmail Digest ── */
+  const buildGmailDigest = () => {
     const ws = workspace.current;
-
     const start = ws.newBlock("agent_start");
     const fetch = ws.newBlock("gmail_fetch_unread");
     const loop = ws.newBlock("gmail_for_each_email");
@@ -558,21 +389,19 @@ export default function Builder() {
     try {
       start.getInput("STEPS").connection.connect(fetch.previousConnection);
       fetch.nextConnection.connect(loop.previousConnection);
-
       loop.getInput("DO").connection.connect(combine.previousConnection);
       combine.getInput("TEXT1").connection.connect(getFrom.outputConnection);
       combine.getInput("TEXT2").connection.connect(getSub.outputConnection);
       combine.nextConnection.connect(display.previousConnection);
       display.getInput("RESULT").connection.connect(combine.outputConnection);
     } catch (e) {
-      console.error("[template] Digest connection error:", e.message);
+      console.error("[template digest]", e.message);
     }
   };
 
   // -----------------------------------------------------------------------
-  // RUN WORKFLOW
+  // RUN WORKFLOW  (sends generated code + blocks to server via api.js)
   // -----------------------------------------------------------------------
-
   const runWorkflow = async () => {
     if (!workspace.current) return;
 
@@ -597,27 +426,65 @@ export default function Builder() {
         return;
       }
 
+      /* If a Gmail block is present but user hasn't connected, prompt them */
+      const hasGmailBlock = blocks.some((b) => b.type?.startsWith?.("gmail_"));
+      if (hasGmailBlock && !gmailConnected) {
+        setShowGmailPrompt(true);
+        setIsRunning(false);
+        return;
+      }
+
+      /* Determine agent type for sample data */
       const startBlock = blocks.find((b) => b.type === "agent_start");
       const agentType = startBlock?.getFieldValue("AGENT_TYPE") || "support";
 
-      const inputData = getSampleDataForAgent(agentType);
-      executor.current.setInputData(inputData);
+      /* send to Dorian's server */
+      setOutputItems([
+        {
+          type: "log",
+          content: `🚀 Starting ${agentType} agent…`,
+          timestamp: new Date().toISOString(),
+        },
+      ]);
 
-      const result = await executor.current.execute(code, (outputs) => {
-        setOutputItems([...outputs]);
-        const last = outputs[outputs.length - 1];
-        if (last?.groqApiCalls) setGroqApiCalls(last.groqApiCalls);
+      const result = await api.executeWorkflow({
+        blocks: blocks.map((b) => ({
+          type: b.type,
+          fields: b.getFieldValue ? {} : {},
+        })),
+        agentType,
+        code,
       });
 
-      setOutputItems(result.output);
+      /* merge server logs into output */
+      if (result.logs?.length) {
+        setOutputItems((prev) => [
+          ...prev,
+          ...result.logs.map((l) => ({
+            type: "log",
+            content: l.message || l,
+            timestamp: l.timestamp || new Date().toISOString(),
+          })),
+        ]);
+      }
+
+      setOutputItems((prev) => [
+        ...prev,
+        {
+          type: "success",
+          content: "✅ Workflow completed successfully.",
+          timestamp: new Date().toISOString(),
+        },
+      ]);
+
       await checkGmailStatus();
     } catch (error) {
-      console.error("[run] Execution error:", error.message);
+      console.error("[run]", error);
       setOutputItems((prev) => [
         ...prev,
         {
           type: "error",
-          content: error.message,
+          content: error.message || "Unknown error",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -629,7 +496,6 @@ export default function Builder() {
   // -----------------------------------------------------------------------
   // TOOLBAR HELPERS
   // -----------------------------------------------------------------------
-
   const handleShowCode = () => {
     if (!workspace.current) return;
     try {
@@ -638,7 +504,7 @@ export default function Builder() {
     } catch (e) {
       setGeneratedCode(`// Error: ${e.message}`);
     }
-    setShowCode(!showCode);
+    setShowCode((prev) => !prev);
   };
 
   const handleSave = () => {
@@ -658,7 +524,6 @@ export default function Builder() {
   const handleClear = () => {
     if (!workspace.current) return;
     if (!window.confirm("Clear the entire workspace?")) return;
-
     workspace.current.clear();
 
     const starter = workspace.current.newBlock("agent_start");
@@ -672,10 +537,9 @@ export default function Builder() {
   };
 
   // -----------------------------------------------------------------------
-  // OUTPUT STYLING
+  // OUTPUT CLASS HELPER
   // -----------------------------------------------------------------------
-
-  const outputClassForType = (type) => {
+  const outputClass = (type) => {
     const map = {
       log: "output-log",
       success: "output-success",
@@ -696,66 +560,69 @@ export default function Builder() {
   // -----------------------------------------------------------------------
   // RENDER
   // -----------------------------------------------------------------------
-
   return (
     <div className="builder">
-      {/* Header */}
+      {/* ──── HEADER ──── */}
       <div className="builder-header">
         <div className="builder-title">
           <h1>AI Agent Builder</h1>
-          <span className="builder-subtitle">
-            Drag blocks to build your workflow
-          </span>
+          <span className="builder-subtitle">drag blocks · run · automate</span>
         </div>
 
         <div className="builder-actions">
           <button
-            className="btn-secondary"
-            onClick={() => setShowTemplates(!showTemplates)}
+            className="hdr-btn hdr-btn-secondary"
+            onClick={() => setShowTemplates((s) => !s)}
           >
             Templates
           </button>
-          <button className="btn-secondary" onClick={handleClear}>
+          <button className="hdr-btn hdr-btn-secondary" onClick={handleClear}>
             Clear
           </button>
-          <button className="btn-secondary" onClick={handleShowCode}>
+          <button
+            className="hdr-btn hdr-btn-secondary"
+            onClick={handleShowCode}
+          >
             {showCode ? "Hide Code" : "Show Code"}
           </button>
-          <button className="btn-secondary" onClick={handleSave}>
+          <button className="hdr-btn hdr-btn-secondary" onClick={handleSave}>
             Save
           </button>
 
           {gmailConnected ? (
             <button
-              className="btn-gmail-connected"
+              className="hdr-btn hdr-btn-gmail-connected"
               onClick={() => setShowAccountManager(true)}
             >
-              {gmailUserEmail?.split("@")[0] || "Gmail"}
+              {gmailUserEmail?.split("@")[0] || "Gmail"} ✓
             </button>
           ) : (
-            <button className="btn-gmail" onClick={connectGmail}>
+            <button className="hdr-btn hdr-btn-gmail" onClick={connectGmail}>
               Connect Gmail
             </button>
           )}
 
           <button
-            className="btn-primary"
+            className={`hdr-btn hdr-btn-run ${isRunning ? "running" : ""}`}
             onClick={runWorkflow}
             disabled={isRunning}
           >
-            {isRunning ? "Running..." : "Run Workflow"}
+            {isRunning ? (
+              <>
+                <span className="spinner spinner--sm"></span> Running…
+              </>
+            ) : (
+              "▶  Run Workflow"
+            )}
           </button>
         </div>
       </div>
 
-      {/* Info banner */}
+      {/* ──── INFO BANNER ──── */}
       {((gmailConnected && gmailTestMode) || groqApiCalls > 0) && (
         <div className="info-banner">
           {gmailConnected && gmailTestMode && (
-            <span>
-              TEST MODE — emails are validated but not sent to external
-              addresses
-            </span>
+            <span>TEST MODE — emails validated but not sent externally</span>
           )}
           {groqApiCalls > 0 && (
             <span>AI calls this session: {groqApiCalls}</span>
@@ -763,54 +630,57 @@ export default function Builder() {
         </div>
       )}
 
-      {/* Templates panel */}
+      {/* ──── TEMPLATES PANEL ──── */}
       {showTemplates && (
         <div className="templates-panel">
           <div className="templates-header">
             <h3>Quick Start Templates</h3>
-            <button onClick={() => setShowTemplates(false)}>&times;</button>
+            <button
+              className="templates-close"
+              onClick={() => setShowTemplates(false)}
+            >
+              &times;
+            </button>
           </div>
           <div className="templates-grid">
             <div
               className="template-card"
               onClick={() => loadTemplate("customerSupport")}
             >
-              <h4>Customer Support</h4>
+              <h4>📧 Customer Support</h4>
               <p>Analyse a customer email and draft a professional response.</p>
             </div>
             <div
               className="template-card"
               onClick={() => loadTemplate("salesReport")}
             >
-              <h4>Sales Report</h4>
+              <h4>📊 Sales Report</h4>
               <p>Turn sales data into insights and an executive summary.</p>
             </div>
             <div
-              className="template-card template-card-highlight"
+              className="template-card template-card--highlight"
               onClick={() => loadTemplate("gmailAutoReply")}
             >
-              <h4>Gmail Auto-Reply</h4>
+              <h4>⚡ Gmail Auto-Reply</h4>
               <p>
-                Fetch unread emails, generate AI replies, send them, and
-                archive. Fully wired — just hit Run.
+                Fetch unread → AI reply → send → archive. Fully wired — just hit
+                Run.
               </p>
             </div>
             <div
               className="template-card"
               onClick={() => loadTemplate("gmailDigest")}
             >
-              <h4>Inbox Digest</h4>
-              <p>
-                Fetch unread emails and display a summary of sender + subject
-                for each.
-              </p>
+              <h4>📋 Inbox Digest</h4>
+              <p>Fetch unread emails and display sender + subject for each.</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Main content */}
+      {/* ──── MAIN CONTENT ──── */}
       <div className="builder-content">
+        {/* Blockly canvas */}
         <div
           ref={blocklyDiv}
           className="blockly-container"
@@ -821,9 +691,9 @@ export default function Builder() {
         {showOutput && (
           <div className="output-panel">
             <div className="output-header">
-              <span>Output</span>
+              <span>⚙ Output</span>
               <button
-                className="btn-close"
+                className="output-close"
                 onClick={() => setShowOutput(false)}
               >
                 &times;
@@ -833,7 +703,7 @@ export default function Builder() {
               {isRunning && outputItems.length === 0 && (
                 <div className="output-loading">
                   <div className="spinner"></div>
-                  <p>Starting workflow...</p>
+                  <p>Starting workflow…</p>
                 </div>
               )}
               {!isRunning && outputItems.length === 0 && (
@@ -841,10 +711,10 @@ export default function Builder() {
                   Run your workflow to see output here.
                 </p>
               )}
-              {outputItems.map((item, idx) => (
+              {outputItems.map((item, i) => (
                 <div
-                  key={idx}
-                  className={`output-item ${outputClassForType(item.type)}`}
+                  key={i}
+                  className={`output-item ${outputClass(item.type)}`}
                 >
                   <div className="output-item-header">
                     <span className="output-type">
@@ -861,12 +731,12 @@ export default function Builder() {
           </div>
         )}
 
-        {/* Code panel */}
+        {/* Code panel  (shown when output is hidden) */}
         {showCode && !showOutput && (
           <div className="code-panel">
             <div className="code-header">
               <span>Generated Code</span>
-              <button className="btn-close" onClick={() => setShowCode(false)}>
+              <button className="code-close" onClick={() => setShowCode(false)}>
                 &times;
               </button>
             </div>
@@ -875,26 +745,42 @@ export default function Builder() {
         )}
       </div>
 
-      {/* Footer */}
+      {/* ──── FOOTER ──── */}
       <div className="builder-footer">
         <p>
-          Tip: Gmail will be requested automatically when a Gmail block runs.
-          Use the Gmail Auto-Reply template for a fully working example.
+          Tip: Gmail access is requested automatically when a Gmail block runs.
+          Try the <strong>Gmail Auto-Reply</strong> template for a fully working
+          example.
         </p>
       </div>
 
-      {/* --- MODALS --- */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          MODALS
+          ═══════════════════════════════════════════════════════════════════ */}
 
+      {/* Gmail Required (mid-execution prompt) */}
       {showGmailPrompt && (
         <div className="modal-overlay">
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Gmail Required</h2>
             <p>
               This workflow needs Gmail access to continue. Connect your account
               and it will resume automatically.
             </p>
             <div className="modal-actions">
-              <button className="btn-primary" onClick={connectGmail}>
+              <button
+                className="modal-btn modal-btn--secondary"
+                onClick={() => setShowGmailPrompt(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="modal-btn modal-btn--primary"
+                onClick={() => {
+                  connectGmail();
+                  setShowGmailPrompt(false);
+                }}
+              >
                 Connect Gmail Now
               </button>
             </div>
@@ -902,39 +788,40 @@ export default function Builder() {
         </div>
       )}
 
+      {/* Account Manager */}
       {showAccountManager && (
         <div
           className="modal-overlay"
           onClick={() => setShowAccountManager(false)}
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Gmail Account</h2>
-            <p className="connected-status">
-              {gmailTestMode ? "Test Mode Active" : "Connected"}
+            <p className="modal-status-connected">
+              {gmailTestMode ? "⚡ Test Mode Active" : "✓ Connected"}
             </p>
-            <div className="email-display">{gmailUserEmail}</div>
+            <div className="modal-email-chip">{gmailUserEmail}</div>
             {gmailTestMode && (
-              <div className="test-mode-info">
+              <div className="modal-test-box">
                 <strong>TEST MODE</strong>
                 <p>
                   Emails are validated but not sent to external addresses. Only
-                  your allowed test emails will actually receive mail.
+                  allowed test addresses will actually receive mail.
                 </p>
-                <p className="test-mode-note">
-                  Set TEST_MODE = false in gmailServer.js to enable production
+                <p className="modal-test-note">
+                  Set TEST_MODE = false in your server .env to enable production
                   sending.
                 </p>
               </div>
             )}
             <div className="modal-actions">
               <button
-                className="btn-secondary"
+                className="modal-btn modal-btn--secondary"
                 onClick={() => setShowAccountManager(false)}
               >
                 Close
               </button>
               <button
-                className="btn-danger"
+                className="modal-btn modal-btn--danger"
                 onClick={() => setShowDisconnectConfirm(true)}
               >
                 Disconnect
@@ -944,25 +831,30 @@ export default function Builder() {
         </div>
       )}
 
+      {/* Disconnect Confirm */}
       {showDisconnectConfirm && (
         <div
           className="modal-overlay"
           onClick={() => setShowDisconnectConfirm(false)}
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Disconnect Gmail?</h2>
             <p>
-              This will remove the saved session for {gmailUserEmail}. You will
-              need to re-authorise next time.
+              This removes the saved session for{" "}
+              <strong>{gmailUserEmail}</strong>. You'll need to re-authorise
+              next time.
             </p>
             <div className="modal-actions">
               <button
-                className="btn-secondary"
+                className="modal-btn modal-btn--secondary"
                 onClick={() => setShowDisconnectConfirm(false)}
               >
                 Cancel
               </button>
-              <button className="btn-danger" onClick={disconnectGmail}>
+              <button
+                className="modal-btn modal-btn--danger"
+                onClick={disconnectGmail}
+              >
                 Disconnect
               </button>
             </div>

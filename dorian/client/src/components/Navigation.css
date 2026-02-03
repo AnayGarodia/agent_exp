@@ -1,0 +1,83 @@
+/* =========================================================================
+   NAVIGATION BAR
+   ========================================================================= */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--white);
+  border-bottom: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* very subtle shadow so content scrolling under it feels grounded */
+  box-shadow: 0 1px 0 var(--gray-100);
+}
+
+/* Logo */
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--black);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+.nav-logo:hover {
+  color: var(--blue);
+}
+
+/* Links row */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+/* Individual link with animated underline */
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-600);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 1px;
+  transition: width 0.25s ease;
+}
+.nav-link:hover {
+  color: var(--black);
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* CTA button inside nav */
+.nav-cta {
+  margin-left: var(--space-2);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .nav {
+    padding: var(--space-3) var(--space-4);
+  }
+  .nav-links {
+    gap: var(--space-3);
+  }
+  .nav-link {
+    display: none; /* keep only the CTA on small screens */
+  }
+}
