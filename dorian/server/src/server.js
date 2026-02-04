@@ -5,7 +5,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 
 const authRoutes = require("./routes/auth");
-const gmailRoutes = require("./routes/gmail");
+const gmailRoutes = require("./routes/gmail-routes");
 const workflowRoutes = require("./routes/workflows");
 
 const app = express();

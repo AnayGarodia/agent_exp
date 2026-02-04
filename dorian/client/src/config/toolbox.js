@@ -1,6 +1,6 @@
 /**
- * Blockly category-toolbox definition.
- * Colours map 1-to-1 with the block colours in customBlocks.js.
+ * Blockly category-based toolbox configuration
+ * All blocks referenced here are defined in customBlocks.js
  */
 const TOOLBOX = {
   kind: "categoryToolbox",

@@ -1,83 +1,76 @@
 /* =========================================================================
-   NAVIGATION BAR
+   MINIMALIST NAVIGATION
    ========================================================================= */
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
-  background: var(--white);
-  border-bottom: var(--border);
+  padding: 16px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
   z-index: 100;
-  /* very subtle shadow so content scrolling under it feels grounded */
-  box-shadow: 0 1px 0 var(--gray-100);
 }
 
-/* Logo */
 .nav-logo {
-  font-family: var(--font-mono);
-  font-size: 17px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--black);
+  color: #111827;
   text-decoration: none;
-  letter-spacing: -0.02em;
-  transition: color 0.2s;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
 }
 .nav-logo:hover {
-  color: var(--blue);
+  color: #7c3aed;
 }
 
-/* Links row */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: 32px;
 }
 
-/* Individual link with animated underline */
 .nav-link {
   font-size: 14px;
   font-weight: 500;
-  color: var(--gray-600);
+  color: #6b7280;
   text-decoration: none;
   position: relative;
-  padding-bottom: 2px;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 .nav-link::after {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--blue);
-  border-radius: 1px;
-  transition: width 0.25s ease;
+  background: #7c3aed;
+  border-radius: 2px;
+  transition: width 0.2s ease;
 }
 .nav-link:hover {
-  color: var(--black);
+  color: #111827;
 }
 .nav-link:hover::after {
   width: 100%;
 }
 
-/* CTA button inside nav */
 .nav-cta {
-  margin-left: var(--space-2);
+  margin-left: 16px;
 }
 
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
   .nav {
-    padding: var(--space-3) var(--space-4);
+    padding: 12px 20px;
   }
   .nav-links {
-    gap: var(--space-3);
+    gap: 20px;
   }
   .nav-link {
-    display: none; /* keep only the CTA on small screens */
+    display: none;
   }
 }

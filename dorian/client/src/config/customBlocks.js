@@ -2,52 +2,47 @@ import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 
 // ===========================================================================
-// CONTROL BLOCKS  (purple #7c3aed)
+// CONTROL BLOCKS (purple #7c3aed)
 // ===========================================================================
 
-// FIX: Use Blockly.common.defineBlocksWithJsonArray instead of .blocks.addBlocks
-Blockly.common.defineBlocksWithJsonArray([
-  {
-    type: "agent_start",
-    message0: "Start Agent: %1 workflow steps: %2",
-    args0: [
-      {
-        type: "field_dropdown",
-        name: "AGENT_TYPE",
-        options: [
+Blockly.Blocks["agent_start"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Start Agent:")
+      .appendField(
+        new Blockly.FieldDropdown([
           ["Customer Support", "support"],
           ["Sales Analyst", "sales"],
           ["Data Processor", "data"],
           ["Email Auto-Responder", "email"],
-        ],
-      },
-      {
-        type: "input_statement",
-        name: "STEPS",
-      },
-    ],
-    colour: "#7c3aed",
-    tooltip: "The starting point of your AI agent.",
+        ]),
+        "AGENT_TYPE"
+      );
+    this.appendStatementInput("STEPS")
+      .setCheck(null)
+      .appendField("workflow steps:");
+    this.setColour("#7c3aed");
+    this.setTooltip("The starting point of your AI agent.");
   },
-  {
-    type: "if_contains",
-    message0: "If this text %1 contains keyword: %2 then do: %3",
-    args0: [
-      { type: "input_value", name: "TEXT" },
-      { type: "field_input", name: "KEYWORD", text: "urgent" },
-      { type: "input_statement", name: "DO" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#7c3aed",
-    tooltip: "Execute steps only if text contains a keyword.",
+};
+
+Blockly.Blocks["if_contains"] = {
+  init: function () {
+    this.appendValueInput("TEXT").setCheck(null).appendField("If this text");
+    this.appendDummyInput()
+      .appendField("contains keyword:")
+      .appendField(new Blockly.FieldTextInput("urgent"), "KEYWORD");
+    this.appendStatementInput("DO").setCheck(null).appendField("then do:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#7c3aed");
+    this.setTooltip("Execute steps only if text contains a keyword.");
   },
-]);
+};
 
 javascriptGenerator.forBlock["agent_start"] = function (block) {
   const agentType = block.getFieldValue("AGENT_TYPE");
   const steps = javascriptGenerator.statementToCode(block, "STEPS");
-
   return `\n// ${agentType.toUpperCase()} AGENT\ncontext.log("Starting ${agentType} agent...");\n${steps}\n`;
 };
 
@@ -60,24 +55,23 @@ javascriptGenerator.forBlock["if_contains"] = function (block) {
     ) || '""';
   const keyword = block.getFieldValue("KEYWORD");
   const doCode = javascriptGenerator.statementToCode(block, "DO");
-
-  return `\nif (String(${text}).toLowerCase().includes("${keyword.toLowerCase()}")) {\n  context.log("Keyword '${keyword}' found — running conditional steps.");\n${doCode}}\n`;
+  return `\nif (String(${text}).toLowerCase().includes("${keyword.toLowerCase()}")) {\n  context.log("Keyword '${keyword}' found - running conditional steps.");\n${doCode}}\n`;
 };
 
 // ===========================================================================
-// INPUT BLOCKS  (orange #f59e0b)
+// INPUT BLOCKS (orange #f59e0b)
 // ===========================================================================
 
-Blockly.common.defineBlocksWithJsonArray([
-  {
-    type: "input_data",
-    message0: "Get input field: %1",
-    args0: [{ type: "field_input", name: "FIELD_NAME", text: "emailBody" }],
-    output: "String",
-    colour: "#f59e0b",
-    tooltip: "Get a value from the workflow input data.",
+Blockly.Blocks["input_data"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Get input field:")
+      .appendField(new Blockly.FieldTextInput("emailBody"), "FIELD_NAME");
+    this.setOutput(true, "String");
+    this.setColour("#f59e0b");
+    this.setTooltip("Get a value from the workflow input data.");
   },
-]);
+};
 
 javascriptGenerator.forBlock["input_data"] = function (block) {
   const fieldName = block.getFieldValue("FIELD_NAME");
@@ -88,135 +82,154 @@ javascriptGenerator.forBlock["input_data"] = function (block) {
 };
 
 // ===========================================================================
-// GMAIL BLOCKS  (blue #3b82f6)
+// GMAIL BLOCKS (blue #3b82f6)
 // ===========================================================================
 
-Blockly.common.defineBlocksWithJsonArray([
-  {
-    type: "gmail_fetch_unread",
-    message0: "Fetch %1 unread emails save as: %2",
-    args0: [
-      {
-        type: "field_dropdown",
-        name: "MAX_EMAILS",
-        options: [
+Blockly.Blocks["gmail_fetch_unread"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Fetch")
+      .appendField(
+        new Blockly.FieldDropdown([
           ["all unread", "all"],
           ["first 1", "1"],
           ["first 3", "3"],
           ["first 5", "5"],
           ["first 10", "10"],
           ["first 20", "20"],
-        ],
-      },
-      { type: "field_input", name: "VAR_NAME", text: "emails" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-    tooltip: "Fetch unread emails from Gmail and save to a variable.",
+        ]),
+        "MAX_EMAILS"
+      )
+      .appendField("unread emails save as:")
+      .appendField(new Blockly.FieldTextInput("emails"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Fetch unread emails from Gmail and save to a variable.");
   },
-  {
-    type: "gmail_search",
-    message0: "Search Gmail: %1 max results: %2 save as: %3",
-    args0: [
-      { type: "field_input", name: "QUERY", text: "from:someone@email.com" },
-      {
-        type: "field_dropdown",
-        name: "MAX",
-        options: [
+};
+
+Blockly.Blocks["gmail_search"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Search Gmail:")
+      .appendField(
+        new Blockly.FieldTextInput("from:someone@email.com"),
+        "QUERY"
+      )
+      .appendField("max results:")
+      .appendField(
+        new Blockly.FieldDropdown([
           ["5", "5"],
           ["10", "10"],
           ["20", "20"],
           ["50", "50"],
-        ],
-      },
-      { type: "field_input", name: "VAR_NAME", text: "searchResults" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-    tooltip: "Search Gmail using any Gmail search query.",
+        ]),
+        "MAX"
+      )
+      .appendField("save as:")
+      .appendField(new Blockly.FieldTextInput("searchResults"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Search Gmail using any Gmail search query.");
   },
-  {
-    type: "gmail_for_each_email",
-    message0: "For each email in: %1 do: %2",
-    args0: [
-      { type: "field_input", name: "EMAIL_LIST", text: "emails" },
-      { type: "input_statement", name: "DO" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-    tooltip: "Loop through each email in a list.",
+};
+
+Blockly.Blocks["gmail_for_each_email"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("For each email in:")
+      .appendField(new Blockly.FieldTextInput("emails"), "EMAIL_LIST");
+    this.appendStatementInput("DO").setCheck(null).appendField("do:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Loop through each email in a list.");
   },
-  {
-    type: "gmail_get_property",
-    message0: "Get from current email: %1",
-    args0: [
-      {
-        type: "field_dropdown",
-        name: "PROPERTY",
-        options: [
+};
+
+Blockly.Blocks["gmail_get_property"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Get from current email:")
+      .appendField(
+        new Blockly.FieldDropdown([
           ["Subject", "subject"],
           ["Body", "body"],
           ["Sender", "from"],
           ["Email ID", "id"],
-        ],
-      },
-    ],
-    output: "String",
-    colour: "#3b82f6",
-    tooltip: "Get a field from the current email.",
+        ]),
+        "PROPERTY"
+      );
+    this.setOutput(true, "String");
+    this.setColour("#3b82f6");
+    this.setTooltip("Get a field from the current email.");
   },
-  {
-    type: "gmail_ai_reply",
-    message0: "AI reply to current email instructions: %1 save as: %2",
-    args0: [
-      { type: "field_input", name: "TASK", text: "Be professional" },
-      { type: "field_input", name: "VAR_NAME", text: "aiReply" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-    tooltip: "Generate AI reply.",
-  },
-  {
-    type: "gmail_send_reply",
-    message0: "Send reply using variable: %1",
-    args0: [{ type: "field_input", name: "REPLY_VAR", text: "aiReply" }],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-  },
-  {
-    type: "gmail_send_new",
-    message0: "Send new email to: %1 subject: %2 body: %3",
-    args0: [
-      { type: "field_input", name: "TO", text: "someone@email.com" },
-      { type: "field_input", name: "SUBJECT", text: "Hello" },
-      { type: "input_value", name: "BODY" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-  },
-  {
-    type: "gmail_mark_read",
-    message0: "Mark current email as read",
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-  },
-  {
-    type: "gmail_archive",
-    message0: "Archive current email",
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#3b82f6",
-  },
-]);
+};
 
-// --- Gmail generators ---
+Blockly.Blocks["gmail_ai_reply"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("AI reply to current email instructions:")
+      .appendField(new Blockly.FieldTextInput("Be professional"), "TASK")
+      .appendField("save as:")
+      .appendField(new Blockly.FieldTextInput("aiReply"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Generate AI reply.");
+  },
+};
+
+Blockly.Blocks["gmail_send_reply"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Send reply using variable:")
+      .appendField(new Blockly.FieldTextInput("aiReply"), "REPLY_VAR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Send a reply to the current email.");
+  },
+};
+
+Blockly.Blocks["gmail_send_new"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Send new email to:")
+      .appendField(new Blockly.FieldTextInput("someone@email.com"), "TO")
+      .appendField("subject:")
+      .appendField(new Blockly.FieldTextInput("Hello"), "SUBJECT");
+    this.appendValueInput("BODY").setCheck(null).appendField("body:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Send a new email.");
+  },
+};
+
+Blockly.Blocks["gmail_mark_read"] = {
+  init: function () {
+    this.appendDummyInput().appendField("Mark current email as read");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Mark the current email as read.");
+  },
+};
+
+Blockly.Blocks["gmail_archive"] = {
+  init: function () {
+    this.appendDummyInput().appendField("Archive current email");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3b82f6");
+    this.setTooltip("Archive the current email.");
+  },
+};
+
+// Gmail generators
 javascriptGenerator.forBlock["gmail_fetch_unread"] = function (block) {
   const varName = block.getFieldValue("VAR_NAME");
   const maxEmails = block.getFieldValue("MAX_EMAILS");
@@ -277,57 +290,55 @@ javascriptGenerator.forBlock["gmail_archive"] = function () {
 };
 
 // ===========================================================================
-// AI & DATA BLOCKS (Consolidated Registration)
+// AI BLOCKS (green #10b981)
 // ===========================================================================
 
-Blockly.common.defineBlocksWithJsonArray([
-  {
-    type: "ai_analyze",
-    message0: "AI Analyze %1 Task: %2 Save result as: %3",
-    args0: [
-      { type: "input_value", name: "INPUT" },
-      { type: "field_input", name: "TASK", text: "Analyze sentiment" },
-      { type: "field_input", name: "VAR_NAME", text: "analysis" },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#10b981",
+Blockly.Blocks["ai_analyze"] = {
+  init: function () {
+    this.appendValueInput("INPUT").setCheck(null).appendField("AI Analyze");
+    this.appendDummyInput()
+      .appendField("Task:")
+      .appendField(new Blockly.FieldTextInput("Analyze sentiment"), "TASK")
+      .appendField("Save result as:")
+      .appendField(new Blockly.FieldTextInput("analysis"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#10b981");
+    this.setTooltip("Analyze text with AI.");
   },
-  {
-    type: "simple_text",
-    message0: '" %1 "',
-    args0: [{ type: "field_input", name: "TEXT", text: "text" }],
-    output: "String",
-    colour: "#6b7280",
-  },
-  {
-    type: "display_result",
-    message0: "Display result: %1",
-    args0: [{ type: "input_value", name: "RESULT" }],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#ec4899",
-  },
-  {
-    type: "wait_delay",
-    message0: "Wait %1",
-    args0: [
-      {
-        type: "field_dropdown",
-        name: "SECONDS",
-        options: [
-          ["1 sec", "1"],
-          ["5 sec", "5"],
-        ],
-      },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: "#0d9488",
-  },
-]);
+};
 
-// AI Generator
+Blockly.Blocks["ai_generate"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("AI Generate:")
+      .appendField(new Blockly.FieldTextInput("Write a poem"), "PROMPT")
+      .appendField("save as:")
+      .appendField(new Blockly.FieldTextInput("generated"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#10b981");
+    this.setTooltip("Generate text with AI.");
+  },
+};
+
+Blockly.Blocks["ai_extract"] = {
+  init: function () {
+    this.appendValueInput("INPUT")
+      .setCheck(null)
+      .appendField("AI Extract from");
+    this.appendDummyInput()
+      .appendField("what to extract:")
+      .appendField(new Blockly.FieldTextInput("key points"), "WHAT")
+      .appendField("save as:")
+      .appendField(new Blockly.FieldTextInput("extracted"), "VAR_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#10b981");
+    this.setTooltip("Extract information from text using AI.");
+  },
+};
+
 javascriptGenerator.forBlock["ai_analyze"] = function (block) {
   const input =
     javascriptGenerator.valueToCode(
@@ -340,13 +351,118 @@ javascriptGenerator.forBlock["ai_analyze"] = function (block) {
   return `const ${varName} = await context.callAI(${input}, "${task}");\n`;
 };
 
-// Text Generator
+javascriptGenerator.forBlock["ai_generate"] = function (block) {
+  const prompt = block.getFieldValue("PROMPT").replace(/"/g, '\\"');
+  const varName = block.getFieldValue("VAR_NAME");
+  return `const ${varName} = await context.callAI("", "${prompt}");\n`;
+};
+
+javascriptGenerator.forBlock["ai_extract"] = function (block) {
+  const input =
+    javascriptGenerator.valueToCode(
+      block,
+      "INPUT",
+      javascriptGenerator.ORDER_NONE
+    ) || '""';
+  const what = block.getFieldValue("WHAT");
+  const varName = block.getFieldValue("VAR_NAME");
+  return `const ${varName} = await context.callAI(${input}, "Extract: ${what}");\n`;
+};
+
+// ===========================================================================
+// DATA BLOCKS (gray #6b7280)
+// ===========================================================================
+
+Blockly.Blocks["simple_text"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('"')
+      .appendField(new Blockly.FieldTextInput("text"), "TEXT")
+      .appendField('"');
+    this.setOutput(true, "String");
+    this.setColour("#6b7280");
+    this.setTooltip("A simple text value.");
+  },
+};
+
+Blockly.Blocks["get_variable"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Get variable:")
+      .appendField(new Blockly.FieldTextInput("myVar"), "VAR_NAME");
+    this.setOutput(true, null);
+    this.setColour("#6b7280");
+    this.setTooltip("Get the value of a variable.");
+  },
+};
+
+Blockly.Blocks["combine_text"] = {
+  init: function () {
+    this.appendValueInput("TEXT1").setCheck(null).appendField("Combine");
+    this.appendValueInput("TEXT2").setCheck(null).appendField("with");
+    this.setOutput(true, "String");
+    this.setColour("#6b7280");
+    this.setTooltip("Combine two text values.");
+  },
+};
+
 javascriptGenerator.forBlock["simple_text"] = function (block) {
   const text = block.getFieldValue("TEXT").replace(/"/g, '\\"');
   return [`"${text}"`, javascriptGenerator.ORDER_ATOMIC];
 };
 
-// Display Generator
+javascriptGenerator.forBlock["get_variable"] = function (block) {
+  const varName = block.getFieldValue("VAR_NAME");
+  return [varName, javascriptGenerator.ORDER_ATOMIC];
+};
+
+javascriptGenerator.forBlock["combine_text"] = function (block) {
+  const text1 =
+    javascriptGenerator.valueToCode(
+      block,
+      "TEXT1",
+      javascriptGenerator.ORDER_ADDITION
+    ) || '""';
+  const text2 =
+    javascriptGenerator.valueToCode(
+      block,
+      "TEXT2",
+      javascriptGenerator.ORDER_ADDITION
+    ) || '""';
+  return [
+    `String(${text1}) + String(${text2})`,
+    javascriptGenerator.ORDER_ADDITION,
+  ];
+};
+
+// ===========================================================================
+// OUTPUT BLOCKS (pink #ec4899)
+// ===========================================================================
+
+Blockly.Blocks["display_result"] = {
+  init: function () {
+    this.appendValueInput("RESULT")
+      .setCheck(null)
+      .appendField("Display result:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#ec4899");
+    this.setTooltip("Display a result in the output panel.");
+  },
+};
+
+Blockly.Blocks["log_message"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Log message:")
+      .appendField(new Blockly.FieldTextInput("Step completed"), "MESSAGE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#ec4899");
+    this.setTooltip("Log a message to the output.");
+  },
+};
+
 javascriptGenerator.forBlock["display_result"] = function (block) {
   const res =
     javascriptGenerator.valueToCode(
@@ -357,7 +473,35 @@ javascriptGenerator.forBlock["display_result"] = function (block) {
   return `context.output(${res});\n`;
 };
 
-// Delay Generator
+javascriptGenerator.forBlock["log_message"] = function (block) {
+  const message = block.getFieldValue("MESSAGE").replace(/"/g, '\\"');
+  return `context.log("${message}");\n`;
+};
+
+// ===========================================================================
+// UTILITY BLOCKS (teal #0d9488)
+// ===========================================================================
+
+Blockly.Blocks["wait_delay"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Wait")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["1 sec", "1"],
+          ["5 sec", "5"],
+          ["10 sec", "10"],
+          ["30 sec", "30"],
+        ]),
+        "SECONDS"
+      );
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#0d9488");
+    this.setTooltip("Wait for a specified amount of time.");
+  },
+};
+
 javascriptGenerator.forBlock["wait_delay"] = function (block) {
   return `await context.delay(${block.getFieldValue("SECONDS")});\n`;
 };

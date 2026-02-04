@@ -9,7 +9,7 @@ export default function Navigation() {
   return (
     <nav className="nav">
       <Link to="/" className="nav-logo">
-        AgentForge
+        Dorian
       </Link>
 
       {!isBuilder && (

@@ -6,146 +6,171 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 class WorkflowEngine {
   constructor() {
     this.logs = [];
+    this.variables = {};
   }
 
-  log(message) {
-    console.log(message);
-    this.logs.push({ timestamp: new Date(), message });
+  log(message, type = "info") {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] ${message}`);
+    this.logs.push({
+      timestamp: new Date(),
+      message,
+      type,
+    });
   }
 
-  async executeWorkflow(blocks, googleTokens) {
+  async executeWorkflow(generatedCode, googleTokens) {
     this.logs = [];
-    this.log("🚀 Starting workflow execution...");
+    this.variables = {};
+
+    this.log("🚀 Starting workflow execution...", "info");
 
     try {
-      // Parse blocks (this is simplified - in production parse Blockly XML)
-      const result = await this.executeBlocks(blocks, googleTokens);
+      // Create execution context with all the methods blocks can call
+      const context = {
+        // Logging
+        log: (msg) => this.log(`📝 ${msg}`, "log"),
+        output: (msg) => this.log(`📤 Output: ${msg}`, "result"),
 
-      this.log("✅ Workflow completed successfully");
-      return { success: true, result, logs: this.logs };
-    } catch (error) {
-      this.log(`❌ Workflow failed: ${error.message}`);
-      throw error;
-    }
-  }
-
-  async executeBlocks(blocks, googleTokens) {
-    // This is a simplified interpreter
-    // In production, parse actual Blockly XML and execute blocks sequentially
-
-    const results = {};
-
-    for (const block of blocks) {
-      switch (block.type) {
-        case "get_emails":
-          results.emails = await this.getEmails(googleTokens, block.params);
-          break;
-
-        case "analyze_email":
-          results.analysis = await this.analyzeEmail(
-            results.emails?.[0] || block.params.email,
-            block.params.prompt
-          );
-          break;
-
-        case "send_reply":
-          results.sent = await this.sendReply(
+        // Gmail operations
+        fetchEmails: async (max) => {
+          this.log(`📧 Fetching ${max} unread emails...`, "email");
+          const emails = await gmail.listMessages(
             googleTokens,
-            results.emails?.[0],
-            block.params.reply || results.analysis
+            max,
+            "is:unread"
           );
-          break;
+          this.log(`✅ Found ${emails.length} emails`, "success");
+          return emails;
+        },
 
-        case "ai_process":
-          results.aiResult = await this.processWithAI(
-            block.params.input,
-            block.params.prompt
+        searchEmails: async (query, max) => {
+          this.log(`🔍 Searching Gmail: "${query}"`, "email");
+          const emails = await gmail.listMessages(googleTokens, max, query);
+          this.log(`✅ Found ${emails.length} matching emails`, "success");
+          return emails;
+        },
+
+        sendNewEmail: async (to, subject, body) => {
+          this.log(`📤 Sending email to ${to}...`, "email");
+          const result = await gmail.sendEmail(googleTokens, to, subject, body);
+          this.log(`✅ Email sent successfully`, "success");
+          return result;
+        },
+
+        sendReply: async (messageId, body) => {
+          this.log(`💬 Sending reply to message ${messageId}...`, "email");
+          // We need to get the email to get threadId
+          const email = await gmail.getMessage(googleTokens, messageId);
+          const result = await gmail.replyToEmail(
+            googleTokens,
+            messageId,
+            email.threadId,
+            body
           );
-          break;
+          this.log(`✅ Reply sent successfully`, "success");
+          return result;
+        },
 
-        default:
-          this.log(`⚠️  Unknown block type: ${block.type}`);
-      }
+        markRead: async (messageId) => {
+          this.log(`✓ Marking email as read...`, "email");
+          await gmail.markAsRead(googleTokens, messageId);
+          this.log(`✅ Marked as read`, "success");
+        },
+
+        archiveEmail: async (messageId) => {
+          this.log(`📦 Archiving email...`, "email");
+          await gmail.archiveEmail(googleTokens, messageId);
+          this.log(`✅ Archived`, "success");
+        },
+
+        // AI operations
+        generateReply: async (emailBody, instructions) => {
+          this.log(`🤖 Generating AI reply...`, "ai");
+          const prompt = `You are a helpful email assistant. Generate a professional reply to this email based on these instructions: ${instructions}\n\nEmail content:\n${emailBody}`;
+
+          const completion = await groq.chat.completions.create({
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a professional email assistant. Generate concise, polite email replies.",
+              },
+              { role: "user", content: prompt },
+            ],
+            model: "llama-3.1-8b-instant",
+            temperature: 0.7,
+            max_tokens: 500,
+          });
+
+          const reply = completion.choices[0].message.content;
+          this.log(`✅ AI reply generated`, "success");
+          return reply;
+        },
+
+        callAI: async (input, task) => {
+          this.log(`🤖 Processing with AI: ${task}`, "ai");
+
+          const completion = await groq.chat.completions.create({
+            messages: [
+              {
+                role: "system",
+                content: `You are a helpful AI assistant. Task: ${task}`,
+              },
+              { role: "user", content: input || "Process this request" },
+            ],
+            model: "llama-3.1-8b-instant",
+            temperature: 0.7,
+            max_tokens: 1024,
+          });
+
+          const result = completion.choices[0].message.content;
+          this.log(`✅ AI processing complete`, "success");
+          return result;
+        },
+
+        // Utility
+        delay: async (seconds) => {
+          this.log(`⏱️  Waiting ${seconds} second(s)...`, "info");
+          await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+          this.log(`✅ Wait complete`, "success");
+        },
+
+        // Input data (can be passed when executing workflow)
+        inputData: {},
+      };
+
+      // Execute the generated code
+      const AsyncFunction = Object.getPrototypeOf(
+        async function () {}
+      ).constructor;
+      const workflowFunction = new AsyncFunction("context", generatedCode);
+
+      await workflowFunction(context);
+
+      this.log("✅ Workflow completed successfully", "success");
+
+      return {
+        success: true,
+        logs: this.logs,
+        variables: this.variables,
+      };
+    } catch (error) {
+      this.log(`❌ Workflow failed: ${error.message}`, "error");
+      console.error("Workflow execution error:", error);
+
+      return {
+        success: false,
+        error: error.message,
+        logs: this.logs,
+      };
     }
-
-    return results;
-  }
-
-  async getEmails(tokens, params = {}) {
-    this.log("📧 Fetching emails from Gmail...");
-    const emails = await gmail.listMessages(
-      tokens,
-      params.maxResults || 10,
-      params.query || ""
-    );
-    this.log(`Found ${emails.length} emails`);
-    return emails;
-  }
-
-  async analyzeEmail(email, prompt) {
-    this.log("🤖 Analyzing email with AI...");
-
-    const systemPrompt =
-      prompt ||
-      "Analyze this email and provide a concise summary and suggested response.";
-
-    const completion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: `Subject: ${email.subject}\n\nFrom: ${email.from}\n\n${email.body}`,
-        },
-      ],
-      model: "llama-3.3-70b-versatile",
-      temperature: 0.7,
-      max_tokens: 1024,
-    });
-
-    const analysis = completion.choices[0].message.content;
-    this.log("Analysis complete");
-    return analysis;
-  }
-
-  async sendReply(tokens, email, replyText) {
-    this.log("📤 Sending reply...");
-
-    const result = await gmail.replyToEmail(
-      tokens,
-      email.id,
-      email.threadId,
-      replyText
-    );
-
-    this.log("Reply sent successfully");
-    return result;
-  }
-
-  async processWithAI(input, prompt) {
-    this.log("🤖 Processing with AI...");
-
-    const completion = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: prompt },
-        { role: "user", content: input },
-      ],
-      model: "llama-3.3-70b-versatile",
-      temperature: 0.7,
-      max_tokens: 1024,
-    });
-
-    const result = completion.choices[0].message.content;
-    this.log("AI processing complete");
-    return result;
   }
 }
 
-async function executeWorkflow(blocks, tokens) {
+async function executeWorkflow(generatedCode, tokens) {
   const engine = new WorkflowEngine();
-  return await engine.executeWorkflow(blocks, tokens);
+  return await engine.executeWorkflow(generatedCode, tokens);
 }
 
 module.exports = { executeWorkflow };
