@@ -7,7 +7,7 @@ export default function Navigation() {
   const isBuilder = location.pathname === "/builder";
 
   return (
-    <nav className="nav">
+    <nav className="nav glass">
       <Link to="/" className="nav-logo">
         Dorian
       </Link>

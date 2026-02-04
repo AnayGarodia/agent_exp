@@ -1,9 +1,8 @@
 /* =========================================================================
-   HOME PAGE - Animation-First Landing Page
+   HOME PAGE - Professional Landing Page with Glassmorphic Design
    ========================================================================= */
 .home {
   flex: 1;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -40,49 +39,28 @@
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
   margin: 0;
   letter-spacing: -0.035em;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #FFFFFF 0%, #A855F7 100%);
+  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--purple) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+  display: inline-block;
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: var(--gray-300);
+  color: var(--text-color);
   margin: 0;
-  line-height: 1.5;
-}
-
-.btn-glow {
-  position: relative;
-  background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 100%);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-  transition: all 0.3s ease;
-  border: none;
-  padding: 16px 32px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  color: white;
-  cursor: pointer;
-}
-
-.btn-glow:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
-}
-
-.btn-glow:active {
-  transform: translateY(0);
+  line-height: 1.6;
+  max-width: 600px;
 }
 
 /* Demo Canvas - Right Side */
@@ -96,105 +74,183 @@
 }
 
 .animation-container {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   height: 400px;
-  background: rgba(30, 41, 59, 0.5);
-  border-radius: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
-}
-
-/* Animated Nodes */
-.node {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: white;
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
   z-index: 10;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: nodeFloat 3s ease-in-out infinite;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.node-1 {
-  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-  top: 100px;
-  left: 150px;
-  animation: float 6s ease-in-out infinite;
+.node-icon {
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.node-2 {
-  background: linear-gradient(135deg, #ec4899 0%, #f9a8d4 100%);
+.node-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.trigger-node {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  top: 80px;
+  left: 100px;
+  animation-delay: 0s;
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+.trigger-node .node-icon {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.action-node {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   top: 200px;
-  left: 300px;
-  animation: float 6s ease-in-out infinite;
-  animation-delay: 0.5s;
+  left: 250px;
+  animation-delay: 0.3s;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
-.node-3 {
-  background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-  top: 150px;
-  left: 450px;
-  animation: float 6s ease-in-out infinite;
-  animation-delay: 1s;
+.action-node .node-icon {
+  background: rgba(168, 85, 247, 0.2);
+}
+
+.output-node {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  top: 120px;
+  left: 400px;
+  animation-delay: 0.6s;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.output-node .node-icon {
+  background: rgba(16, 185, 129, 0.2);
 }
 
 /* Connections between nodes */
 .connection {
   position: absolute;
   height: 3px;
-  background: linear-gradient(to right, rgba(139, 92, 246, 0.6), rgba(103, 232, 249, 0.6));
+  background: linear-gradient(to right, rgba(0, 217, 255, 0.6), rgba(168, 85, 247, 0.6));
   transform-origin: left center;
   z-index: 1;
+  animation: connectionDraw 8s linear infinite;
 }
 
 .conn-1 {
   width: 180px;
   top: 130px;
-  left: 210px;
-  animation: pulse 2s infinite;
+  left: 160px;
+  transform: rotate(30deg);
 }
 
 .conn-2 {
   width: 180px;
-  top: 230px;
-  left: 360px;
-  animation: pulse 2s infinite;
-  animation-delay: 0.5s;
+  top: 210px;
+  left: 310px;
+  transform: rotate(-20deg);
+}
+
+/* Particles for flow visualization */
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--electric-blue);
+  z-index: 2;
+  animation: particleFlow 8s linear infinite;
+}
+
+.particle-1 {
+  top: 130px;
+  left: 100px;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  top: 200px;
+  left: 250px;
+  background: var(--purple);
+  animation-delay: 4s;
 }
 
 /* =========================================================================
    ANIMATIONS
    ========================================================================= */
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
+@keyframes nodeFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
   }
   50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
-  100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(-10px) scale(1.05);
   }
 }
 
-@keyframes pulse {
+@keyframes connectionDraw {
   0% {
-    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    width: 0;
   }
-  70% {
-    box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+  30% {
+    width: 180px;
+  }
+  75% {
+    width: 180px;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    width: 0;
+  }
+}
+
+@keyframes particleFlow {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(180px) translateY(10px);
+    opacity: 0;
   }
 }
 
@@ -213,36 +269,15 @@
 }
 
 .glass-card {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   padding: var(--space-6);
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
-}
-
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  transform: rotate(45deg);
-  z-index: -1;
-}
-
-.glass-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .card-title {
@@ -254,9 +289,9 @@
 }
 
 .card-description {
-  color: var(--gray-300);
+  color: var(--text-color);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
   text-align: center;
 }
@@ -265,13 +300,12 @@
    RESPONSIVE DESIGN
    ========================================================================= */
 @media (max-width: 1024px) {
-  .animation-container {
-    width: 500px;
-    height: 350px;
-  }
-
   .hero-content {
     gap: var(--space-6);
+  }
+
+  .animation-container {
+    height: 350px;
   }
 }
 
@@ -279,6 +313,7 @@
   .hero-content {
     flex-direction: column;
     text-align: center;
+    gap: var(--space-7);
   }
 
   .hero-text {
@@ -292,7 +327,7 @@
   }
 
   .animation-container {
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     height: 300px;
   }
@@ -304,7 +339,7 @@
   }
 
   .hero-title {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 2.5rem);
   }
 }
 
@@ -314,7 +349,7 @@
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 5vw, 2rem);
   }
 
   .hero-subtitle {
@@ -323,39 +358,6 @@
 
   .animation-container {
     height: 250px;
-  }
-
-  .node-1 {
-    top: 80px;
-    left: 100px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .node-2 {
-    top: 160px;
-    left: 200px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .node-3 {
-    top: 120px;
-    left: 320px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .conn-1 {
-    width: 130px;
-    top: 110px;
-    left: 150px;
-  }
-
-  .conn-2 {
-    width: 130px;
-    top: 180px;
-    left: 250px;
   }
 }
 
@@ -368,45 +370,7 @@
     padding: var(--space-6) 0;
   }
 
-  .hero-title {
-    font-size: 1.8rem;
-  }
-
   .animation-container {
-    width: 95%;
     height: 200px;
-  }
-
-  .node {
-    width: 40px;
-    height: 40px;
-    font-size: 0.8rem;
-  }
-
-  .node-1 {
-    top: 60px;
-    left: 60px;
-  }
-
-  .node-2 {
-    top: 120px;
-    left: 140px;
-  }
-
-  .node-3 {
-    top: 90px;
-    left: 230px;
-  }
-
-  .conn-1 {
-    width: 100px;
-    top: 90px;
-    left: 100px;
-  }
-
-  .conn-2 {
-    width: 100px;
-    top: 140px;
-    left: 180px;
   }
 }
