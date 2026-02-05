@@ -1,6 +1,11 @@
 import React from "react";
 
-const DisconnectConfirmModal = ({ showDisconnectConfirm, setShowDisconnectConfirm, disconnectGmail, gmailUserEmail }) => {
+const DisconnectConfirmModal = ({
+  showDisconnectConfirm,
+  setShowDisconnectConfirm,
+  disconnectGmail,
+  gmailUserEmail,
+}) => {
   if (!showDisconnectConfirm) return null;
 
   return (
@@ -9,21 +14,27 @@ const DisconnectConfirmModal = ({ showDisconnectConfirm, setShowDisconnectConfir
       onClick={() => setShowDisconnectConfirm(false)}
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>Disconnect Gmail?</h2>
-        <p>
-          This removes the saved session for{" "}
-          <strong>{gmailUserEmail}</strong>. You'll need to re-authorise
-          next time.
-        </p>
+        <div className="modal-header">
+          <h2>Disconnect Gmail?</h2>
+        </div>
+
+        <div className="modal-body">
+          <p>
+            This will remove the saved session for{" "}
+            <strong>{gmailUserEmail}</strong>. You'll need to re-authorize next
+            time.
+          </p>
+        </div>
+
         <div className="modal-actions">
           <button
-            className="modal-btn modal-btn--secondary"
+            className="modal-btn modal-btn-secondary"
             onClick={() => setShowDisconnectConfirm(false)}
           >
             Cancel
           </button>
           <button
-            className="modal-btn modal-btn--danger"
+            className="modal-btn modal-btn-danger"
             onClick={disconnectGmail}
           >
             Disconnect

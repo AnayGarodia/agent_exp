@@ -7,11 +7,13 @@ const CodePanel = ({ showCode, setShowCode, generatedCode, showOutput }) => {
     <div className="code-panel">
       <div className="code-header">
         <span>Generated Code</span>
-        <button className="code-close" onClick={() => setShowCode(false)}>
-          &times;
+        <button className="panel-close" onClick={() => setShowCode(false)}>
+          ×
         </button>
       </div>
-      <pre className="code-content">{generatedCode}</pre>
+      <pre className="code-content">
+        {generatedCode || "// No code generated yet"}
+      </pre>
     </div>
   );
 };

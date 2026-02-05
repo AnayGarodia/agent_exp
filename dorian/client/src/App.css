@@ -1,320 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
-/* =========================================================================
-   RESET
-   ========================================================================= */
+:root {
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --black: #000000;
+
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --error: #ef4444;
+  --error-bg: #fee2e2;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --info: #3b82f6;
+  --info-bg: #dbeafe;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* =========================================================================
-   DESIGN TOKENS - ANTHROPIC INSPIRED
-   ========================================================================= */
-:root {
-  /* ── Anthropic-inspired Color Palette ── */
-  --canvas-bg: #FAFAF9; /* Warm beige background */
-  --surface: #FFFFFF;   /* Pure white surfaces */
-  --border: #E5E5E5;    /* Light gray borders */
-  --primary-text: #000000; /* Black text for headings */
-  --secondary-text: #525252; /* Dark gray for body text */
-  --tertiary-text: #666666;
-  --muted-text: #999999;
-  --disabled-text: #9CA3AF;
-  --white: #FFFFFF;
-
-  /* ── Minimalist Accent Colors ── */
-  --primary-accent: #000000; /* Black accent */
-  --accent-soft: #E0E7FF;
-
-  /* ── Semantic Node Strips - More Subtle ── */
-  --llm-color: #6B7280; /* Gray */
-  --tool-color: #6B7280; /* Gray */
-  --logic-color: #6B7280; /* Gray */
-  --memory-color: #6B7280; /* Gray */
-
-  /* ── Typography ── */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', Monaco, monospace;
-
-  /* ── Typography Sizes ── */
-  --app-title-size: 48px; /* Larger for headers */
-  --app-title-weight: 400; /* Regular weight */
-  --node-title-size: 16px;
-  --node-title-weight: 500;
-  --body-text-size: 16px; /* Larger for readability */
-  --body-text-weight: 400;
-  --metadata-size: 14px;
-  --metadata-weight: 400;
-
-  /* ── Spacing System (8px base) ── */
-  --space-1: 4px;  /* Half-unit */
-  --space-2: 8px;  /* Base unit */
-  --space-3: 16px; /* Node padding */
-  --space-4: 24px; /* Small padding */
-  --space-5: 32px; /* Medium padding */
-  --space-6: 48px; /* Large padding */
-  --space-7: 64px;
-  --space-8: 80px;
-  --space-9: 120px;
-
-  /* ── Shape Language ── */
-  --node-radius: 8px;
-  --panel-radius: 6px; /* Slightly less rounded */
-  --border-width: 1px;
-  --border-style: solid;
-
-  /* ── Subtle Shadows ── */
-  --shadow-drag: 0 4px 12px rgba(0, 0, 0, 0.08); /* More subtle */
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very subtle */
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08); /* Hover state */
-}
-
-html, body {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--primary-text);
-  background: var(--canvas-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* =========================================================================
-   BASE STYLES
-   ========================================================================= */
 body {
-  font-family: var(--font-sans);
-  font-size: var(--body-text-size);
-  line-height: 1.5;
-  color: var(--primary-text);
-  background: var(--canvas-bg);
-  -webkit-font-smoothing: antialias;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--gray-900);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Set heading colors to primary text */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--primary-text);
-  font-weight: var(--app-title-weight);
-  font-size: var(--app-title-size);
-}
-
-/* =========================================================================
-   MINIMALIST GLASSMORPHIC EFFECT CLASS
-   ========================================================================= */
-.surface {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--panel-radius);
-}
-
-/* =========================================================================
-   GLOBAL BUTTONS  (shared across pages)
-   ========================================================================= */
-.btn-primary {
-  padding: 16px 32px; /* Specific padding as requested */
-  background: #000000; /* Black background */
-  color: var(--white);
-  border: none; /* No border */
-  border-radius: 6px; /* Specific radius as requested */
-  font-size: var(--body-text-size);
-  font-weight: var(--app-title-weight);
-  font-family: var(--font-sans);
-  text-decoration: none;
-  cursor: pointer;
+.btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  transition: all 0.2s ease;
-  box-shadow: none;
-  position: relative;
-  overflow: hidden;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms;
 }
 
-.btn-primary:hover {
-  background: #1a1a1a; /* Slightly lighter black */
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-primary:disabled {
-  background: var(--disabled-text);
-  cursor: not-allowed;
-  transform: none;
+.btn-primary:hover:not(:disabled) {
+  background: var(--gray-900);
 }
 
 .btn-secondary {
-  padding: 16px 32px; /* Same padding as primary */
-  background: var(--surface);
-  color: var(--primary-text);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: var(--body-text-size);
-  font-weight: var(--app-title-weight);
-  font-family: var(--font-sans);
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  transition: all 0.2s ease;
+  background: var(--white);
+  color: var(--gray-700);
+  border-color: var(--gray-300);
 }
 
-.btn-secondary:hover {
-  background: #FAFAFA; /* Slightly off-white on hover */
-  border-color: #D4D4D4; /* Slightly darker border */
-  color: var(--primary-text);
+.btn-secondary:hover:not(:disabled) {
+  background: var(--gray-50);
 }
 
-.btn-secondary:active {
-  background: #F5F5F5;
-}
-
-.btn-secondary:disabled {
-  color: var(--disabled-text);
-  border-color: var(--border);
+.btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* =========================================================================
-   FOCUS & SELECTION
-   ========================================================================= */
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--primary-accent);
-  outline-offset: 2px;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-::selection {
-  background: var(--accent-soft);
-  color: var(--primary-text);
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
 }
 
-/* =========================================================================
-   GLOBAL ANIMATIONS AND TRANSITIONS
-   ========================================================================= */
-
-/* Pulse animation for success states */
-@keyframes success-pulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--accent-soft);
-  }
-  70% {
-    box-shadow: 0 0 0 8px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 4px;
 }
 
-.success-pulse {
-  animation: success-pulse 1.5s ease-out;
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--gray-300);
+  border-top-color: var(--black);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
 }
 
-/* Scale and subtle glow animation for interactions */
-@keyframes scale-glow {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  50% {
-    transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.15);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-}
-
-.scale-glow {
-  transition: all 0.2s ease;
-}
-
-.scale-glow:hover {
-  animation: scale-glow 0.3s ease-out;
-}
-
-/* Subtle fade in */
-.fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+@keyframes spin {
   to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Minimal slide in */
-.slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* =========================================================================
-   BLOCKLY CUSTOM STYLING
-   ========================================================================= */
-.blocklyPath {
-  stroke-width: 1px !important;
-}
-
-.blocklyPath.cursor {
-  stroke: var(--primary-accent) !important;
-  stroke-width: 2px !important;
-  fill: none !important;
-}
-
-.blocklySelected > .blocklyPath {
-  stroke: var(--primary-accent) !important;
-  stroke-width: 2px !important;
-}
-
-/* Connection line styles */
-.blocklyConnectionLine {
-  stroke-width: 1.5px !important;
-  stroke: var(--border) !important;
-}
-
-.blocklyMainBackground {
-  stroke: none !important;
-}
-
-/* =========================================================================
-   RESPONSIVE HELPERS
-   ========================================================================= */
-@media (max-width: 768px) {
-  :root {
-    --space-7: 32px;
-    --space-8: 40px;
-    --space-9: 48px;
+    transform: rotate(360deg);
   }
 }

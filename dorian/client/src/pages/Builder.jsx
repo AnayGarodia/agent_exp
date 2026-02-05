@@ -1,27 +1,20 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useRef, useEffect } from "react";
 import useBuilderStore from "../store/builderStore";
 import Header from "../components/builder-ui/Header";
-import TemplatesPanel from "../components/builder-ui/TemplatesPanel";
-import OutputPanel from "../components/builder-ui/OutputPanel";
-import CodePanel from "../components/builder-ui/CodePanel";
 import MainContent from "../components/builder-ui/MainContent";
-import Footer from "../components/builder-ui/Footer";
-import GmailPromptModal from "../components/builder-ui/GmailPromptModal";
+import CodePanel from "../components/builder-ui/CodePanel";
+import OutputPanel from "../components/builder-ui/OutputPanel";
+import TemplatesPanel from "../components/builder-ui/TemplatesPanel";
 import AccountManagerModal from "../components/builder-ui/AccountManagerModal";
 import DisconnectConfirmModal from "../components/builder-ui/DisconnectConfirmModal";
+import GmailPromptModal from "../components/builder-ui/GmailPromptModal";
 import "./Builder.css";
 
-
-// ---------------------------------------------------------------------------
-// COMPONENT
-// ---------------------------------------------------------------------------
 export default function Builder() {
-  const blocklyDiv = useRef(null);
-  const workspace = useRef(null);
+  const workspaceRef = useRef(null);
+  const blocklyDivRef = useRef(null);
 
-  // Get all state and functions from the store
   const {
-    // State
     isRunning,
     outputItems,
     showOutput,
@@ -31,91 +24,93 @@ export default function Builder() {
     gmailConnected,
     gmailUserEmail,
     gmailTestMode,
-    groqApiCalls,
     showGmailPrompt,
     showAccountManager,
     showDisconnectConfirm,
-
-    // Actions
     setShowOutput,
     setShowCode,
     setShowTemplates,
-    checkGmailStatus,
-    loadTemplate,
+    setShowGmailPrompt,
+    setShowAccountManager,
+    setShowDisconnectConfirm,
     runWorkflow,
     handleShowCode,
     handleSave,
     handleClear,
     connectGmail,
     disconnectGmail,
-    setShowGmailPrompt,
-    setShowAccountManager,
-    setShowDisconnectConfirm,
+    loadTemplate,
+    checkGmailStatus,
     outputClass,
   } = useBuilderStore();
-
-  // Listen for postMessage from the OAuth popup
-  useEffect(() => {
-    const handler = (event) => {
-      if (event.data?.gmailAuthSuccess) checkGmailStatus();
-    };
-    window.addEventListener("message", handler);
-    return () => window.removeEventListener("message", handler);
-  }, [checkGmailStatus]);
 
   useEffect(() => {
     checkGmailStatus();
   }, [checkGmailStatus]);
 
-  // Function to initialize the workspace with initial blocks
-  const initializeWorkspace = useCallback((workspace) => {
-    if (workspace) {
-      /* drop a starter block */
-      const starter = workspace.newBlock("agent_start");
-      starter.initSvg();
-      starter.render();
-      starter.moveBy(100, 80);
-    }
-  }, []);
+  const handleRunWorkflow = () => {
+    runWorkflow(workspaceRef.current);
+  };
 
-  // -----------------------------------------------------------------------
-  // RENDER
-  // -----------------------------------------------------------------------
+  const handleShowCodeClick = () => {
+    handleShowCode(workspaceRef.current);
+  };
+
+  const handleSaveClick = () => {
+    handleSave(workspaceRef.current);
+  };
+
+  const handleClearClick = () => {
+    handleClear(workspaceRef.current);
+  };
+
+  const handleLoadTemplate = (templateKey) => {
+    loadTemplate(workspaceRef.current, templateKey);
+  };
+
+  const handleWorkspaceInit = (workspace) => {
+    // Initialize with starter block
+    const starter = workspace.newBlock("agent_start");
+    starter.initSvg();
+    starter.render();
+    starter.moveBy(100, 80);
+  };
+
   return (
     <div className="builder">
       <Header
         showTemplates={showTemplates}
         setShowTemplates={setShowTemplates}
-        handleClear={() => handleClear(workspace.current)}
-        handleShowCode={() => handleShowCode(workspace.current)}
+        handleClear={handleClearClick}
+        handleShowCode={handleShowCodeClick}
         showCode={showCode}
-        handleSave={() => handleSave(workspace.current)}
+        handleSave={handleSaveClick}
         gmailConnected={gmailConnected}
         gmailUserEmail={gmailUserEmail}
         connectGmail={connectGmail}
-        runWorkflow={() => runWorkflow(workspace.current)}
+        runWorkflow={handleRunWorkflow}
         isRunning={isRunning}
         showOutput={showOutput}
         gmailTestMode={gmailTestMode}
+        setShowAccountManager={setShowAccountManager}
       />
 
-      {/* Test mode is shown as badge in header; full banner removed */}
+      <div className="builder-workspace">
+        <MainContent
+          workspaceRef={workspaceRef}
+          blocklyDivRef={blocklyDivRef}
+          showOutput={showOutput}
+          showCode={showCode}
+          onWorkspaceInit={handleWorkspaceInit}
+        />
 
-      <TemplatesPanel
-        showTemplates={showTemplates}
-        setShowTemplates={setShowTemplates}
-        loadTemplate={(key) => loadTemplate(workspace.current, key)}
-      />
+        <CodePanel
+          showCode={showCode}
+          setShowCode={setShowCode}
+          generatedCode={generatedCode}
+          showOutput={showOutput}
+        />
 
-      <MainContent
-        workspaceRef={workspace}
-        blocklyDivRef={blocklyDiv}
-        showOutput={showOutput}
-        showCode={showCode}
-        onWorkspaceInit={initializeWorkspace}
-      />
-
-      {showOutput && (
         <OutputPanel
           showOutput={showOutput}
           setShowOutput={setShowOutput}
@@ -123,21 +118,12 @@ export default function Builder() {
           isRunning={isRunning}
           outputClass={outputClass}
         />
-      )}
+      </div>
 
-      <CodePanel
-        showCode={showCode}
-        setShowCode={setShowCode}
-        generatedCode={generatedCode}
-        showOutput={showOutput}
-      />
-
-      <Footer />
-
-      <GmailPromptModal
-        showGmailPrompt={showGmailPrompt}
-        setShowGmailPrompt={setShowGmailPrompt}
-        connectGmail={connectGmail}
+      <TemplatesPanel
+        showTemplates={showTemplates}
+        setShowTemplates={setShowTemplates}
+        loadTemplate={handleLoadTemplate}
       />
 
       <AccountManagerModal
@@ -153,6 +139,12 @@ export default function Builder() {
         setShowDisconnectConfirm={setShowDisconnectConfirm}
         disconnectGmail={disconnectGmail}
         gmailUserEmail={gmailUserEmail}
+      />
+
+      <GmailPromptModal
+        showGmailPrompt={showGmailPrompt}
+        setShowGmailPrompt={setShowGmailPrompt}
+        connectGmail={connectGmail}
       />
     </div>
   );

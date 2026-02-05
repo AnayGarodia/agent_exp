@@ -10,8 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 You need to have Node.js and npm installed on your machine.
 
-* [Node.js](https://nodejs.org/)
-* [npm](https://www.npmjs.com/get-npm)
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/get-npm)
 
 ### Installation
 
@@ -42,7 +42,7 @@ You need to have Node.js and npm installed on your machine.
    cd dorian/client
    npm start
    ```
-The application will be available at [http://localhost:3000](http://localhost:3000).
+   The application will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Available Scripts
 
@@ -77,4 +77,4 @@ Starts the backend server.
 
 ### `npm run dev` (Server)
 
-Starts the backend server in development mode using nodemon.
+Starts the backend server in development mode using nodemon.2

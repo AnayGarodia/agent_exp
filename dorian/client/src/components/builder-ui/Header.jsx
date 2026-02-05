@@ -14,58 +14,66 @@ const Header = ({
   isRunning,
   showOutput,
   gmailTestMode,
+  setShowAccountManager,
 }) => {
   return (
     <header className="builder-header">
-      <div className="builder-title-wrap">
-        <h1 className="builder-title">AI Agent Builder</h1>
-        <p className="builder-subtitle">drag blocks • run • automate</p>
-        {gmailTestMode && (
-          <span className="builder-test-badge">Test mode</span>
-        )}
+      <div className="builder-title-section">
+        <div>
+          <div className="builder-title">Workflow Builder</div>
+          <div className="builder-subtitle">Visual AI automation platform</div>
+        </div>
+        {gmailTestMode && <span className="test-mode-badge">⚠️ Test Mode</span>}
       </div>
 
       <div className="builder-actions">
         <button
-          className="hdr-btn hdr-btn-outline"
-          onClick={() => setShowTemplates((s) => !s)}
+          className="header-btn"
+          onClick={() => setShowTemplates(!showTemplates)}
         >
           Templates
         </button>
-        <button className="hdr-btn hdr-btn-outline" onClick={handleClear}>
+
+        <button className="header-btn" onClick={handleClear}>
           Clear
         </button>
-        <button
-          className="hdr-btn hdr-btn-outline"
-          onClick={handleShowCode}
-        >
+
+        <button className="header-btn" onClick={handleShowCode}>
           {showCode ? "Hide Code" : "Show Code"}
         </button>
-        <button className="hdr-btn hdr-btn-outline" onClick={handleSave}>
+
+        <button className="header-btn" onClick={handleSave}>
           Save
         </button>
 
         {gmailConnected ? (
-          <button className="hdr-btn hdr-btn-gmail-connected">
+          <button
+            className="header-btn header-btn-gmail-connected"
+            onClick={() => setShowAccountManager(true)}
+          >
             Gmail ✓
           </button>
         ) : (
-          <button className="hdr-btn hdr-btn-gmail" onClick={connectGmail}>
+          <button
+            className="header-btn header-btn-gmail"
+            onClick={connectGmail}
+          >
             Connect Gmail
           </button>
         )}
 
         <button
-          className={`hdr-btn hdr-btn-run ${isRunning ? "running" : ""}`}
+          className="header-btn header-btn-run"
           onClick={runWorkflow}
-          disabled={isRunning || showOutput}
+          disabled={isRunning}
         >
           {isRunning ? (
             <>
-              <span className="spinner spinner--sm" /> Running…
+              <span className="spinner" />
+              Running...
             </>
           ) : (
-            "▶ Run Workflow"
+            "▶ Run"
           )}
         </button>
       </div>
