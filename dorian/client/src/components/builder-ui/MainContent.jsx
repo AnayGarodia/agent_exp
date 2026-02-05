@@ -11,49 +11,18 @@ const agentTheme = Blockly.Theme.defineTheme("agent_theme", {
   base: Blockly.Themes.Classic,
   componentStyles: {
     workspaceBackgroundColour: "#FAFAFA",
-    toolboxBackgroundColour: "#FAFAFA", /* Beige background as requested */
-    toolboxForegroundColour: "#000000", /* Black text */
-    flyoutBackgroundColour: "#FFFFFF", /* White flyout */
-    flyoutForegroundColour: "#000000", /* Black text */
-    flyoutBorderColour: "#E5E5E5", /* Light gray border */
+    toolboxBackgroundColour: "#FAFAFA",
+    toolboxForegroundColour: "#333333",
+    flyoutBackgroundColour: "#FFFFFF",
+    flyoutForegroundColour: "#000000",
+    flyoutBorderColour: "#E5E5E5",
     scrollbarColour: "#D1D5DB",
     scrollbarOpacity: 0.8,
-    insertionMarkerColour: "#000000", /* Black for consistency */
+    insertionMarkerColour: "#000000",
     insertionMarkerOpacity: 0.4,
-    // Connection colors for different types - using neutral colors
-    startHatColour: "#000000",  // Black accent
+    startHatColour: "#000000",
     startHatOpacity: 1,
   },
-  blockStyles: {
-    // Define block styles for different categories/types - using neutral colors
-    trigger_block: {
-      colourPrimary: '#6B7280', /* Gray */
-      colourSecondary: '#9CA3AF',
-      colourTertiary: '#D1D5DB',
-    },
-    action_block: {
-      colourPrimary: '#6B7280', /* Gray */
-      colourSecondary: '#9CA3AF',
-      colourTertiary: '#D1D5DB',
-    },
-    output_block: {
-      colourPrimary: '#6B7280', /* Gray */
-      colourSecondary: '#9CA3AF',
-      colourTertiary: '#D1D5DB',
-    }
-  },
-  categoryStyles: {
-    // Using neutral colors instead of bright colors
-    trigger_category: {
-      colour: '#6B7280', /* Gray */
-    },
-    action_category: {
-      colour: '#6B7280', /* Gray */
-    },
-    output_category: {
-      colour: '#6B7280', /* Gray */
-    }
-  }
 });
 
 const MainContent = ({ workspaceRef, blocklyDivRef, showOutput, showCode, onWorkspaceInit }) => {
@@ -133,6 +102,12 @@ const MainContent = ({ workspaceRef, blocklyDivRef, showOutput, showCode, onWork
     }
   };
 
+  const handleTrash = () => {
+    if (workspaceRef.current && window.confirm("Clear all blocks from the workspace?")) {
+      workspaceRef.current.clear();
+    }
+  };
+
   return (
     <div className="builder-content">
       {/* Animated connection particles */}
@@ -151,12 +126,10 @@ const MainContent = ({ workspaceRef, blocklyDivRef, showOutput, showCode, onWork
       {/* Canvas controls */}
       <div className="canvas-controls">
         <div className="zoom-controls">
-          <button className="zoom-btn" onClick={handleZoomIn}>+</button>
-          <button className="zoom-btn" onClick={handleZoomReset}>↺</button>
-          <button className="zoom-btn" onClick={handleZoomOut}>−</button>
-        </div>
-        <div className="minimap">
-          {/* Minimap would go here */}
+          <button type="button" className="zoom-btn" onClick={handleZoomIn} title="Zoom in">+</button>
+          <button type="button" className="zoom-btn" onClick={handleZoomReset} title="Reset view">↺</button>
+          <button type="button" className="zoom-btn" onClick={handleZoomOut} title="Zoom out">−</button>
+          <button type="button" className="zoom-btn zoom-btn-trash" onClick={handleTrash} title="Clear workspace">⌫</button>
         </div>
       </div>
     </div>

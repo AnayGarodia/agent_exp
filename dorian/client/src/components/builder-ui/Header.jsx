@@ -12,40 +12,42 @@ const Header = ({
   connectGmail,
   runWorkflow,
   isRunning,
-  showOutput
+  showOutput,
+  gmailTestMode,
 }) => {
   return (
-    <div className="builder-header">
-      <div className="builder-title">
-        <h1>Dorian</h1> {/* Changed to just "Dorian" as requested */}
+    <header className="builder-header">
+      <div className="builder-title-wrap">
+        <h1 className="builder-title">AI Agent Builder</h1>
+        <p className="builder-subtitle">drag blocks • run • automate</p>
+        {gmailTestMode && (
+          <span className="builder-test-badge">Test mode</span>
+        )}
       </div>
 
       <div className="builder-actions">
         <button
-          className="hdr-btn hdr-btn-secondary"
+          className="hdr-btn hdr-btn-outline"
           onClick={() => setShowTemplates((s) => !s)}
         >
           Templates
         </button>
-        <button className="hdr-btn hdr-btn-secondary" onClick={handleClear}>
+        <button className="hdr-btn hdr-btn-outline" onClick={handleClear}>
           Clear
         </button>
         <button
-          className="hdr-btn hdr-btn-secondary"
+          className="hdr-btn hdr-btn-outline"
           onClick={handleShowCode}
         >
           {showCode ? "Hide Code" : "Show Code"}
         </button>
-        <button className="hdr-btn hdr-btn-secondary" onClick={handleSave}>
+        <button className="hdr-btn hdr-btn-outline" onClick={handleSave}>
           Save
         </button>
 
         {gmailConnected ? (
-          <button
-            className="hdr-btn hdr-btn-gmail-connected"
-            onClick={() => setShowTemplates(false)} // This will close any open modals
-          >
-            {gmailUserEmail?.split("@")[0] || "Gmail"} ✓
+          <button className="hdr-btn hdr-btn-gmail-connected">
+            Gmail ✓
           </button>
         ) : (
           <button className="hdr-btn hdr-btn-gmail" onClick={connectGmail}>
@@ -60,14 +62,14 @@ const Header = ({
         >
           {isRunning ? (
             <>
-              <span className="spinner spinner--sm"></span> Running…
+              <span className="spinner spinner--sm" /> Running…
             </>
           ) : (
-            "Run Workflow" /* Removed ▶ symbol as requested */
+            "▶ Run Workflow"
           )}
         </button>
       </div>
-    </div>
+    </header>
   );
 };
 

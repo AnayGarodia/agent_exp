@@ -11,130 +11,129 @@
 }
 
 /* =========================================================================
-   HEADER
+   HEADER — 56px, AI Agent Builder + subtitle, buttons
    ========================================================================= */
 .builder-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6); /* Reduced padding */
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  gap: var(--space-4);
+  padding: 0 24px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E5E5;
+  gap: 24px;
   flex-shrink: 0;
-  height: 60px; /* Standard height as requested */
+  height: 56px;
 }
 
-.builder-title h1 {
-  font-size: var(--app-title-size);
-  font-weight: var(--app-title-weight);
-  color: var(--primary-text);
+.builder-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+}
+
+.builder-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
   margin: 0;
+  line-height: 1.2;
+}
+
+.builder-subtitle {
+  font-size: 12px;
+  color: #999999;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.builder-title-wrap .builder-test-badge {
+  margin-top: 4px;
+}
+
+.builder-test-badge {
+  background: #FEF3C7;
+  color: #D97706;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .builder-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3); /* More consistent spacing */
+  gap: 12px;
   flex-wrap: wrap;
   margin-left: auto;
 }
 
-/* Button styles */
 .hdr-btn {
-  padding: 8px 16px; /* Uniform height of 36px as requested */
-  border-radius: var(--panel-radius);
-  font-size: var(--body-text-size);
-  font-weight: var(--body-text-weight);
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
-  background: var(--surface);
-  color: var(--primary-text);
-  border: 1px solid var(--border); /* Anthropic style secondary button */
-  height: 36px; /* Uniform height as requested */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
 }
 
-.hdr-btn:hover {
-  background: #FAFAFA; /* Slightly off-white on hover */
-  border-color: #D4D4D4; /* Slightly darker border */
-  color: var(--primary-text);
+.hdr-btn-outline {
+  background: #FFFFFF;
+  color: #525252;
+  border-color: #E5E5E5;
 }
-
-.hdr-btn-secondary {
-  background: var(--surface);
-  color: var(--primary-text);
-  border: 1px solid var(--border);
+.hdr-btn-outline:hover {
+  background: #FAFAFA;
+  border-color: #E5E5E5;
+  color: #333333;
 }
 
 .hdr-btn-gmail {
-  background: var(--surface);
-  color: var(--tool-color);
-  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: #525252;
+  border: 1px solid #E5E5E5;
 }
 .hdr-btn-gmail:hover {
   background: #FAFAFA;
-  border-color: #D4D4D4;
-  color: var(--primary-text);
+  color: #333333;
 }
 
 .hdr-btn-gmail-connected {
-  background: var(--surface);
-  color: var(--primary-text);
-  border: 1px solid var(--border);
+  background: #ECFDF5;
+  color: #059669;
+  border: none;
 }
 .hdr-btn-gmail-connected:hover {
-  background: #FAFAFA;
-  border-color: #D4D4D4;
-  color: var(--primary-text);
+  background: #D1FAE5;
+  color: #047857;
 }
 
 .hdr-btn-run {
-  background: #000000; /* Black background as requested */
-  color: white;
-  border: none; /* No border as requested */
-  padding: 8px 16px;
-  height: 36px; /* Uniform height as requested */
-  font-weight: var(--app-title-weight);
+  background: #000000;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 500;
 }
 .hdr-btn-run:hover:not(:disabled) {
-  background: #1a1a1a; /* Slightly lighter black on hover */
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  background: #1a1a1a;
 }
 .hdr-btn-run:disabled {
-  background: var(--disabled-text);
+  background: #9CA3AF;
   cursor: not-allowed;
-  transform: none;
 }
 .hdr-btn-run.running {
   animation: pulse 1.5s ease-in-out infinite;
 }
 @keyframes pulse {
-  0%,
-  100% {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  50% {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* =========================================================================
-   INFO BANNER
-   ========================================================================= */
-.info-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-5);
-  padding: var(--space-3) var(--space-6);
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  font-size: var(--body-text-size);
-  font-weight: var(--body-text-weight);
-  color: var(--secondary-text);
-  flex-shrink: 0;
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
 }
 
 /* =========================================================================
@@ -243,68 +242,49 @@
   flex: 1;
   height: 100%;
   transition: width 0.2s ease;
-  background: #FAFAFA; /* Light gray background as requested */
+  background-color: #FAFAFA;
+  background-image: radial-gradient(circle, #D4D4D4 1px, transparent 1px);
+  background-size: 20px 20px;
   position: relative;
 }
 
-/* Remove the grid pattern as requested */
-/* Canvas grid background */
-/* .canvas-grid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background-image:
-    linear-gradient(rgba(229, 231, 235, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(229, 231, 235, 0.3) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: 0 0;
-  z-index: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-} */
-
-/* Canvas controls */
+/* Zoom controls — bottom right, 4 buttons */
 .canvas-controls {
   position: absolute;
-  bottom: var(--space-4);
-  left: var(--space-4);
+  bottom: 24px;
+  right: 24px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 4px;
   z-index: 100;
 }
 
 .zoom-controls {
-  background: #f5f5f5; /* More subtle background as requested */
-  border: 1px solid var(--border);
-  border-radius: var(--panel-radius);
-  padding: var(--space-2); /* Smaller padding */
+  background: transparent;
+  border: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  box-shadow: var(--shadow-card); /* Very subtle shadow */
+  gap: 4px;
 }
 
 .zoom-btn {
-  width: 32px; /* Size as requested */
-  height: 32px; /* Size as requested */
-  border: 1px solid var(--border);
-  background: #f5f5f5; /* Light gray background as requested */
-  color: var(--primary-text);
-  border-radius: var(--panel-radius);
+  width: 36px;
+  height: 36px;
+  border: 1px solid #E5E5E5;
+  background: #F5F5F5;
+  color: #333333;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--node-title-size);
-  transition: all 0.2s ease;
+  font-size: 16px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 .zoom-btn:hover {
-  background: #e5e5e5; /* Slightly different on hover */
-  border-color: #d4d4d4;
-  color: var(--primary-text);
+  background: #FFFFFF;
+  border-color: #E5E5E5;
 }
 
 /* =========================================================================
@@ -708,32 +688,38 @@
 }
 
 /* =========================================================================
-   WORKFLOW BLOCK STYLES - Anthropic inspired
+   WORKFLOW BLOCKS ON CANVAS — shadow, hover, connection lines
    ========================================================================= */
 .blocklyMainBackground {
-  stroke: none !important; /* Remove stroke for cleaner look */
+  stroke: none !important;
 }
 
 .blocklyBlockCanvas g {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04)); /* Subtle shadow as requested */
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.12));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.blocklyDraggable:hover > g {
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.18));
+  transform: translateY(-2px);
 }
 
 .blocklyPath {
   stroke-width: 1px !important;
-  stroke: var(--border) !important; /* Subtle border */
-  fill: var(--surface) !important; /* White background */
+  stroke: rgba(0, 0, 0, 0.1) !important;
+  fill: inherit !important;
 }
 
-.blocklyDraggable > .blocklyPath {
-  stroke: var(--border) !important; /* Subtle border */
-  fill: var(--surface) !important; /* White background */
-}
-
-/* Selected block style */
 .blocklySelected > .blocklyPath {
-  stroke: #000000 !important; /* Black stroke for selected */
+  stroke: #000000 !important;
   stroke-width: 2px !important;
-  fill: var(--surface) !important; /* Keep white background */
+}
+
+/* Connection lines: 2px, gray, smooth */
+.blocklyConnectionPath,
+.blocklyHighlightedConnectionPath {
+  stroke: #999999 !important;
+  stroke-width: 2px !important;
 }
 
 /* Input/Output block type styling */
@@ -742,55 +728,97 @@ input {
 }
 
 /* =========================================================================
-   BLOCKLY TOOLBOX/SIDEBAR STYLES - Anthropic inspired
+   BLOCKLY TOOLBOX / LEFT SIDEBAR — 240px, categories, colored dots
    ========================================================================= */
 .blocklyToolboxDiv {
-  background-color: #fafafa !important; /* Beige background as requested */
+  background-color: #FAFAFA !important;
   font-family: var(--font-sans) !important;
-  width: 280px !important; /* Standard width for toolbox */
-  border-right: 1px solid var(--border) !important;
+  width: 240px !important;
+  border-right: 1px solid #E5E5E5 !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
 }
 
 .blocklyTreeRoot {
-  padding: var(--space-5) !important;
+  padding: 16px 0 !important;
   font-family: var(--font-sans) !important;
 }
 
 .blocklyToolboxCategory {
-  border-radius: var(--panel-radius) !important;
-  padding: var(--space-2) var(--space-4) !important;
-  margin-bottom: var(--space-3) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+/* Category header: first row in each category */
+.blocklyToolboxCategoryTitle,
+.blocklyToolboxCategory > .blocklyTreeRow:first-child .blocklyTreeLabel {
   font-size: 11px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  font-weight: var(--app-title-weight) !important;
-  color: #666 !important; /* Muted color as requested */
-  border: 1px solid transparent !important; /* No colored bar */
+  font-weight: 600 !important;
+  color: #666666 !important;
+}
+
+.blocklyToolboxCategory > .blocklyTreeRow:first-child {
+  padding: 16px !important;
+  margin-top: 32px !important;
+  margin-bottom: 24px !important;
+  background: transparent !important;
+}
+
+.blocklyToolboxCategory:first-child > .blocklyTreeRow:first-child {
+  margin-top: 0 !important;
+}
+
+.blocklyToolboxCategory > .blocklyTreeRow:first-child .blocklyTreeRowContentContainer::before {
+  display: none !important;
 }
 
 .blocklyTreeRow {
-  padding: var(--space-2) var(--space-3) !important;
-  border-radius: var(--panel-radius) !important;
+  padding: 8px 16px !important;
+  margin: 0 4px !important;
+  border-radius: 6px !important;
   height: auto !important;
   line-height: 1.4 !important;
   display: flex !important;
   align-items: center !important;
-}
-
-.blocklyTreeLabel {
-  font-size: var(--body-text-size) !important;
-  color: var(--primary-text) !important;
-  font-family: var(--font-sans) !important;
-  padding-left: var(--space-3) !important;
+  min-height: 36px !important;
 }
 
 .blocklyTreeRow:hover {
-  background-color: #f5f5f5 !important;
-  border: 1px solid var(--border) !important;
-  color: var(--primary-accent) !important;
+  background-color: #F0F0F0 !important;
 }
+
+.blocklyTreeLabel {
+  font-size: 14px !important;
+  color: #333333 !important;
+  font-family: var(--font-sans) !important;
+  padding-left: 12px !important;
+}
+
+/* Colored dots by category order: Control, Input, Gmail, AI, Data, Output, Utility */
+.blocklyTreeRowContentContainer {
+  display: flex !important;
+  align-items: center !important;
+}
+.blocklyTreeRowContentContainer::before {
+  content: "" !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  margin-right: 8px !important;
+  background: #6B7280 !important;
+}
+.blocklyTreeRoot > div:nth-child(1) .blocklyTreeRowContentContainer::before { background: #FF6B35 !important; }
+.blocklyTreeRoot > div:nth-child(2) .blocklyTreeRowContentContainer::before { background: #4A90E2 !important; }
+.blocklyTreeRoot > div:nth-child(3) .blocklyTreeRowContentContainer::before { background: #EA4335 !important; }
+.blocklyTreeRoot > div:nth-child(4) .blocklyTreeRowContentContainer::before { background: #8B5CF6 !important; }
+.blocklyTreeRoot > div:nth-child(5) .blocklyTreeRowContentContainer::before { background: #10B981 !important; }
+.blocklyTreeRoot > div:nth-child(6) .blocklyTreeRowContentContainer::before { background: #06B6D4 !important; }
+.blocklyTreeRoot > div:nth-child(7) .blocklyTreeRowContentContainer::before { background: #6B7280 !important; }
 
 .blocklyFlyoutBackground {
   fill: var(--surface) !important;

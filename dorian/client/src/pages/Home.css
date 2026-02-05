@@ -1,28 +1,29 @@
 /* =========================================================================
-   HOME PAGE - Anthropic-inspired Minimalist Landing Page
+   HOME PAGE — Landing (hero, workflow viz, feature cards)
    ========================================================================= */
 .home {
   flex: 1;
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--canvas-bg); /* Warm beige background */
+  background: #FFFFFF;
   color: var(--primary-text);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
 /* =========================================================================
-   HERO SECTION - Centered Layout
+   HERO SECTION
    ========================================================================= */
 .hero {
-  padding: var(--space-9) 0;
+  background: #F8F8F6;
+  padding: 120px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .hero-content {
@@ -30,89 +31,151 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--space-5);
 }
 
-.hero-text {
+.hero-heading {
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  max-width: 800px;
+  align-items: center;
+  gap: 8px;
 }
 
-.hero-title {
-  font-size: var(--app-title-size);
-  font-weight: 400; /* Regular weight as requested */
-  line-height: 1.1;
-  margin: 0;
-  letter-spacing: 0.05em; /* Increased letter spacing as requested */
-  color: var(--secondary-text); /* Muted color for first part */
-  text-align: center;
+.hero-heading-line1 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.2;
 }
 
-.hero-title-bold {
-  font-size: var(--app-title-size);
-  font-weight: 400; /* Regular weight but this will be the bold statement */
-  line-height: 1.1;
-  margin: 0 0 var(--space-4) 0;
-  letter-spacing: 0.05em; /* Increased letter spacing */
-  color: var(--primary-text); /* Bold statement in black */
-  text-align: center;
+.hero-heading-line2 {
+  font-size: 56px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 1.2;
 }
 
 .hero-subtitle {
-  font-size: var(--body-text-size);
-  color: var(--secondary-text);
-  margin: 0 0 var(--space-5) 0;
-  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 400;
+  color: #525252;
+  line-height: 1.5;
+  margin: 32px 0 0;
   max-width: 600px;
-  text-align: center;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 48px;
+  padding: 16px 32px;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.hero-cta:hover {
+  background: #1a1a1a;
+}
+
+/* Workflow visualization */
+.workflow-viz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 64px;
+  flex-wrap: wrap;
+}
+
+.workflow-viz-block {
+  width: 140px;
+  height: 120px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.workflow-viz-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.workflow-viz-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.workflow-viz-arrow {
+  width: 32px;
+  height: 2px;
+  background: #CCCCCC;
+  display: block;
+  flex-shrink: 0;
 }
 
 /* =========================================================================
    FEATURE CARDS SECTION
    ========================================================================= */
 .features-section {
-  padding: var(--space-9) 0;
-  margin-top: var(--space-8);
+  background: #FFFFFF;
+  padding: 96px 24px;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5); /* Less gap for more subtle look */
+  gap: 24px;
 }
 
-.minimalist-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--panel-radius);
-  padding: var(--space-6);
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-card); /* Very subtle shadow as requested */
+.feature-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.minimalist-card:hover {
-  box-shadow: var(--shadow-hover); /* Slightly more on hover */
-  transform: translateY(-2px);
+.feature-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.card-title {
-  font-size: 1.25rem;
-  font-weight: var(--app-title-weight);
-  color: var(--primary-text);
-  margin: 0 0 var(--space-3) 0;
-  text-align: center;
+.feature-card-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 32px;
+  color: #333333;
+  margin-bottom: 16px;
 }
 
-.card-description {
-  color: var(--secondary-text);
-  font-size: 1rem;
+.feature-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 16px;
+}
+
+.feature-card-description {
+  font-size: 15px;
+  color: #666666;
   line-height: 1.6;
   margin: 0;
-  text-align: center;
 }
 
 /* =========================================================================
@@ -132,25 +195,33 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: var(--space-7) 0;
+    padding: 64px 24px;
   }
 
-  .hero-title,
-  .hero-title-bold {
-    font-size: clamp(2rem, 5vw, 2.5rem);
+  .hero-heading-line1 {
+    font-size: 20px;
+  }
+
+  .hero-heading-line2 {
+    font-size: clamp(2rem, 6vw, 2.5rem);
   }
 
   .hero-subtitle {
-    font-size: var(--body-text-size);
+    font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 var(--space-4);
+  .hero {
+    padding: 48px 16px;
   }
 
-  .hero {
-    padding: var(--space-6) 0;
+  .workflow-viz {
+    gap: 24px;
+  }
+
+  .workflow-viz-block {
+    width: 120px;
+    height: 100px;
   }
 }

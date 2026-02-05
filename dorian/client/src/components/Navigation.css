@@ -1,25 +1,24 @@
 /* =========================================================================
-   ANTHROPIC-INSPIRED NAVIGATION
+   LANDING NAVIGATION — Pure white, 64px, Dorian + Launch Builder
    ========================================================================= */
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6); /* Reduced padding */
+  padding: 0 var(--space-6);
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: #FFFFFF;
   transition: all 0.2s ease;
-  height: 60px; /* Specific height as requested */
+  height: 64px;
 }
 
 .nav-logo {
   font-family: var(--font-sans);
-  font-size: var(--app-title-size);
-  font-weight: var(--app-title-weight);
-  color: var(--primary-text);
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
   text-decoration: none;
   transition: all 0.2s ease;
 }
@@ -27,24 +26,21 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-3); /* Reduced gap */
-}
-
-.nav-link {
-  font-size: 11px; /* Specific size as requested */
-  font-weight: var(--app-title-weight);
-  color: var(--secondary-text);
-  text-decoration: none;
-  position: relative;
-  transition: all 0.2s ease;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--panel-radius);
-  text-transform: uppercase; /* All caps as requested */
-  letter-spacing: 0.5px; /* Specific letter spacing as requested */
+  gap: var(--space-3);
 }
 
 .nav-cta {
-  transition: all 0.2s ease;
+  padding: 10px 24px;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.nav-cta:hover {
+  background: #1a1a1a;
 }
 
 /* Mobile */

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import useBuilderStore from "../store/builderStore";
 import Header from "../components/builder-ui/Header";
-import InfoBanner from "../components/builder-ui/InfoBanner";
 import TemplatesPanel from "../components/builder-ui/TemplatesPanel";
 import OutputPanel from "../components/builder-ui/OutputPanel";
 import CodePanel from "../components/builder-ui/CodePanel";
@@ -97,13 +96,10 @@ export default function Builder() {
         runWorkflow={() => runWorkflow(workspace.current)}
         isRunning={isRunning}
         showOutput={showOutput}
+        gmailTestMode={gmailTestMode}
       />
 
-      <InfoBanner
-        gmailConnected={gmailConnected}
-        gmailTestMode={gmailTestMode}
-        groqApiCalls={groqApiCalls}
-      />
+      {/* Test mode is shown as badge in header; full banner removed */}
 
       <TemplatesPanel
         showTemplates={showTemplates}

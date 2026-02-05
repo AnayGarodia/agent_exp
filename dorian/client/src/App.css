@@ -19,7 +19,10 @@
   --border: #E5E5E5;    /* Light gray borders */
   --primary-text: #000000; /* Black text for headings */
   --secondary-text: #525252; /* Dark gray for body text */
+  --tertiary-text: #666666;
+  --muted-text: #999999;
   --disabled-text: #9CA3AF;
+  --white: #FFFFFF;
 
   /* ── Minimalist Accent Colors ── */
   --primary-accent: #000000; /* Black accent */
