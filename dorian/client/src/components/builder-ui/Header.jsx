@@ -1,24 +1,23 @@
 import React from "react";
 
-const Header = ({ 
-  showTemplates, 
-  setShowTemplates, 
-  handleClear, 
-  handleShowCode, 
-  showCode, 
-  handleSave, 
-  gmailConnected, 
-  gmailUserEmail, 
-  connectGmail, 
-  runWorkflow, 
-  isRunning, 
-  showOutput 
+const Header = ({
+  showTemplates,
+  setShowTemplates,
+  handleClear,
+  handleShowCode,
+  showCode,
+  handleSave,
+  gmailConnected,
+  gmailUserEmail,
+  connectGmail,
+  runWorkflow,
+  isRunning,
+  showOutput
 }) => {
   return (
     <div className="builder-header">
       <div className="builder-title">
-        <h1>AI Agent Builder</h1>
-        <span className="builder-subtitle">drag blocks · run · automate</span>
+        <h1>Dorian</h1> {/* Changed to just "Dorian" as requested */}
       </div>
 
       <div className="builder-actions">
@@ -64,7 +63,7 @@ const Header = ({
               <span className="spinner spinner--sm"></span> Running…
             </>
           ) : (
-            "▶  Run Workflow"
+            "Run Workflow" /* Removed ▶ symbol as requested */
           )}
         </button>
       </div>

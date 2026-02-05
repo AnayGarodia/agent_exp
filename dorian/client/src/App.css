@@ -10,60 +10,62 @@
 }
 
 /* =========================================================================
-   DESIGN TOKENS
+   DESIGN TOKENS - ANTHROPIC INSPIRED
    ========================================================================= */
 :root {
-  /* ── Minimalist Neutrals ── */
-  --canvas-bg: #FAFAFA;
-  --surface: #FFFFFF;
-  --border: #E5E7EB;
-  --primary-text: #111827;
-  --secondary-text: #6B7280;
+  /* ── Anthropic-inspired Color Palette ── */
+  --canvas-bg: #FAFAF9; /* Warm beige background */
+  --surface: #FFFFFF;   /* Pure white surfaces */
+  --border: #E5E5E5;    /* Light gray borders */
+  --primary-text: #000000; /* Black text for headings */
+  --secondary-text: #525252; /* Dark gray for body text */
   --disabled-text: #9CA3AF;
 
   /* ── Minimalist Accent Colors ── */
-  --primary-accent: #6366F1;
+  --primary-accent: #000000; /* Black accent */
   --accent-soft: #E0E7FF;
 
-  /* ── Semantic Node Strips ── */
-  --llm-color: #A78BFA;
-  --tool-color: #60A5FA;
-  --logic-color: #FBBF24;
-  --memory-color: #34D399;
+  /* ── Semantic Node Strips - More Subtle ── */
+  --llm-color: #6B7280; /* Gray */
+  --tool-color: #6B7280; /* Gray */
+  --logic-color: #6B7280; /* Gray */
+  --memory-color: #6B7280; /* Gray */
 
   /* ── Typography ── */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'IBM Plex Mono', 'SF Mono', Monaco, monospace;
 
   /* ── Typography Sizes ── */
-  --app-title-size: 14px;
-  --app-title-weight: 600;
-  --node-title-size: 13px;
-  --node-title-weight: 600;
-  --body-text-size: 13px;
+  --app-title-size: 48px; /* Larger for headers */
+  --app-title-weight: 400; /* Regular weight */
+  --node-title-size: 16px;
+  --node-title-weight: 500;
+  --body-text-size: 16px; /* Larger for readability */
   --body-text-weight: 400;
-  --metadata-size: 12px;
+  --metadata-size: 14px;
   --metadata-weight: 400;
 
   /* ── Spacing System (8px base) ── */
   --space-1: 4px;  /* Half-unit */
   --space-2: 8px;  /* Base unit */
-  --space-3: 12px; /* Node padding */
-  --space-4: 16px; /* Small padding */
-  --space-5: 24px; /* Medium padding */
-  --space-6: 32px; /* Large padding */
-  --space-7: 40px;
-  --space-8: 48px;
-  --space-9: 64px;
+  --space-3: 16px; /* Node padding */
+  --space-4: 24px; /* Small padding */
+  --space-5: 32px; /* Medium padding */
+  --space-6: 48px; /* Large padding */
+  --space-7: 64px;
+  --space-8: 80px;
+  --space-9: 120px;
 
   /* ── Shape Language ── */
-  --node-radius: 12px;
-  --panel-radius: 8px;
+  --node-radius: 8px;
+  --panel-radius: 6px; /* Slightly less rounded */
   --border-width: 1px;
   --border-style: solid;
-  
-  /* ── Shadows ── */
-  --shadow-drag: 0 6px 16px rgba(0, 0, 0, 0.15); /* Only for dragging nodes */
+
+  /* ── Subtle Shadows ── */
+  --shadow-drag: 0 4px 12px rgba(0, 0, 0, 0.08); /* More subtle */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very subtle */
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08); /* Hover state */
 }
 
 html, body {
@@ -114,11 +116,11 @@ h1, h2, h3, h4, h5, h6 {
    GLOBAL BUTTONS  (shared across pages)
    ========================================================================= */
 .btn-primary {
-  padding: var(--space-2) var(--space-4);
-  background: var(--primary-accent);
+  padding: 16px 32px; /* Specific padding as requested */
+  background: #000000; /* Black background */
   color: var(--white);
-  border: 1px solid var(--primary-accent);
-  border-radius: var(--panel-radius);
+  border: none; /* No border */
+  border-radius: 6px; /* Specific radius as requested */
   font-size: var(--body-text-size);
   font-weight: var(--app-title-weight);
   font-family: var(--font-sans);
@@ -135,10 +137,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-  background: #4F46E5;
-  border-color: #4F46E5;
+  background: #1a1a1a; /* Slightly lighter black */
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary:active {
@@ -147,19 +148,18 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-primary:disabled {
   background: var(--disabled-text);
-  border-color: var(--disabled-text);
   cursor: not-allowed;
   transform: none;
 }
 
 .btn-secondary {
-  padding: calc(var(--space-2) - 2px) var(--space-3);
+  padding: 16px 32px; /* Same padding as primary */
   background: var(--surface);
   color: var(--primary-text);
   border: 1px solid var(--border);
-  border-radius: var(--panel-radius);
+  border-radius: 6px;
   font-size: var(--body-text-size);
-  font-weight: var(--body-text-weight);
+  font-weight: var(--app-title-weight);
   font-family: var(--font-sans);
   text-decoration: none;
   cursor: pointer;
@@ -171,13 +171,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary:hover {
-  background: #F9FAFB;
-  border-color: var(--primary-accent);
-  color: var(--primary-accent);
+  background: #FAFAFA; /* Slightly off-white on hover */
+  border-color: #D4D4D4; /* Slightly darker border */
+  color: var(--primary-text);
 }
 
 .btn-secondary:active {
-  background: #F3F4F6;
+  background: #F5F5F5;
 }
 
 .btn-secondary:disabled {

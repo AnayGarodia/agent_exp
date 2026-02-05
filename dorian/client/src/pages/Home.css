@@ -1,11 +1,11 @@
 /* =========================================================================
-   HOME PAGE - Minimalist Landing Page
+   HOME PAGE - Anthropic-inspired Minimalist Landing Page
    ========================================================================= */
 .home {
   flex: 1;
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--canvas-bg);
+  background: var(--canvas-bg); /* Warm beige background */
   color: var(--primary-text);
 }
 
@@ -16,7 +16,7 @@
 }
 
 /* =========================================================================
-   HERO SECTION - 50/50 Split Layout
+   HERO SECTION - Centered Layout
    ========================================================================= */
 .hero {
   padding: var(--space-9) 0;
@@ -27,170 +27,46 @@
 
 .hero-content {
   display: flex;
-  gap: var(--space-8);
-  align-items: center;
-  justify-content: space-between;
-}
-
-.hero-text {
-  flex: 1;
-  max-width: 50%;
-  display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: var(--space-5);
 }
 
-.hero-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.1;
-  margin: 0;
-  letter-spacing: -0.025em;
-  color: var(--primary-text);
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 800px;
 }
 
-.minimalist-text {
-  color: var(--primary-accent);
-  display: inline-block;
+.hero-title {
+  font-size: var(--app-title-size);
+  font-weight: 400; /* Regular weight as requested */
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: 0.05em; /* Increased letter spacing as requested */
+  color: var(--secondary-text); /* Muted color for first part */
+  text-align: center;
+}
+
+.hero-title-bold {
+  font-size: var(--app-title-size);
+  font-weight: 400; /* Regular weight but this will be the bold statement */
+  line-height: 1.1;
+  margin: 0 0 var(--space-4) 0;
+  letter-spacing: 0.05em; /* Increased letter spacing */
+  color: var(--primary-text); /* Bold statement in black */
+  text-align: center;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: var(--body-text-size);
   color: var(--secondary-text);
-  margin: 0;
+  margin: 0 0 var(--space-5) 0;
   line-height: 1.6;
   max-width: 600px;
-}
-
-/* Demo Canvas - Right Side */
-.demo-canvas {
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.animation-container {
-  width: 100%;
-  max-width: 600px;
-  height: 400px;
-  position: relative;
-  border: 1px solid var(--border);
-  border-radius: var(--panel-radius);
-  background: var(--surface);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.node {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-4);
-  border-radius: var(--panel-radius);
   text-align: center;
-  z-index: 10;
-  transition: all 0.2s ease;
-  border: 1px solid var(--border);
-}
-
-.node-icon {
-  font-size: 24px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.node-title {
-  font-size: var(--body-text-size);
-  font-weight: var(--app-title-weight);
-  color: var(--primary-text);
-  margin: 0;
-}
-
-.trigger-node {
-  top: 80px;
-  left: 100px;
-  background: var(--surface);
-  border: 1px solid var(--logic-color);
-  box-shadow: 0 2px 4px rgba(251, 191, 36, 0.1);
-}
-
-.trigger-node .node-icon {
-  background: #FFFBEB;
-  color: var(--logic-color);
-}
-
-.action-node {
-  top: 200px;
-  left: 250px;
-  background: var(--surface);
-  border: 1px solid var(--tool-color);
-  box-shadow: 0 2px 4px rgba(96, 165, 250, 0.1);
-}
-
-.action-node .node-icon {
-  background: #EFF6FF;
-  color: var(--tool-color);
-}
-
-.output-node {
-  top: 120px;
-  left: 400px;
-  background: var(--surface);
-  border: 1px solid var(--memory-color);
-  box-shadow: 0 2px 4px rgba(52, 211, 153, 0.1);
-}
-
-.output-node .node-icon {
-  background: #ECFDF5;
-  color: var(--memory-color);
-}
-
-/* Connections between nodes */
-.connection {
-  position: absolute;
-  height: 1px;
-  background: var(--border);
-  transform-origin: left center;
-  z-index: 1;
-}
-
-.conn-1 {
-  width: 180px;
-  top: 130px;
-  left: 160px;
-  transform: rotate(30deg);
-}
-
-.conn-2 {
-  width: 180px;
-  top: 210px;
-  left: 310px;
-  transform: rotate(-20deg);
-}
-
-/* =========================================================================
-   ANIMATIONS
-   ========================================================================= */
-@keyframes nodeFloat {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-5px) scale(1.02);
-  }
 }
 
 /* =========================================================================
@@ -204,7 +80,7 @@
 .feature-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
+  gap: var(--space-5); /* Less gap for more subtle look */
 }
 
 .minimalist-card {
@@ -215,11 +91,11 @@
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-card); /* Very subtle shadow as requested */
 }
 
 .minimalist-card:hover {
-  border-color: var(--primary-accent);
-  box-shadow: var(--shadow-drag);
+  box-shadow: var(--shadow-hover); /* Slightly more on hover */
   transform: translateY(-2px);
 }
 
@@ -242,47 +118,15 @@
 /* =========================================================================
    RESPONSIVE DESIGN
    ========================================================================= */
-@media (max-width: 1024px) {
-  .hero-content {
-    gap: var(--space-6);
-  }
-
-  .animation-container {
-    height: 350px;
-  }
-}
-
 @media (max-width: 900px) {
-  .hero-content {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-7);
-  }
-
-  .hero-text {
-    max-width: 100%;
-    align-items: center;
-  }
-
-  .demo-canvas {
-    max-width: 100%;
-    margin-top: var(--space-6);
-  }
-
-  .animation-container {
-    width: 100%;
-    max-width: 500px;
-    height: 300px;
-  }
-
   .feature-cards {
     grid-template-columns: 1fr;
     max-width: 500px;
     margin: 0 auto;
   }
 
-  .hero-title {
-    font-size: clamp(2rem, 5vw, 2.5rem);
+  .hero-content {
+    padding: 0 var(--space-4);
   }
 }
 
@@ -291,16 +135,13 @@
     padding: var(--space-7) 0;
   }
 
-  .hero-title {
-    font-size: clamp(1.75rem, 5vw, 2rem);
+  .hero-title,
+  .hero-title-bold {
+    font-size: clamp(2rem, 5vw, 2.5rem);
   }
 
   .hero-subtitle {
-    font-size: 1rem;
-  }
-
-  .animation-container {
-    height: 250px;
+    font-size: var(--body-text-size);
   }
 }
 
@@ -311,9 +152,5 @@
 
   .hero {
     padding: var(--space-6) 0;
-  }
-
-  .animation-container {
-    height: 200px;
   }
 }

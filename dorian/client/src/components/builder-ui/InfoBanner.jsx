@@ -2,11 +2,8 @@ import React from "react";
 
 const InfoBanner = ({ gmailConnected, gmailTestMode, groqApiCalls }) => {
   return (
-    ((gmailConnected && gmailTestMode) || groqApiCalls > 0) && (
+    (groqApiCalls > 0) && (  /* Only show if there are API calls, not TEST MODE */
       <div className="info-banner">
-        {gmailConnected && gmailTestMode && (
-          <span>TEST MODE — emails validated but not sent externally</span>
-        )}
         {groqApiCalls > 0 && (
           <span>AI calls this session: {groqApiCalls}</span>
         )}

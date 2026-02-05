@@ -5,52 +5,53 @@ import TOOLBOX from "../../config/toolbox";
 import "../../config/customBlocks"; // registers blocks as a side-effect
 
 // ---------------------------------------------------------------------------
-// BLOCKLY THEME  (minimalist design with clean styling)
+// BLOCKLY THEME  (Anthropic-inspired minimalist design)
 // ---------------------------------------------------------------------------
 const agentTheme = Blockly.Theme.defineTheme("agent_theme", {
   base: Blockly.Themes.Classic,
   componentStyles: {
     workspaceBackgroundColour: "#FAFAFA",
-    toolboxBackgroundColour: "#FFFFFF",
-    toolboxForegroundColour: "#111827",
-    flyoutBackgroundColour: "#FFFFFF",
-    flyoutForegroundColour: "#111827",
-    flyoutBorderColour: "#E5E7EB",
+    toolboxBackgroundColour: "#FAFAFA", /* Beige background as requested */
+    toolboxForegroundColour: "#000000", /* Black text */
+    flyoutBackgroundColour: "#FFFFFF", /* White flyout */
+    flyoutForegroundColour: "#000000", /* Black text */
+    flyoutBorderColour: "#E5E5E5", /* Light gray border */
     scrollbarColour: "#D1D5DB",
     scrollbarOpacity: 0.8,
-    insertionMarkerColour: "#6366F1",
+    insertionMarkerColour: "#000000", /* Black for consistency */
     insertionMarkerOpacity: 0.4,
-    // Connection colors for different types
-    startHatColour: "#6366F1",  // Primary accent
+    // Connection colors for different types - using neutral colors
+    startHatColour: "#000000",  // Black accent
     startHatOpacity: 1,
   },
   blockStyles: {
-    // Define block styles for different categories/types
+    // Define block styles for different categories/types - using neutral colors
     trigger_block: {
-      colourPrimary: '#FBBF24',
-      colourSecondary: '#FCD34D',
-      colourTertiary: '#FEF3C7',
+      colourPrimary: '#6B7280', /* Gray */
+      colourSecondary: '#9CA3AF',
+      colourTertiary: '#D1D5DB',
     },
     action_block: {
-      colourPrimary: '#60A5FA',
-      colourSecondary: '#93C5FD',
-      colourTertiary: '#DBEAFE',
+      colourPrimary: '#6B7280', /* Gray */
+      colourSecondary: '#9CA3AF',
+      colourTertiary: '#D1D5DB',
     },
     output_block: {
-      colourPrimary: '#34D399',
-      colourSecondary: '#6EE7B7',
-      colourTertiary: '#D1FAE5',
+      colourPrimary: '#6B7280', /* Gray */
+      colourSecondary: '#9CA3AF',
+      colourTertiary: '#D1D5DB',
     }
   },
   categoryStyles: {
+    // Using neutral colors instead of bright colors
     trigger_category: {
-      colour: '#FBBF24',
+      colour: '#6B7280', /* Gray */
     },
     action_category: {
-      colour: '#60A5FA',
+      colour: '#6B7280', /* Gray */
     },
     output_category: {
-      colour: '#34D399',
+      colour: '#6B7280', /* Gray */
     }
   }
 });
@@ -66,7 +67,7 @@ const MainContent = ({ workspaceRef, blocklyDivRef, showOutput, showCode, onWork
     workspaceRef.current = Blockly.inject(blocklyDivRef.current, {
       toolbox: TOOLBOX,
       theme: agentTheme,
-      grid: { spacing: 40, length: 3, colour: "rgba(255, 255, 255, 0.1)", snap: true },
+      grid: { spacing: 40, length: 1, colour: "#E5E5E5", snap: true }, /* Very subtle grid */
       zoom: {
         controls: true,
         wheel: true,
@@ -134,9 +135,6 @@ const MainContent = ({ workspaceRef, blocklyDivRef, showOutput, showCode, onWork
 
   return (
     <div className="builder-content">
-      {/* Canvas grid background */}
-      <div className="canvas-grid" />
-
       {/* Animated connection particles */}
       <ConnectionParticles connections={connections} />
 

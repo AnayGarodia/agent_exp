@@ -1,5 +1,5 @@
 /* =========================================================================
-   BUILDER — MINIMALIST CANVAS LAYOUT
+   BUILDER — ANTHROPIC-INSPIRED MINIMALIST CANVAS LAYOUT
    ========================================================================= */
 .builder {
   display: flex;
@@ -17,11 +17,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
+  padding: 0 var(--space-6); /* Reduced padding */
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   gap: var(--space-4);
   flex-shrink: 0;
+  height: 60px; /* Standard height as requested */
 }
 
 .builder-title h1 {
@@ -31,25 +32,17 @@
   margin: 0;
 }
 
-.builder-subtitle {
-  font-size: var(--metadata-size);
-  color: var(--secondary-text);
-  font-family: var(--font-mono);
-  font-weight: var(--body-text-weight);
-  margin-top: var(--space-1);
-}
-
 .builder-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-3); /* More consistent spacing */
   flex-wrap: wrap;
   margin-left: auto;
 }
 
 /* Button styles */
 .hdr-btn {
-  padding: calc(var(--space-2) - 2px) var(--space-3);
+  padding: 8px 16px; /* Uniform height of 36px as requested */
   border-radius: var(--panel-radius);
   font-size: var(--body-text-size);
   font-weight: var(--body-text-weight);
@@ -58,14 +51,14 @@
   transition: all 0.2s ease;
   background: var(--surface);
   color: var(--primary-text);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border); /* Anthropic style secondary button */
+  height: 36px; /* Uniform height as requested */
 }
 
 .hdr-btn:hover {
-  background: #F9FAFB;
-  border-color: var(--primary-accent);
-  color: var(--primary-accent);
-  transform: translateY(-1px);
+  background: #FAFAFA; /* Slightly off-white on hover */
+  border-color: #D4D4D4; /* Slightly darker border */
+  color: var(--primary-text);
 }
 
 .hdr-btn-secondary {
@@ -77,41 +70,40 @@
 .hdr-btn-gmail {
   background: var(--surface);
   color: var(--tool-color);
-  border: 1px solid var(--tool-color);
+  border: 1px solid var(--border);
 }
 .hdr-btn-gmail:hover {
-  background: #EFF6FF;
-  border-color: #3B82F6;
-  color: #1D4ED8;
+  background: #FAFAFA;
+  border-color: #D4D4D4;
+  color: var(--primary-text);
 }
 
 .hdr-btn-gmail-connected {
   background: var(--surface);
-  color: var(--memory-color);
-  border: 1px solid var(--memory-color);
+  color: var(--primary-text);
+  border: 1px solid var(--border);
 }
 .hdr-btn-gmail-connected:hover {
-  background: #ECFDF5;
-  border-color: #059669;
-  color: #047857;
+  background: #FAFAFA;
+  border-color: #D4D4D4;
+  color: var(--primary-text);
 }
 
 .hdr-btn-run {
-  background: var(--primary-accent);
+  background: #000000; /* Black background as requested */
   color: white;
-  border: 1px solid var(--primary-accent);
-  padding: calc(var(--space-2) - 1px) var(--space-4);
+  border: none; /* No border as requested */
+  padding: 8px 16px;
+  height: 36px; /* Uniform height as requested */
   font-weight: var(--app-title-weight);
 }
 .hdr-btn-run:hover:not(:disabled) {
-  background: #4F46E5;
-  border-color: #4F46E5;
+  background: #1a1a1a; /* Slightly lighter black on hover */
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
 }
 .hdr-btn-run:disabled {
   background: var(--disabled-text);
-  border-color: var(--disabled-text);
   cursor: not-allowed;
   transform: none;
 }
@@ -121,10 +113,10 @@
 @keyframes pulse {
   0%,
   100% {
-    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
   50% {
-    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -251,12 +243,13 @@
   flex: 1;
   height: 100%;
   transition: width 0.2s ease;
-  background: var(--canvas-bg);
+  background: #FAFAFA; /* Light gray background as requested */
   position: relative;
 }
 
+/* Remove the grid pattern as requested */
 /* Canvas grid background */
-.canvas-grid {
+/* .canvas-grid {
   position: absolute;
   top: 0;
   left: 0;
@@ -270,7 +263,7 @@
   z-index: 0;
   pointer-events: none;
   transform: translate(-50%, -50%);
-}
+} */
 
 /* Canvas controls */
 .canvas-controls {
@@ -284,21 +277,21 @@
 }
 
 .zoom-controls {
-  background: var(--surface);
+  background: #f5f5f5; /* More subtle background as requested */
   border: 1px solid var(--border);
   border-radius: var(--panel-radius);
-  padding: var(--space-3);
+  padding: var(--space-2); /* Smaller padding */
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  box-shadow: var(--shadow-drag);
+  box-shadow: var(--shadow-card); /* Very subtle shadow */
 }
 
 .zoom-btn {
-  width: 32px;
-  height: 32px;
+  width: 32px; /* Size as requested */
+  height: 32px; /* Size as requested */
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: #f5f5f5; /* Light gray background as requested */
   color: var(--primary-text);
   border-radius: var(--panel-radius);
   cursor: pointer;
@@ -309,9 +302,9 @@
   transition: all 0.2s ease;
 }
 .zoom-btn:hover {
-  background: #F9FAFB;
-  border-color: var(--primary-accent);
-  color: var(--primary-accent);
+  background: #e5e5e5; /* Slightly different on hover */
+  border-color: #d4d4d4;
+  color: var(--primary-text);
 }
 
 /* =========================================================================
@@ -342,7 +335,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-4) var(--space-5);
-  background: #F9FAFB;
+  background: var(--surface); /* White background instead of gray */
   border-bottom: 1px solid var(--border);
   font-weight: var(--app-title-weight);
   font-size: var(--node-title-size);
@@ -362,7 +355,7 @@
   transition: all 0.2s ease;
 }
 .output-close:hover {
-  background: #F3F4F6;
+  background: #F9FAFB;
   color: var(--primary-text);
   border: 1px solid var(--border);
 }
@@ -499,7 +492,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-4) var(--space-5);
-  background: #F9FAFB;
+  background: var(--surface); /* White background instead of gray */
   border-bottom: 1px solid var(--border);
   color: var(--primary-text);
   font-size: var(--node-title-size);
@@ -715,6 +708,96 @@
 }
 
 /* =========================================================================
+   WORKFLOW BLOCK STYLES - Anthropic inspired
+   ========================================================================= */
+.blocklyMainBackground {
+  stroke: none !important; /* Remove stroke for cleaner look */
+}
+
+.blocklyBlockCanvas g {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04)); /* Subtle shadow as requested */
+}
+
+.blocklyPath {
+  stroke-width: 1px !important;
+  stroke: var(--border) !important; /* Subtle border */
+  fill: var(--surface) !important; /* White background */
+}
+
+.blocklyDraggable > .blocklyPath {
+  stroke: var(--border) !important; /* Subtle border */
+  fill: var(--surface) !important; /* White background */
+}
+
+/* Selected block style */
+.blocklySelected > .blocklyPath {
+  stroke: #000000 !important; /* Black stroke for selected */
+  stroke-width: 2px !important;
+  fill: var(--surface) !important; /* Keep white background */
+}
+
+/* Input/Output block type styling */
+input {
+  font-family: var(--font-sans) !important;
+}
+
+/* =========================================================================
+   BLOCKLY TOOLBOX/SIDEBAR STYLES - Anthropic inspired
+   ========================================================================= */
+.blocklyToolboxDiv {
+  background-color: #fafafa !important; /* Beige background as requested */
+  font-family: var(--font-sans) !important;
+  width: 280px !important; /* Standard width for toolbox */
+  border-right: 1px solid var(--border) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.blocklyTreeRoot {
+  padding: var(--space-5) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.blocklyToolboxCategory {
+  border-radius: var(--panel-radius) !important;
+  padding: var(--space-2) var(--space-4) !important;
+  margin-bottom: var(--space-3) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-weight: var(--app-title-weight) !important;
+  color: #666 !important; /* Muted color as requested */
+  border: 1px solid transparent !important; /* No colored bar */
+}
+
+.blocklyTreeRow {
+  padding: var(--space-2) var(--space-3) !important;
+  border-radius: var(--panel-radius) !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.blocklyTreeLabel {
+  font-size: var(--body-text-size) !important;
+  color: var(--primary-text) !important;
+  font-family: var(--font-sans) !important;
+  padding-left: var(--space-3) !important;
+}
+
+.blocklyTreeRow:hover {
+  background-color: #f5f5f5 !important;
+  border: 1px solid var(--border) !important;
+  color: var(--primary-accent) !important;
+}
+
+.blocklyFlyoutBackground {
+  fill: var(--surface) !important;
+  opacity: 1 !important;
+}
+
+/* =========================================================================
    RESPONSIVE
    ========================================================================= */
 @media (max-width: 1100px) {
@@ -735,7 +818,7 @@
 @media (max-width: 768px) {
   .builder-header {
     flex-wrap: wrap;
-    padding: var(--space-3) var(--space-4);
+    padding: 0 var(--space-3);
   }
   .builder-actions {
     width: 100%;
