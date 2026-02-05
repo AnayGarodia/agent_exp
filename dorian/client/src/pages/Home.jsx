@@ -12,7 +12,7 @@ export default function Home() {
             {/* Left Side: Text Content */}
             <div className="hero-text">
               <h1 className="hero-title">
-                Transform Ideas Into <span className="gradient-text">Powerful AI Agents</span>
+                Transform Ideas Into <span className="minimalist-text">Powerful AI Agents</span>
               </h1>
               <p className="hero-subtitle">
                 Visual workflow builder to create, train, and deploy AI agents without writing code.
@@ -24,7 +24,7 @@ export default function Home() {
 
             {/* Right Side: Animated Demo Canvas */}
             <div className="demo-canvas">
-              <div className="animation-container glass">
+              <div className="animation-container surface">
                 <div className="node trigger-node">
                   <div className="node-icon">⚡</div>
                   <div className="node-title">Trigger</div>
@@ -51,15 +51,15 @@ export default function Home() {
       <section className="features-section">
         <div className="container">
           <div className="feature-cards">
-            <div className="glass-card glass-hover">
+            <div className="minimalist-card">
               <h3 className="card-title">Visual Builder</h3>
               <p className="card-description">Intuitive drag-and-drop interface for building AI workflows</p>
             </div>
-            <div className="glass-card glass-hover">
+            <div className="minimalist-card">
               <h3 className="card-title">AI-Powered</h3>
               <p className="card-description">Advanced language models power your automated workflows</p>
             </div>
-            <div className="glass-card glass-hover">
+            <div className="minimalist-card">
               <h3 className="card-title">One-Click Deploy</h3>
               <p className="card-description">Deploy your agents with a single click to production</p>
             </div>

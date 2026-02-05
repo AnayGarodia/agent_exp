@@ -2,7 +2,7 @@ import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 
 // ===========================================================================
-// CONTROL BLOCKS (purple #7c3aed)
+// CONTROL BLOCKS (logic/router color #FBBF24)
 // ===========================================================================
 
 Blockly.Blocks["agent_start"] = {
@@ -21,7 +21,7 @@ Blockly.Blocks["agent_start"] = {
     this.appendStatementInput("STEPS")
       .setCheck(null)
       .appendField("workflow steps:");
-    this.setColour("#7c3aed");
+    this.setColour("#FBBF24");
     this.setTooltip("The starting point of your AI agent.");
   },
 };
@@ -35,7 +35,7 @@ Blockly.Blocks["if_contains"] = {
     this.appendStatementInput("DO").setCheck(null).appendField("then do:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#7c3aed");
+    this.setColour("#FBBF24");
     this.setTooltip("Execute steps only if text contains a keyword.");
   },
 };
@@ -59,7 +59,7 @@ javascriptGenerator.forBlock["if_contains"] = function (block) {
 };
 
 // ===========================================================================
-// INPUT BLOCKS (orange #f59e0b)
+// INPUT BLOCKS (tool/api color #60A5FA)
 // ===========================================================================
 
 Blockly.Blocks["input_data"] = {
@@ -68,7 +68,7 @@ Blockly.Blocks["input_data"] = {
       .appendField("Get input field:")
       .appendField(new Blockly.FieldTextInput("emailBody"), "FIELD_NAME");
     this.setOutput(true, "String");
-    this.setColour("#f59e0b");
+    this.setColour("#60A5FA");
     this.setTooltip("Get a value from the workflow input data.");
   },
 };
@@ -82,7 +82,7 @@ javascriptGenerator.forBlock["input_data"] = function (block) {
 };
 
 // ===========================================================================
-// GMAIL BLOCKS (blue #3b82f6)
+// GMAIL BLOCKS (tool/api color #60A5FA)
 // ===========================================================================
 
 Blockly.Blocks["gmail_fetch_unread"] = {
@@ -104,7 +104,7 @@ Blockly.Blocks["gmail_fetch_unread"] = {
       .appendField(new Blockly.FieldTextInput("emails"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Fetch unread emails from Gmail and save to a variable.");
   },
 };
@@ -131,7 +131,7 @@ Blockly.Blocks["gmail_search"] = {
       .appendField(new Blockly.FieldTextInput("searchResults"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Search Gmail using any Gmail search query.");
   },
 };
@@ -144,7 +144,7 @@ Blockly.Blocks["gmail_for_each_email"] = {
     this.appendStatementInput("DO").setCheck(null).appendField("do:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Loop through each email in a list.");
   },
 };
@@ -163,7 +163,7 @@ Blockly.Blocks["gmail_get_property"] = {
         "PROPERTY"
       );
     this.setOutput(true, "String");
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Get a field from the current email.");
   },
 };
@@ -177,7 +177,7 @@ Blockly.Blocks["gmail_ai_reply"] = {
       .appendField(new Blockly.FieldTextInput("aiReply"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Generate AI reply.");
   },
 };
@@ -189,7 +189,7 @@ Blockly.Blocks["gmail_send_reply"] = {
       .appendField(new Blockly.FieldTextInput("aiReply"), "REPLY_VAR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Send a reply to the current email.");
   },
 };
@@ -204,7 +204,7 @@ Blockly.Blocks["gmail_send_new"] = {
     this.appendValueInput("BODY").setCheck(null).appendField("body:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Send a new email.");
   },
 };
@@ -214,7 +214,7 @@ Blockly.Blocks["gmail_mark_read"] = {
     this.appendDummyInput().appendField("Mark current email as read");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Mark the current email as read.");
   },
 };
@@ -224,7 +224,7 @@ Blockly.Blocks["gmail_archive"] = {
     this.appendDummyInput().appendField("Archive current email");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#3b82f6");
+    this.setColour("#60A5FA");
     this.setTooltip("Archive the current email.");
   },
 };
@@ -290,7 +290,7 @@ javascriptGenerator.forBlock["gmail_archive"] = function () {
 };
 
 // ===========================================================================
-// AI BLOCKS (green #10b981)
+// AI BLOCKS (LLM/prompt color #A78BFA)
 // ===========================================================================
 
 Blockly.Blocks["ai_analyze"] = {
@@ -303,7 +303,7 @@ Blockly.Blocks["ai_analyze"] = {
       .appendField(new Blockly.FieldTextInput("analysis"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#10b981");
+    this.setColour("#A78BFA");
     this.setTooltip("Analyze text with AI.");
   },
 };
@@ -317,7 +317,7 @@ Blockly.Blocks["ai_generate"] = {
       .appendField(new Blockly.FieldTextInput("generated"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#10b981");
+    this.setColour("#A78BFA");
     this.setTooltip("Generate text with AI.");
   },
 };
@@ -334,7 +334,7 @@ Blockly.Blocks["ai_extract"] = {
       .appendField(new Blockly.FieldTextInput("extracted"), "VAR_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#10b981");
+    this.setColour("#A78BFA");
     this.setTooltip("Extract information from text using AI.");
   },
 };
@@ -370,7 +370,7 @@ javascriptGenerator.forBlock["ai_extract"] = function (block) {
 };
 
 // ===========================================================================
-// DATA BLOCKS (gray #6b7280)
+// DATA BLOCKS (memory/state color #34D399)
 // ===========================================================================
 
 Blockly.Blocks["simple_text"] = {
@@ -380,7 +380,7 @@ Blockly.Blocks["simple_text"] = {
       .appendField(new Blockly.FieldTextInput("text"), "TEXT")
       .appendField('"');
     this.setOutput(true, "String");
-    this.setColour("#6b7280");
+    this.setColour("#34D399");
     this.setTooltip("A simple text value.");
   },
 };
@@ -391,7 +391,7 @@ Blockly.Blocks["get_variable"] = {
       .appendField("Get variable:")
       .appendField(new Blockly.FieldTextInput("myVar"), "VAR_NAME");
     this.setOutput(true, null);
-    this.setColour("#6b7280");
+    this.setColour("#34D399");
     this.setTooltip("Get the value of a variable.");
   },
 };
@@ -401,7 +401,7 @@ Blockly.Blocks["combine_text"] = {
     this.appendValueInput("TEXT1").setCheck(null).appendField("Combine");
     this.appendValueInput("TEXT2").setCheck(null).appendField("with");
     this.setOutput(true, "String");
-    this.setColour("#6b7280");
+    this.setColour("#34D399");
     this.setTooltip("Combine two text values.");
   },
 };
@@ -436,7 +436,7 @@ javascriptGenerator.forBlock["combine_text"] = function (block) {
 };
 
 // ===========================================================================
-// OUTPUT BLOCKS (pink #ec4899)
+// OUTPUT BLOCKS (memory/state color #34D399)
 // ===========================================================================
 
 Blockly.Blocks["display_result"] = {
@@ -446,7 +446,7 @@ Blockly.Blocks["display_result"] = {
       .appendField("Display result:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#ec4899");
+    this.setColour("#34D399");
     this.setTooltip("Display a result in the output panel.");
   },
 };
@@ -458,7 +458,7 @@ Blockly.Blocks["log_message"] = {
       .appendField(new Blockly.FieldTextInput("Step completed"), "MESSAGE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#ec4899");
+    this.setColour("#34D399");
     this.setTooltip("Log a message to the output.");
   },
 };
@@ -479,7 +479,7 @@ javascriptGenerator.forBlock["log_message"] = function (block) {
 };
 
 // ===========================================================================
-// UTILITY BLOCKS (teal #0d9488)
+// UTILITY BLOCKS (logic/router color #FBBF24)
 // ===========================================================================
 
 Blockly.Blocks["wait_delay"] = {
@@ -497,7 +497,7 @@ Blockly.Blocks["wait_delay"] = {
       );
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#0d9488");
+    this.setColour("#FBBF24");
     this.setTooltip("Wait for a specified amount of time.");
   },
 };

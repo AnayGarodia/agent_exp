@@ -8,7 +8,7 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "Control",
-      colour: "#7c3aed",
+      colour: "#FBBF24", // Logic/router color
       contents: [
         { kind: "block", type: "agent_start" },
         { kind: "block", type: "if_contains" },
@@ -17,13 +17,13 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "Input",
-      colour: "#f59e0b",
+      colour: "#60A5FA", // Tool/API color
       contents: [{ kind: "block", type: "input_data" }],
     },
     {
       kind: "category",
       name: "Gmail",
-      colour: "#3b82f6",
+      colour: "#60A5FA", // Tool/API color
       contents: [
         { kind: "block", type: "gmail_fetch_unread" },
         { kind: "block", type: "gmail_search" },
@@ -39,7 +39,7 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "AI",
-      colour: "#10b981",
+      colour: "#A78BFA", // LLM/prompt color
       contents: [
         { kind: "block", type: "ai_analyze" },
         { kind: "block", type: "ai_generate" },
@@ -49,7 +49,7 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "Data",
-      colour: "#6b7280",
+      colour: "#34D399", // Memory/state color
       contents: [
         { kind: "block", type: "simple_text" },
         { kind: "block", type: "get_variable" },
@@ -59,7 +59,7 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "Output",
-      colour: "#ec4899",
+      colour: "#34D399", // Memory/state color
       contents: [
         { kind: "block", type: "display_result" },
         { kind: "block", type: "log_message" },
@@ -68,7 +68,7 @@ const TOOLBOX = {
     {
       kind: "category",
       name: "Utility",
-      colour: "#0d9488",
+      colour: "#FBBF24", // Logic/router color
       contents: [{ kind: "block", type: "wait_delay" }],
     },
   ],

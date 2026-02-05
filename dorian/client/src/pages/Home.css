@@ -1,10 +1,12 @@
 /* =========================================================================
-   HOME PAGE - Professional Landing Page with Glassmorphic Design
+   HOME PAGE - Minimalist Landing Page
    ========================================================================= */
 .home {
   flex: 1;
   min-height: 100vh;
   overflow-x: hidden;
+  background: var(--canvas-bg);
+  color: var(--primary-text);
 }
 
 .container {
@@ -40,24 +42,21 @@
 
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
   margin: 0;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
+  color: var(--primary-text);
 }
 
-.gradient-text {
-  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
+.minimalist-text {
+  color: var(--primary-accent);
   display: inline-block;
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: var(--text-color);
+  color: var(--secondary-text);
   margin: 0;
   line-height: 1.6;
   max-width: 600px;
@@ -78,6 +77,9 @@
   max-width: 600px;
   height: 400px;
   position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -92,14 +94,11 @@
   justify-content: center;
   gap: var(--space-2);
   padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--panel-radius);
   text-align: center;
   z-index: 10;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: nodeFloat 3s ease-in-out infinite;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
 }
 
 .node-icon {
@@ -114,62 +113,58 @@
 }
 
 .node-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
+  font-size: var(--body-text-size);
+  font-weight: var(--app-title-weight);
+  color: var(--primary-text);
   margin: 0;
 }
 
 .trigger-node {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   top: 80px;
   left: 100px;
-  animation-delay: 0s;
-  border: 1px solid rgba(0, 217, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--logic-color);
+  box-shadow: 0 2px 4px rgba(251, 191, 36, 0.1);
 }
 
 .trigger-node .node-icon {
-  background: rgba(0, 217, 255, 0.2);
+  background: #FFFBEB;
+  color: var(--logic-color);
 }
 
 .action-node {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   top: 200px;
   left: 250px;
-  animation-delay: 0.3s;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--tool-color);
+  box-shadow: 0 2px 4px rgba(96, 165, 250, 0.1);
 }
 
 .action-node .node-icon {
-  background: rgba(168, 85, 247, 0.2);
+  background: #EFF6FF;
+  color: var(--tool-color);
 }
 
 .output-node {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
   top: 120px;
   left: 400px;
-  animation-delay: 0.6s;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--memory-color);
+  box-shadow: 0 2px 4px rgba(52, 211, 153, 0.1);
 }
 
 .output-node .node-icon {
-  background: rgba(16, 185, 129, 0.2);
+  background: #ECFDF5;
+  color: var(--memory-color);
 }
 
 /* Connections between nodes */
 .connection {
   position: absolute;
-  height: 3px;
-  background: linear-gradient(to right, rgba(0, 217, 255, 0.6), rgba(168, 85, 247, 0.6));
+  height: 1px;
+  background: var(--border);
   transform-origin: left center;
   z-index: 1;
-  animation: connectionDraw 8s linear infinite;
 }
 
 .conn-1 {
@@ -186,30 +181,6 @@
   transform: rotate(-20deg);
 }
 
-/* Particles for flow visualization */
-.particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--electric-blue);
-  z-index: 2;
-  animation: particleFlow 8s linear infinite;
-}
-
-.particle-1 {
-  top: 130px;
-  left: 100px;
-  animation-delay: 0s;
-}
-
-.particle-2 {
-  top: 200px;
-  left: 250px;
-  background: var(--purple);
-  animation-delay: 4s;
-}
-
 /* =========================================================================
    ANIMATIONS
    ========================================================================= */
@@ -218,39 +189,7 @@
     transform: translateY(0px) scale(1);
   }
   50% {
-    transform: translateY(-10px) scale(1.05);
-  }
-}
-
-@keyframes connectionDraw {
-  0% {
-    width: 0;
-  }
-  30% {
-    width: 180px;
-  }
-  75% {
-    width: 180px;
-  }
-  100% {
-    width: 0;
-  }
-}
-
-@keyframes particleFlow {
-  0% {
-    transform: translateX(0) translateY(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(180px) translateY(10px);
-    opacity: 0;
+    transform: translateY(-5px) scale(1.02);
   }
 }
 
@@ -268,28 +207,32 @@
   gap: var(--space-6);
 }
 
-.glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
+.minimalist-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--panel-radius);
   padding: var(--space-6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
+.minimalist-card:hover {
+  border-color: var(--primary-accent);
+  box-shadow: var(--shadow-drag);
+  transform: translateY(-2px);
+}
+
 .card-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
+  font-size: 1.25rem;
+  font-weight: var(--app-title-weight);
+  color: var(--primary-text);
   margin: 0 0 var(--space-3) 0;
   text-align: center;
 }
 
 .card-description {
-  color: var(--text-color);
+  color: var(--secondary-text);
   font-size: 1rem;
   line-height: 1.6;
   margin: 0;
@@ -353,7 +296,7 @@
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .animation-container {

@@ -5,52 +5,52 @@ import TOOLBOX from "../../config/toolbox";
 import "../../config/customBlocks"; // registers blocks as a side-effect
 
 // ---------------------------------------------------------------------------
-// BLOCKLY THEME  (updated for glassmorphic design with connection styling)
+// BLOCKLY THEME  (minimalist design with clean styling)
 // ---------------------------------------------------------------------------
 const agentTheme = Blockly.Theme.defineTheme("agent_theme", {
   base: Blockly.Themes.Classic,
   componentStyles: {
-    workspaceBackgroundColour: "transparent",
-    toolboxBackgroundColour: "rgba(30, 41, 59, 0.8)",
-    toolboxForegroundColour: "#ffffff",
-    flyoutBackgroundColour: "rgba(30, 41, 59, 0.9)",
-    flyoutForegroundColour: "#ffffff",
-    flyoutOpacity: 0.95,
-    scrollbarColour: "#00D9FF",
+    workspaceBackgroundColour: "#FAFAFA",
+    toolboxBackgroundColour: "#FFFFFF",
+    toolboxForegroundColour: "#111827",
+    flyoutBackgroundColour: "#FFFFFF",
+    flyoutForegroundColour: "#111827",
+    flyoutBorderColour: "#E5E7EB",
+    scrollbarColour: "#D1D5DB",
     scrollbarOpacity: 0.8,
-    insertionMarkerColour: "#A855F7",
+    insertionMarkerColour: "#6366F1",
     insertionMarkerOpacity: 0.4,
     // Connection colors for different types
-    startHatColour: "#00D9FF",  // Trigger (blue)
+    startHatColour: "#6366F1",  // Primary accent
     startHatOpacity: 1,
   },
   blockStyles: {
     // Define block styles for different categories/types
     trigger_block: {
-      colourPrimary: '#00D9FF',
-      colourSecondary: '#38BDF8',
-      colourTertiary: '#BAE6FD',
+      colourPrimary: '#FBBF24',
+      colourSecondary: '#FCD34D',
+      colourTertiary: '#FEF3C7',
     },
     action_block: {
-      colourPrimary: '#A855F7',
-      colourSecondary: '#C4B5FD',
-      colourTertiary: '#DDD6FE',
+      colourPrimary: '#60A5FA',
+      colourSecondary: '#93C5FD',
+      colourTertiary: '#DBEAFE',
     },
     output_block: {
-      colourPrimary: '#10B981',
+      colourPrimary: '#34D399',
       colourSecondary: '#6EE7B7',
-      colourTertiary: '#A7F3D0',
+      colourTertiary: '#D1FAE5',
     }
   },
   categoryStyles: {
     trigger_category: {
-      colour: '#00D9FF',
+      colour: '#FBBF24',
     },
     action_category: {
-      colour: '#A855F7',
+      colour: '#60A5FA',
     },
     output_category: {
-      colour: '#10B981',
+      colour: '#34D399',
     }
   }
 });
