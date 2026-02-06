@@ -32,6 +32,28 @@ router.get("/google/callback", async (req, res) => {
     req.session.googleTokens = tokens;
     req.session.isAuthenticated = true;
     req.session.tokenExpiry = Date.now() + (tokens.expiry_date || 3600000);
+    
+    try {
+      // Get user profile to retrieve email
+      const { google } = require('googleapis');
+      const oauth2Client = new google.auth.OAuth2(
+        process.env.GMAIL_CLIENT_ID,
+        process.env.GMAIL_CLIENT_SECRET,
+        process.env.GMAIL_REDIRECT_URI
+      );
+      
+      oauth2Client.setCredentials(tokens);
+      const oauth2 = google.oauth2({version: 'v2', auth: oauth2Client});
+      const userInfo = await oauth2.userinfo.get();
+      
+      req.session.userEmail = userInfo.data.email;
+    } catch (getUserError) {
+      console.error("Error getting user info:", getUserError);
+      req.session.userEmail = null; // Set to null if we can't get it
+    }
+    
+    req.session.testMode = true; // Default to test mode
+    req.session.groqApiCalls = 0; // Initialize API call counter
 
     // Save session to ensure persistence
     await new Promise((resolve, reject) => {
@@ -43,6 +65,9 @@ router.get("/google/callback", async (req, res) => {
 
     console.log("✅ Gmail authenticated successfully");
     console.log("📧 Tokens stored in session");
+    if (req.session.userEmail) {
+      console.log(`📧 User email: ${req.session.userEmail}`);
+    }
 
     // Redirect back to builder with success
     res.redirect(`${process.env.CLIENT_URL}/builder?auth=success`);
@@ -77,6 +102,9 @@ router.get("/status", async (req, res) => {
     res.json({
       authenticated,
       hasGmailTokens,
+      email: req.session.userEmail || null, // Add user email if available
+      testMode: req.session.testMode ?? true, // Add test mode flag
+      groqApiCalls: req.session.groqApiCalls || 0, // Add API call counter
       tokenExpiry: req.session.tokenExpiry,
     });
   } catch (error) {
