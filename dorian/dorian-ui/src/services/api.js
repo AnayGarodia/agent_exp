@@ -66,10 +66,17 @@ export const api = {
    * @param {{ blocks, agentType, code }} payload
    */
   async executeWorkflow(payload) {
-    return req("/workflows/execute", {
+    const result = await req("/workflows/execute", {
       method: "POST",
       body: JSON.stringify(payload),
     });
+    
+    // Check if workflow execution failed and throw an error to be caught by the UI
+    if (result.success === false) {
+      throw new Error(result.error || "Workflow execution failed");
+    }
+    
+    return result;
   },
 
   /** Save a workflow (stub — server returns a mock id). */
