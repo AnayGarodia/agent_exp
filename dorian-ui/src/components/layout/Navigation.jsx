@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import Button from "../shared/Button";
+import Button from "../../../../dorian-ui/src/components/shared/Button";
 import "./Navigation.css";
 
 const Navigation = () => {
