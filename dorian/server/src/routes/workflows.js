@@ -14,13 +14,6 @@ router.post("/execute", async (req, res) => {
     // Use tokens from session if not provided in request
     const googleTokens = tokens || req.session.googleTokens;
 
-    if (!googleTokens) {
-      return res.status(401).json({
-        error: "Not authenticated with Gmail",
-        message: "Please connect your Gmail account first",
-      });
-    }
-
     console.log("📝 Executing workflow...");
     const result = await executeWorkflow(code, googleTokens);
 

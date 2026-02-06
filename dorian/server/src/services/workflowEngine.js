@@ -34,6 +34,9 @@ class WorkflowEngine {
 
         // Gmail operations
         fetchEmails: async (max) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`📧 Fetching ${max} unread emails...`, "email");
           const emails = await gmail.listMessages(
             googleTokens,
@@ -45,6 +48,9 @@ class WorkflowEngine {
         },
 
         searchEmails: async (query, max) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`🔍 Searching Gmail: "${query}"`, "email");
           const emails = await gmail.listMessages(googleTokens, max, query);
           this.log(`✅ Found ${emails.length} matching emails`, "success");
@@ -52,6 +58,9 @@ class WorkflowEngine {
         },
 
         sendNewEmail: async (to, subject, body) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`📤 Sending email to ${to}...`, "email");
           const result = await gmail.sendEmail(googleTokens, to, subject, body);
           this.log(`✅ Email sent successfully`, "success");
@@ -59,6 +68,9 @@ class WorkflowEngine {
         },
 
         sendReply: async (messageId, body) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`💬 Sending reply to message ${messageId}...`, "email");
           // We need to get the email to get threadId
           const email = await gmail.getMessage(googleTokens, messageId);
@@ -73,12 +85,18 @@ class WorkflowEngine {
         },
 
         markRead: async (messageId) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`✓ Marking email as read...`, "email");
           await gmail.markAsRead(googleTokens, messageId);
           this.log(`✅ Marked as read`, "success");
         },
 
         archiveEmail: async (messageId) => {
+          if (!googleTokens) {
+            throw new Error("Gmail authentication required. Please connect your Gmail account first.");
+          }
           this.log(`📦 Archiving email...`, "email");
           await gmail.archiveEmail(googleTokens, messageId);
           this.log(`✅ Archived`, "success");
