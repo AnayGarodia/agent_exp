@@ -1,0 +1,393 @@
+/* Main canvas container - Isolate transformations */
+.workflow-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #0a0e27;
+  overflow: hidden;
+  /* Create new stacking context and contain transformations */
+  isolation: isolate;
+  contain: layout style;
+}
+
+/* Blockly workspace fills the canvas */
+.workflow-canvas__blockly {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Ensure transforms only affect this element and its children */
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Zoom and control buttons - ISOLATED from Blockly zoom */
+.workflow-canvas__controls {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(15, 22, 41, 0.98);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.875rem;
+  padding: 0.625rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 1000; /* High z-index to stay above Blockly */
+  /* Prevent any transforms from parent affecting this */
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+.workflow-canvas__controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.workflow-canvas__controls button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.workflow-canvas__controls button:active {
+  transform: translateY(0);
+}
+
+.workflow-canvas__clear {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  color: #ef4444 !important;
+}
+
+.workflow-canvas__clear:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+.workflow-canvas__divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================
+   BLOCKLY TOOLBOX - BEAUTIFUL DARK THEME
+   ======================================== */
+
+/* Main toolbox container - ISOLATED from workspace zoom */
+.blocklyToolboxDiv {
+  background: linear-gradient(180deg, #0f1629 0%, #0d1421 100%) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+  padding: 1rem 0.5rem !important;
+  /* Prevent workspace zoom from affecting toolbox */
+  transform: none !important;
+  position: absolute !important;
+  z-index: 500 !important;
+}
+
+/* Category items */
+.blocklyTreeRow {
+  padding: 0.875rem 1.25rem !important;
+  border-radius: 0.5rem !important;
+  margin: 0.375rem 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 1px solid transparent !important;
+  min-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.blocklyTreeRow:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  transform: translateX(4px) !important;
+}
+
+.blocklyTreeRow.blocklyTreeSelected {
+  background: rgba(96, 165, 250, 0.15) !important;
+  border-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+/* Category labels */
+.blocklyTreeLabel {
+  color: #e5e7eb !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Category icons/colors */
+.blocklyTreeIcon {
+  width: 24px !important;
+  height: 24px !important;
+  margin-right: 0.75rem !important;
+  border-radius: 0.375rem !important;
+}
+
+/* Flyout (where blocks appear when category is clicked) */
+.blocklyFlyout {
+  background: rgba(20, 27, 46, 0.98) !important;
+  backdrop-filter: blur(8px) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.blocklyFlyoutBackground {
+  fill: rgba(20, 27, 46, 0.95) !important;
+  fill-opacity: 1 !important;
+}
+
+/* Flyout scrollbar */
+.blocklyFlyoutScrollbar {
+  z-index: 10 !important;
+}
+
+/* Category separator */
+.blocklyTreeSeparator {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin: 0.75rem 0.5rem !important;
+}
+
+/* ========================================
+   BLOCKLY WORKSPACE SCROLLBARS - FIXED
+   ======================================== */
+
+/* Vertical scrollbar */
+.blocklyScrollbarVertical {
+  width: 12px !important;
+  z-index: 100 !important;
+}
+
+/* Horizontal scrollbar */
+.blocklyScrollbarHorizontal {
+  height: 12px !important;
+  z-index: 100 !important;
+}
+
+/* Scrollbar background */
+.blocklyScrollbarBackground {
+  fill: rgba(15, 22, 41, 0.8) !important;
+  fill-opacity: 1 !important;
+  stroke: none !important;
+  rx: 6 !important;
+  ry: 6 !important;
+}
+
+/* Scrollbar handle */
+.blocklyScrollbarHandle {
+  fill: rgba(75, 85, 99, 0.9) !important;
+  fill-opacity: 1 !important;
+  stroke: rgba(255, 255, 255, 0.1) !important;
+  stroke-width: 1 !important;
+  rx: 6 !important;
+  ry: 6 !important;
+  transition: fill 0.2s ease;
+}
+
+.blocklyScrollbarHandle:hover {
+  fill: rgba(96, 165, 250, 0.9) !important;
+  stroke: rgba(96, 165, 250, 0.3) !important;
+}
+
+/* Scrollbar corner where vertical and horizontal meet */
+.blocklyScrollbarCorner {
+  fill: rgba(15, 22, 41, 0.8) !important;
+}
+
+/* Make scrollbars more visible */
+.blocklyMainBackground {
+  stroke: #1e293b !important;
+  stroke-width: 1 !important;
+}
+
+/* ========================================
+   BLOCKLY BLOCKS APPEARANCE
+   ======================================== */
+
+/* Add subtle shadow to blocks */
+.blocklyBlockCanvas .blocklyDraggable {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+
+/* Block being dragged */
+.blocklyDragging {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5)) !important;
+  opacity: 0.9 !important;
+}
+
+/* Smooth block movements */
+.blocklyBlockCanvas .blocklyDraggable {
+  transition: filter 0.15s ease-out;
+}
+
+/* Block fields (text inputs, dropdowns) */
+.blocklyEditableText > rect {
+  fill: rgba(255, 255, 255, 0.15) !important;
+  stroke: rgba(255, 255, 255, 0.2) !important;
+  rx: 4 !important;
+  ry: 4 !important;
+}
+
+.blocklyEditableText > text {
+  fill: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 13px !important;
+}
+
+/* Dropdown arrows */
+.blocklyDropDownDiv {
+  background: #1a1f3a !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  z-index: 2000 !important;
+}
+
+/* Connection indicators */
+.blocklyInsertionMarker {
+  opacity: 0.4 !important;
+}
+
+/* Trash/delete area */
+.blocklyTrash {
+  opacity: 0.7 !important;
+}
+
+.blocklyTrash:hover {
+  opacity: 1 !important;
+}
+
+/* ========================================
+   CUSTOM CATEGORY STYLING BY COLOR
+   ======================================== */
+
+/* Control - Orange */
+.blocklyTreeRow[data-id*="control"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8a65 100%) !important;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3) !important;
+}
+
+/* Input - Blue */
+.blocklyTreeRow[data-id*="input"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #4a90e2 0%, #64b5f6 100%) !important;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3) !important;
+}
+
+/* Gmail - Red */
+.blocklyTreeRow[data-id*="gmail"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #ea4335 0%, #ef5350 100%) !important;
+  box-shadow: 0 2px 8px rgba(234, 67, 53, 0.3) !important;
+}
+
+/* AI - Purple */
+.blocklyTreeRow[data-id*="ai"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Data - Green */
+.blocklyTreeRow[data-id*="data"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Output - Cyan */
+.blocklyTreeRow[data-id*="output"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%) !important;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3) !important;
+}
+
+/* Utility - Gray */
+.blocklyTreeRow[data-id*="utility"] .blocklyTreeIcon {
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3) !important;
+}
+
+/* ========================================
+   LIGHT MODE SUPPORT
+   ======================================== */
+
+[data-theme="light"] .workflow-canvas {
+  background: #f0f4f8;
+}
+
+[data-theme="light"] .blocklyToolboxDiv {
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%) !important;
+  border-right-color: #e5e7eb !important;
+}
+
+[data-theme="light"] .blocklyTreeRow {
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] .blocklyTreeLabel {
+  color: #374151 !important;
+}
+
+[data-theme="light"] .blocklyTreeRow:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .blocklyFlyout {
+  background: rgba(249, 250, 251, 0.98) !important;
+}
+
+[data-theme="light"] .blocklyFlyoutBackground {
+  fill: rgba(249, 250, 251, 0.95) !important;
+}
+
+[data-theme="light"] .workflow-canvas__controls {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #e5e7eb;
+}
+
+[data-theme="light"] .workflow-canvas__controls button {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+[data-theme="light"] .workflow-canvas__controls button:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: #9ca3af;
+  color: #1f2937;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .blocklyToolboxDiv {
+    width: 200px !important;
+  }
+
+  .workflow-canvas__controls {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.5rem;
+  }
+
+  .workflow-canvas__controls button {
+    width: 36px;
+    height: 36px;
+  }
+}
