@@ -1,13 +1,16 @@
-/* Main canvas container - Isolate transformations */
+/* ========================================
+   SCRATCH-STYLE WORKSPACE CANVAS
+   ======================================== */
+
+/* Main canvas container */
 .workflow-canvas {
   width: 100%;
   height: 100%;
   position: relative;
-  background: #0a0e27;
+  background: var(--canvas-bg, #F9F9F9);
   overflow: hidden;
-  /* Create new stacking context and contain transformations */
   isolation: isolate;
-  contain: layout style;
+  touch-action: pan-x pan-y;
 }
 
 /* Blockly workspace fills the canvas */
@@ -17,50 +20,46 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* Ensure transforms only affect this element and its children */
-  transform-origin: center center;
-  will-change: transform;
 }
 
-/* Zoom and control buttons - ISOLATED from Blockly zoom */
+/* ========================================
+   ZOOM CONTROLS — Bottom-right floating
+   ======================================== */
+
 .workflow-canvas__controls {
-  position: absolute;
+  position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(15, 22, 41, 0.98);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0.875rem;
-  padding: 0.625rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  z-index: 1000; /* High z-index to stay above Blockly */
-  /* Prevent any transforms from parent affecting this */
-  transform: translateZ(0);
-  will-change: auto;
+  gap: 0.375rem;
+  background: var(--color-surface, #FFFFFF);
+  border: 2px solid var(--color-border, #DCDCDC);
+  border-radius: var(--radius-xl, 1.5rem);
+  padding: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  pointer-events: auto;
 }
 
 .workflow-canvas__controls button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0.5rem;
-  color: #e5e7eb;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md, 0.625rem);
+  color: var(--color-text-secondary, #575757);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
 }
 
 .workflow-canvas__controls button:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: var(--color-bg-secondary, #E8E8E8);
+  color: var(--color-text, #2E2E2E);
+  transform: translateY(-1px);
 }
 
 .workflow-canvas__controls button:active {
@@ -68,122 +67,107 @@
 }
 
 .workflow-canvas__clear {
-  background: rgba(239, 68, 68, 0.12) !important;
-  border-color: rgba(239, 68, 68, 0.3) !important;
-  color: #ef4444 !important;
+  color: #E05050 !important;
 }
 
 .workflow-canvas__clear:hover {
-  background: rgba(239, 68, 68, 0.2) !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
+  background: rgba(224, 80, 80, 0.1) !important;
+  color: #D03030 !important;
 }
 
 .workflow-canvas__divider {
   width: 1px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.15);
+  height: 24px;
+  background: var(--color-border, #DCDCDC);
+  margin: 0 0.125rem;
 }
 
 /* ========================================
-   BLOCKLY TOOLBOX - BEAUTIFUL DARK THEME
+   BLOCKLY TOOLBOX — Scratch-style sidebar
+   NEVER affected by workspace zoom
    ======================================== */
 
-/* Main toolbox container - ISOLATED from workspace zoom */
 .blocklyToolboxDiv {
-  background: linear-gradient(180deg, #0f1629 0%, #0d1421 100%) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
-  padding: 1rem 0.5rem !important;
-  /* Prevent workspace zoom from affecting toolbox */
-  transform: none !important;
+  background: var(--color-surface, #FFFFFF) !important;
+  border-right: 2px solid var(--color-border, #DCDCDC) !important;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06) !important;
+  padding: 0.75rem 0.375rem !important;
   position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
   z-index: 500 !important;
+  transform: none !important;
+  zoom: 1 !important;
 }
 
-/* Category items */
+/* Category rows */
 .blocklyTreeRow {
-  padding: 0.875rem 1.25rem !important;
-  border-radius: 0.5rem !important;
-  margin: 0.375rem 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: var(--radius-lg, 1rem) !important;
+  margin: 0.25rem 0.375rem !important;
   cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: 1px solid transparent !important;
-  min-height: 48px !important;
+  transition: all 0.15s ease !important;
+  border: 2px solid transparent !important;
+  min-height: 44px !important;
   display: flex !important;
   align-items: center !important;
 }
 
 .blocklyTreeRow:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  transform: translateX(4px) !important;
+  background: var(--color-bg-secondary, #E8E8E8) !important;
+  border-color: transparent !important;
+  transform: translateX(2px) !important;
 }
 
 .blocklyTreeRow.blocklyTreeSelected {
-  background: rgba(96, 165, 250, 0.15) !important;
-  border-color: rgba(96, 165, 250, 0.3) !important;
+  background: rgba(76, 151, 255, 0.12) !important;
+  border-color: rgba(76, 151, 255, 0.3) !important;
 }
 
 /* Category labels */
 .blocklyTreeLabel {
-  color: #e5e7eb !important;
-  font-size: 0.9375rem !important;
-  font-weight: 500 !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", sans-serif !important;
+  color: var(--color-text, #2E2E2E) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
   letter-spacing: 0.01em !important;
 }
 
-/* Category icons/colors */
+/* Category color swatches */
 .blocklyTreeIcon {
-  width: 24px !important;
-  height: 24px !important;
-  margin-right: 0.75rem !important;
-  border-radius: 0.375rem !important;
+  width: 22px !important;
+  height: 22px !important;
+  margin-right: 0.625rem !important;
+  border-radius: var(--radius-sm, 0.375rem) !important;
 }
 
-/* Flyout (where blocks appear when category is clicked) */
+/* Flyout (blocks panel when category is clicked) */
 .blocklyFlyout {
-  background: rgba(20, 27, 46, 0.98) !important;
-  backdrop-filter: blur(8px) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: var(--color-bg, #F0F0F0) !important;
 }
 
 .blocklyFlyoutBackground {
-  fill: rgba(20, 27, 46, 0.95) !important;
-  fill-opacity: 1 !important;
+  fill: var(--color-bg, #F0F0F0) !important;
+  fill-opacity: 0.98 !important;
 }
 
-/* Flyout scrollbar */
 .blocklyFlyoutScrollbar {
   z-index: 10 !important;
 }
 
 /* Category separator */
 .blocklyTreeSeparator {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin: 0.75rem 0.5rem !important;
+  border-bottom: 1px solid var(--color-border, #DCDCDC) !important;
+  margin: 0.5rem 0.375rem !important;
 }
 
 /* ========================================
-   BLOCKLY WORKSPACE SCROLLBARS - FIXED
+   BLOCKLY SCROLLBARS
    ======================================== */
-
-/* Vertical scrollbar */
-.blocklyScrollbarVertical {
-  width: 12px !important;
-  z-index: 100 !important;
-}
-
-/* Horizontal scrollbar */
-.blocklyScrollbarHorizontal {
-  height: 12px !important;
-  z-index: 100 !important;
-}
 
 /* Scrollbar background */
 .blocklyScrollbarBackground {
-  fill: rgba(15, 22, 41, 0.8) !important;
+  fill: rgba(220, 220, 220, 0.5) !important;
   fill-opacity: 1 !important;
   stroke: none !important;
   rx: 6 !important;
@@ -192,71 +176,69 @@
 
 /* Scrollbar handle */
 .blocklyScrollbarHandle {
-  fill: rgba(75, 85, 99, 0.9) !important;
+  fill: rgba(140, 140, 140, 0.7) !important;
   fill-opacity: 1 !important;
-  stroke: rgba(255, 255, 255, 0.1) !important;
-  stroke-width: 1 !important;
+  stroke: none !important;
   rx: 6 !important;
   ry: 6 !important;
-  transition: fill 0.2s ease;
+  cursor: pointer !important;
 }
 
 .blocklyScrollbarHandle:hover {
-  fill: rgba(96, 165, 250, 0.9) !important;
-  stroke: rgba(96, 165, 250, 0.3) !important;
+  fill: rgba(76, 151, 255, 0.7) !important;
 }
 
-/* Scrollbar corner where vertical and horizontal meet */
 .blocklyScrollbarCorner {
-  fill: rgba(15, 22, 41, 0.8) !important;
+  fill: transparent !important;
 }
 
-/* Make scrollbars more visible */
+/* Workspace main background */
 .blocklyMainBackground {
-  stroke: #1e293b !important;
-  stroke-width: 1 !important;
+  stroke: var(--color-border, #DCDCDC) !important;
+  stroke-width: 0 !important;
 }
 
 /* ========================================
-   BLOCKLY BLOCKS APPEARANCE
+   BLOCKLY BLOCKS — Scratch-style appearance
    ======================================== */
 
-/* Add subtle shadow to blocks */
+/* Block shadows */
 .blocklyBlockCanvas .blocklyDraggable {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
-/* Block being dragged */
+/* Block being dragged — lift effect */
 .blocklyDragging {
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5)) !important;
-  opacity: 0.9 !important;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25)) !important;
+  opacity: 0.95 !important;
 }
 
-/* Smooth block movements */
+/* Smooth transitions */
 .blocklyBlockCanvas .blocklyDraggable {
   transition: filter 0.15s ease-out;
 }
 
-/* Block fields (text inputs, dropdowns) */
+/* Block text fields */
 .blocklyEditableText > rect {
-  fill: rgba(255, 255, 255, 0.15) !important;
-  stroke: rgba(255, 255, 255, 0.2) !important;
-  rx: 4 !important;
-  ry: 4 !important;
+  fill: rgba(255, 255, 255, 0.25) !important;
+  stroke: rgba(255, 255, 255, 0.3) !important;
+  rx: 8 !important;
+  ry: 8 !important;
 }
 
 .blocklyEditableText > text {
-  fill: #ffffff !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  fill: #FFFFFF !important;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 13px !important;
+  font-weight: 600 !important;
 }
 
-/* Dropdown arrows */
+/* Dropdown menus */
 .blocklyDropDownDiv {
-  background: #1a1f3a !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 0.5rem !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  background: var(--color-surface, #FFFFFF) !important;
+  border: 2px solid var(--color-border, #DCDCDC) !important;
+  border-radius: var(--radius-lg, 1rem) !important;
+  box-shadow: var(--shadow-lg) !important;
   z-index: 2000 !important;
 }
 
@@ -265,129 +247,135 @@
   opacity: 0.4 !important;
 }
 
-/* Trash/delete area */
-.blocklyTrash {
-  opacity: 0.7 !important;
-}
-
-.blocklyTrash:hover {
-  opacity: 1 !important;
-}
-
 /* ========================================
-   CUSTOM CATEGORY STYLING BY COLOR
+   SCRATCH-STYLE CATEGORY ICON GRADIENTS
    ======================================== */
 
 /* Control - Orange */
 .blocklyTreeRow[data-id*="control"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #ff6b35 0%, #ff8a65 100%) !important;
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3) !important;
+  background: linear-gradient(135deg, #FFAB19 0%, #FFC14D 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 171, 25, 0.3) !important;
 }
 
-/* Input - Blue */
+/* Input - Cyan */
 .blocklyTreeRow[data-id*="input"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #4a90e2 0%, #64b5f6 100%) !important;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3) !important;
+  background: linear-gradient(135deg, #5CB1D6 0%, #7EC8E8 100%) !important;
+  box-shadow: 0 2px 6px rgba(92, 177, 214, 0.3) !important;
 }
 
-/* Gmail - Red */
+/* Gmail - Gold */
 .blocklyTreeRow[data-id*="gmail"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #ea4335 0%, #ef5350 100%) !important;
-  box-shadow: 0 2px 8px rgba(234, 67, 53, 0.3) !important;
+  background: linear-gradient(135deg, #FFBF00 0%, #FFD54F 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 191, 0, 0.3) !important;
 }
 
 /* AI - Purple */
 .blocklyTreeRow[data-id*="ai"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3) !important;
+  background: linear-gradient(135deg, #9966FF 0%, #B38AFF 100%) !important;
+  box-shadow: 0 2px 6px rgba(153, 102, 255, 0.3) !important;
 }
 
 /* Data - Green */
 .blocklyTreeRow[data-id*="data"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
+  background: linear-gradient(135deg, #59C059 0%, #79D479 100%) !important;
+  box-shadow: 0 2px 6px rgba(89, 192, 89, 0.3) !important;
 }
 
-/* Output - Cyan */
+/* Output - Blue */
 .blocklyTreeRow[data-id*="output"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%) !important;
-  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3) !important;
+  background: linear-gradient(135deg, #4C97FF 0%, #70B0FF 100%) !important;
+  box-shadow: 0 2px 6px rgba(76, 151, 255, 0.3) !important;
 }
 
-/* Utility - Gray */
+/* Utility - Coral */
 .blocklyTreeRow[data-id*="utility"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
-  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3) !important;
+  background: linear-gradient(135deg, #FF6680 0%, #FF8DA0 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 102, 128, 0.3) !important;
 }
 
 /* ========================================
-   LIGHT MODE SUPPORT
+   DARK MODE (workspace switches theme)
    ======================================== */
 
-[data-theme="light"] .workflow-canvas {
-  background: #f0f4f8;
+[data-theme="dark"] .workflow-canvas {
+  background: var(--canvas-bg-dark, #1E1E2E);
 }
 
-[data-theme="light"] .blocklyToolboxDiv {
-  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%) !important;
-  border-right-color: #e5e7eb !important;
+[data-theme="dark"] .blocklyToolboxDiv {
+  background: var(--color-dark-surface, #2A2A3D) !important;
+  border-right-color: var(--color-dark-border, #3A3A52) !important;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2) !important;
 }
 
-[data-theme="light"] .blocklyTreeRow {
-  color: #1f2937 !important;
+[data-theme="dark"] .blocklyTreeRow:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
-[data-theme="light"] .blocklyTreeLabel {
-  color: #374151 !important;
+[data-theme="dark"] .blocklyTreeRow.blocklyTreeSelected {
+  background: rgba(76, 151, 255, 0.15) !important;
+  border-color: rgba(76, 151, 255, 0.25) !important;
 }
 
-[data-theme="light"] .blocklyTreeRow:hover {
-  background: rgba(0, 0, 0, 0.05) !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
+[data-theme="dark"] .blocklyTreeLabel {
+  color: var(--color-dark-text, #E8E8F0) !important;
 }
 
-[data-theme="light"] .blocklyFlyout {
-  background: rgba(249, 250, 251, 0.98) !important;
+[data-theme="dark"] .blocklyFlyout {
+  background: var(--color-dark-bg-secondary, #252536) !important;
 }
 
-[data-theme="light"] .blocklyFlyoutBackground {
-  fill: rgba(249, 250, 251, 0.95) !important;
+[data-theme="dark"] .blocklyFlyoutBackground {
+  fill: var(--color-dark-bg-secondary, #252536) !important;
 }
 
-[data-theme="light"] .workflow-canvas__controls {
-  background: rgba(255, 255, 255, 0.98);
-  border-color: #e5e7eb;
+[data-theme="dark"] .workflow-canvas__controls {
+  background: var(--color-dark-surface, #2A2A3D);
+  border-color: var(--color-dark-border, #3A3A52);
 }
 
-[data-theme="light"] .workflow-canvas__controls button {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: #d1d5db;
-  color: #374151;
+[data-theme="dark"] .workflow-canvas__controls button {
+  color: var(--color-dark-text-secondary, #A8A8C0);
 }
 
-[data-theme="light"] .workflow-canvas__controls button:hover {
-  background: rgba(0, 0, 0, 0.08);
-  border-color: #9ca3af;
-  color: #1f2937;
+[data-theme="dark"] .workflow-canvas__controls button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-dark-text, #E8E8F0);
+}
+
+[data-theme="dark"] .blocklyMainBackground {
+  fill: var(--canvas-bg-dark, #1E1E2E) !important;
+}
+
+[data-theme="dark"] .blocklyScrollbarBackground {
+  fill: rgba(58, 58, 82, 0.5) !important;
+}
+
+[data-theme="dark"] .blocklyScrollbarHandle {
+  fill: rgba(168, 168, 192, 0.4) !important;
+}
+
+[data-theme="dark"] .blocklyDropDownDiv {
+  background: var(--color-dark-surface, #2A2A3D) !important;
+  border-color: var(--color-dark-border, #3A3A52) !important;
 }
 
 /* ========================================
-   RESPONSIVE ADJUSTMENTS
+   RESPONSIVE
    ======================================== */
 
 @media (max-width: 768px) {
   .blocklyToolboxDiv {
-    width: 200px !important;
+    width: 180px !important;
   }
 
   .workflow-canvas__controls {
     bottom: 1rem;
     right: 1rem;
-    padding: 0.5rem;
+    padding: 0.375rem;
   }
 
   .workflow-canvas__controls button {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 }

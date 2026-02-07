@@ -17,7 +17,8 @@
 
 .navigation--builder {
   position: relative;
-  border-bottom-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: var(--color-builder-border, rgba(255, 255, 255, 0.1));
+  background-color: var(--color-builder-toolbar-bg, #252536);
 }
 
 .navigation__container {
@@ -34,11 +35,11 @@
 }
 
 .navigation__logo-text {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 800;
   color: var(--color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   transition: color var(--transition-fast);
 }
 
@@ -53,7 +54,7 @@
 }
 
 .navigation__link {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-secondary);
@@ -125,7 +126,7 @@
 }
 
 .navigation__mobile-link {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-secondary);

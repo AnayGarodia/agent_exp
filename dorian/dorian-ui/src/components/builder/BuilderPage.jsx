@@ -9,10 +9,13 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   CheckCircle,
+  Sun,
+  Moon,
 } from "lucide-react";
 import Navigation from "../layout/Navigation";
 import WorkflowCanvas from "./WorkflowCanvas";
 import PropertiesPanel from "./PropertiesPanel";
+import GmailPrompt from "./GmailPrompt"; // NEW: Import Gmail prompt modal
 import useBuilderStore from "../../store/builderStore";
 import "./BuilderPage.css";
 
@@ -23,6 +26,7 @@ const BuilderPage = () => {
   const [isToolboxOpen, setIsToolboxOpen] = useState(true);
   const [showGmailBadge, setShowGmailBadge] = useState(false);
   const [prevGmailConnected, setPrevGmailConnected] = useState(false);
+  const [theme, setTheme] = useState("dark");
 
   const {
     isRunning,
@@ -36,12 +40,31 @@ const BuilderPage = () => {
     handleShowCode,
     gmailConnected,
     checkGmailStatus,
+    setShowGmailPrompt,
     outputClass,
   } = useBuilderStore();
 
   useEffect(() => {
     checkGmailStatus();
   }, [checkGmailStatus]);
+
+  // When OAuth popup sends success, refresh status and close prompt immediately
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (event.data?.type === "gmail-auth-success") {
+        checkGmailStatus().then(() => {
+          setShowGmailPrompt(false);
+        });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [checkGmailStatus, setShowGmailPrompt]);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   // Show Gmail badge for 3 seconds when connection changes
   useEffect(() => {
@@ -75,6 +98,10 @@ const BuilderPage = () => {
 
   const toggleToolbox = () => {
     setIsToolboxOpen(!isToolboxOpen);
+  };
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   return (
@@ -129,6 +156,16 @@ const BuilderPage = () => {
           </div>
 
           <div className="builder-toolbar__right">
+            {/* Theme Toggle */}
+            <button
+              className="builder-toolbar__button"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              <span>{theme === "dark" ? "Light" : "Dark"}</span>
+            </button>
+
             <button
               className="builder-toolbar__button"
               onClick={handleSaveWorkflow}
@@ -286,6 +323,9 @@ const BuilderPage = () => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* NEW: Gmail Connection Prompt Modal */}
+          <GmailPrompt />
         </div>
       </div>
     </div>

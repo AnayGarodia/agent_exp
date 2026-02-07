@@ -7,61 +7,47 @@ import "./WorkflowCanvas.css";
 import TOOLBOX from "../../config/toolbox";
 import "../../config/customBlocks";
 
-// Enhanced dark theme with better colors
+// Scratch-inspired theme
 const dorianTheme = Blockly.Theme.defineTheme("dorian", {
   base: Blockly.Themes.Classic,
   componentStyles: {
-    workspaceBackgroundColour: "#0A0E27",
-    toolboxBackgroundColour: "#0F1629",
-    toolboxForegroundColour: "#E5E7EB",
-    flyoutBackgroundColour: "#141B2E",
-    flyoutForegroundColour: "#E5E7EB",
-    flyoutOpacity: 0.95,
-    scrollbarColour: "#4B5563",
-    scrollbarOpacity: 0.5,
-    insertionMarkerColour: "#60A5FA",
-    insertionMarkerOpacity: 0.3,
-    cursorColour: "#60A5FA",
+    workspaceBackgroundColour: "#F9F9F9",
+    toolboxBackgroundColour: "#FFFFFF",
+    toolboxForegroundColour: "#2E2E2E",
+    flyoutBackgroundColour: "#F0F0F0",
+    flyoutForegroundColour: "#2E2E2E",
+    flyoutOpacity: 0.98,
+    scrollbarColour: "#C0C0C0",
+    scrollbarOpacity: 0.6,
+    insertionMarkerColour: "#4C97FF",
+    insertionMarkerOpacity: 0.4,
+    cursorColour: "#4C97FF",
   },
   blockStyles: {
     logic_blocks: {
-      colourPrimary: "#FF6B35",
-      colourSecondary: "#FF8A65",
-      colourTertiary: "#D84315",
+      colourPrimary: "#FFAB19",
+      colourSecondary: "#FFC14D",
+      colourTertiary: "#CF8B00",
     },
     loop_blocks: {
-      colourPrimary: "#4A90E2",
-      colourSecondary: "#64B5F6",
-      colourTertiary: "#1976D2",
+      colourPrimary: "#FFAB19",
+      colourSecondary: "#FFC14D",
+      colourTertiary: "#CF8B00",
     },
     math_blocks: {
-      colourPrimary: "#10B981",
-      colourSecondary: "#34D399",
-      colourTertiary: "#059669",
+      colourPrimary: "#59C059",
+      colourSecondary: "#79D479",
+      colourTertiary: "#389438",
     },
   },
   categoryStyles: {
-    control_category: {
-      colour: "#FF6B35",
-    },
-    input_category: {
-      colour: "#4A90E2",
-    },
-    gmail_category: {
-      colour: "#EA4335",
-    },
-    ai_category: {
-      colour: "#8B5CF6",
-    },
-    data_category: {
-      colour: "#10B981",
-    },
-    output_category: {
-      colour: "#06B6D4",
-    },
-    utility_category: {
-      colour: "#6B7280",
-    },
+    control_category: { colour: "#FFAB19" },
+    input_category: { colour: "#5CB1D6" },
+    gmail_category: { colour: "#FFBF00" },
+    ai_category: { colour: "#9966FF" },
+    data_category: { colour: "#59C059" },
+    output_category: { colour: "#4C97FF" },
+    utility_category: { colour: "#FF6680" },
   },
 });
 
@@ -72,18 +58,20 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
   useEffect(() => {
     if (!blocklyDivRef.current || workspaceRef?.current) return;
 
+    console.log("[WorkflowCanvas] Initializing Blockly workspace...");
+
     // Initialize Blockly with improved settings
     const workspace = Blockly.inject(blocklyDivRef.current, {
       toolbox: TOOLBOX,
       theme: dorianTheme,
       grid: {
-        spacing: 25,
-        length: 3,
-        colour: "#1E293B",
+        spacing: 40,
+        length: 2,
+        colour: "#E0E0E0",
         snap: true,
       },
       zoom: {
-        controls: false,
+        controls: false, // We use custom controls
         wheel: true,
         startScale: 1.0,
         maxScale: 2.5,
@@ -100,8 +88,10 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
         drag: true,
         wheel: true,
       },
-      renderer: "zelos",
+      renderer: "zelos", // Modern block renderer
     });
+
+    console.log("[WorkflowCanvas] Blockly workspace initialized");
 
     workspaceInstanceRef.current = workspace;
     if (workspaceRef) {
@@ -114,21 +104,19 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
     startBlock.render();
     startBlock.moveBy(150, 100);
 
-    // Prevent browser zoom - only zoom canvas
+    console.log("[WorkflowCanvas] Initial start block added");
+
+    // Prevent browser zoom (Ctrl/Cmd+wheel) on the entire page so only Blockly zooms
     const preventBrowserZoom = (e) => {
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
       }
     };
-
-    blocklyDivRef.current.addEventListener("wheel", preventBrowserZoom, {
-      passive: false,
-    });
+    document.addEventListener("wheel", preventBrowserZoom, { passive: false });
 
     return () => {
-      if (blocklyDivRef.current) {
-        blocklyDivRef.current.removeEventListener("wheel", preventBrowserZoom);
-      }
+      console.log("[WorkflowCanvas] Cleaning up workspace");
+      document.removeEventListener("wheel", preventBrowserZoom);
       if (workspaceRef?.current) {
         workspaceRef.current.dispose();
         workspaceRef.current = null;
@@ -151,19 +139,29 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
     }
   }, [isToolboxOpen]);
 
-  // FIXED: Swapped the zoom values as they were reported to be reversed
-  // In Blockly, smaller values zoom OUT, larger values zoom IN (counterintuitive but that's how it works)
+  // ZOOM FUNCTIONS - Use Blockly's zoomCenter so only the workspace zooms, not the page
   const handleZoomIn = () => {
-    workspaceRef?.current?.zoomCenter(1.25); // Zoom IN - make blocks appear larger
+    if (workspaceRef?.current && typeof workspaceRef.current.zoomCenter === "function") {
+      workspaceRef.current.zoomCenter(1);
+      workspaceRef.current.resize();
+    }
   };
 
   const handleZoomOut = () => {
-    workspaceRef?.current?.zoomCenter(0.75); // Zoom OUT - make blocks appear smaller
+    if (workspaceRef?.current && typeof workspaceRef.current.zoomCenter === "function") {
+      workspaceRef.current.zoomCenter(-1);
+      workspaceRef.current.resize();
+    }
   };
 
   const handleZoomReset = () => {
     if (workspaceRef?.current) {
-      workspaceRef.current.setScale(1.0);
+      if (typeof workspaceRef.current.zoomCenter === "function") {
+        const startScale = workspaceRef.current.options?.zoomOptions?.startScale ?? 1;
+        const scaleSpeed = workspaceRef.current.options?.zoomOptions?.scaleSpeed ?? 1.2;
+        const amount = Math.log(startScale / workspaceRef.current.scale) / Math.log(scaleSpeed);
+        workspaceRef.current.zoomCenter(amount);
+      }
       workspaceRef.current.scrollCenter();
     }
   };
@@ -173,6 +171,7 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
       workspaceRef?.current &&
       window.confirm("Clear all blocks? This cannot be undone.")
     ) {
+      console.log("[Clear] Clearing workspace");
       workspaceRef.current.clear();
       const startBlock = workspaceRef.current.newBlock("agent_start");
       startBlock.initSvg();
@@ -185,15 +184,15 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
     <div className="workflow-canvas">
       <div ref={blocklyDivRef} className="workflow-canvas__blockly" />
 
-      {/* Zoom Controls */}
+      {/* Zoom Controls - Fixed positioning */}
       <div className="workflow-canvas__controls">
-        <button onClick={handleZoomIn} title="Zoom in">
+        <button onClick={handleZoomIn} title="Zoom in (make blocks larger)">
           <ZoomIn size={18} />
         </button>
-        <button onClick={handleZoomReset} title="Reset zoom">
+        <button onClick={handleZoomReset} title="Reset zoom to 100%">
           <Maximize2 size={18} />
         </button>
-        <button onClick={handleZoomOut} title="Zoom out">
+        <button onClick={handleZoomOut} title="Zoom out (make blocks smaller)">
           <ZoomOut size={18} />
         </button>
         <div className="workflow-canvas__divider" />

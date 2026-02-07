@@ -17,7 +17,7 @@
 }
 
 .properties-panel__title {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -59,7 +59,7 @@
 }
 
 .properties-panel__section-title {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -85,12 +85,12 @@
 }
 
 .properties-panel__info-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   color: var(--color-text-tertiary);
 }
 
 .properties-panel__info-value {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   color: var(--color-text);
   font-weight: 600;
 }
@@ -108,7 +108,7 @@
 }
 
 .properties-panel__label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
 .properties-panel__input {
   width: 100%;
   padding: var(--space-md);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.875rem;
   color: var(--color-text);
   background-color: var(--color-bg);
@@ -140,8 +140,8 @@
 
 .properties-panel__input:focus {
   outline: none;
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(212, 116, 92, 0.1);
+  border-color: var(--color-accent, #4C97FF);
+  box-shadow: 0 0 0 3px rgba(76, 151, 255, 0.15);
 }
 
 .properties-panel__input::placeholder {
@@ -151,7 +151,7 @@
 .properties-panel__textarea {
   resize: vertical;
   min-height: 80px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   line-height: 1.5;
 }
 

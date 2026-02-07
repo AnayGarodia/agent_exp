@@ -2,9 +2,9 @@
   position: relative;
   padding: var(--space-2xl);
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-base);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl, 1.5rem);
+  transition: all 0.2s ease;
   overflow: hidden;
 }
 
@@ -36,10 +36,10 @@
   width: 48px;
   height: 48px;
   background-color: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
-  color: var(--color-accent);
+  border-radius: var(--radius-lg, 1rem);
+  color: var(--color-accent, #4C97FF);
   margin-bottom: var(--space-lg);
-  transition: all var(--transition-base);
+  transition: all 0.2s ease;
 }
 
 .feature-card:hover .feature-card__icon {
@@ -50,7 +50,7 @@
 
 .feature-card__title {
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: var(--space-md);
   color: var(--color-text);
 }

@@ -26,12 +26,13 @@
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-full);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--color-text-secondary);
   margin-bottom: var(--space-xl);
   box-shadow: var(--shadow-sm);
@@ -53,7 +54,7 @@
 
 .hero__title-accent {
   font-style: italic;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #E88B6F 100%);
+  background: linear-gradient(135deg, var(--block-motion, #4C97FF) 0%, var(--block-looks, #9966FF) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -90,19 +91,20 @@
 }
 
 .hero__stat-value {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-text);
   line-height: 1;
   margin-bottom: var(--space-xs);
 }
 
 .hero__stat-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--color-text-tertiary);
 }
 
@@ -210,9 +212,9 @@
 }
 
 .footer__logo {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-text);
   margin-bottom: var(--space-sm);
 }
@@ -228,10 +230,11 @@
 }
 
 .footer__link {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.875rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--color-text-secondary);
   transition: color var(--transition-base);
 }
@@ -244,8 +247,9 @@
   padding-top: var(--space-xl);
   border-top: 1px solid var(--color-border);
   text-align: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans, "Nunito", sans-serif);
   font-size: 0.75rem;
+  font-weight: 600;
   color: var(--color-text-tertiary);
 }
 

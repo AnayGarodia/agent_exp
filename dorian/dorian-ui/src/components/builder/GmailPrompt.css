@@ -1,0 +1,252 @@
+/* GmailPrompt.css — Scratch-style */
+
+.gmail-prompt-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+}
+
+.gmail-prompt-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* transform handled by framer-motion style prop: x="-50%", y="-50%" */
+  background: var(--color-surface, #FFFFFF);
+  border: 2px solid var(--color-border, #DCDCDC);
+  border-radius: var(--radius-xl, 1.5rem);
+  padding: 2rem;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.gmail-prompt-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-tertiary, #8C8C8C);
+  cursor: pointer;
+  padding: 0.375rem;
+  border-radius: var(--radius-md, 0.625rem);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gmail-prompt-close:hover {
+  background: var(--color-bg-secondary, #E8E8E8);
+  color: var(--color-text, #2E2E2E);
+}
+
+.gmail-prompt-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+/* Icon — Scratch gold/events color */
+.gmail-prompt-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--block-events, #FFBF00) 0%, #FFD54F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 191, 0, 0.3);
+}
+
+.gmail-prompt-title {
+  font-family: var(--font-sans, "Nunito", sans-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text, #2E2E2E);
+  margin: 0;
+}
+
+.gmail-prompt-description {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary, #575757);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 360px;
+}
+
+.gmail-prompt-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.gmail-prompt-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--color-bg, #F0F0F0);
+  border-radius: var(--radius-lg, 1rem);
+  text-align: left;
+}
+
+.gmail-prompt-feature svg {
+  flex-shrink: 0;
+  color: var(--block-events, #FFBF00);
+  margin-top: 0.125rem;
+}
+
+.gmail-prompt-feature > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.gmail-prompt-feature strong {
+  color: var(--color-text, #2E2E2E);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.gmail-prompt-feature span {
+  color: var(--color-text-secondary, #575757);
+  font-size: 0.8125rem;
+}
+
+.gmail-prompt-actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.gmail-prompt-button {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-lg, 1rem);
+  font-family: var(--font-sans, "Nunito", sans-serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+.gmail-prompt-button--secondary {
+  background: var(--color-bg-secondary, #E8E8E8);
+  color: var(--color-text-secondary, #575757);
+  border: 2px solid var(--color-border, #DCDCDC);
+}
+
+.gmail-prompt-button--secondary:hover {
+  background: var(--color-bg, #F0F0F0);
+  color: var(--color-text, #2E2E2E);
+}
+
+/* Primary button — Scratch blue */
+.gmail-prompt-button--primary {
+  background: var(--block-motion, #4C97FF);
+  color: white;
+  box-shadow: 0 3px 10px rgba(76, 151, 255, 0.3);
+}
+
+.gmail-prompt-button--primary:hover {
+  background: #3D89F0;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(76, 151, 255, 0.4);
+}
+
+.gmail-prompt-button--primary:active {
+  transform: translateY(0);
+}
+
+.gmail-prompt-footnote {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary, #8C8C8C);
+  margin: 0;
+}
+
+/* Dark mode */
+[data-theme="dark"] .gmail-prompt-modal {
+  background: var(--color-dark-surface, #2A2A3D);
+  border-color: var(--color-dark-border, #3A3A52);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .gmail-prompt-close {
+  color: var(--color-dark-text-tertiary, #6B6B85);
+}
+
+[data-theme="dark"] .gmail-prompt-close:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-dark-text, #E8E8F0);
+}
+
+[data-theme="dark"] .gmail-prompt-title {
+  color: var(--color-dark-text, #E8E8F0);
+}
+
+[data-theme="dark"] .gmail-prompt-description {
+  color: var(--color-dark-text-secondary, #A8A8C0);
+}
+
+[data-theme="dark"] .gmail-prompt-feature {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .gmail-prompt-feature strong {
+  color: var(--color-dark-text, #E8E8F0);
+}
+
+[data-theme="dark"] .gmail-prompt-feature span {
+  color: var(--color-dark-text-secondary, #A8A8C0);
+}
+
+[data-theme="dark"] .gmail-prompt-button--secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-dark-text-secondary, #A8A8C0);
+  border-color: var(--color-dark-border, #3A3A52);
+}
+
+[data-theme="dark"] .gmail-prompt-button--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-dark-text, #E8E8F0);
+}
+
+[data-theme="dark"] .gmail-prompt-footnote {
+  color: var(--color-dark-text-tertiary, #6B6B85);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .gmail-prompt-modal {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .gmail-prompt-title {
+    font-size: 1.25rem;
+  }
+
+  .gmail-prompt-actions {
+    flex-direction: column;
+  }
+
+  .gmail-prompt-button {
+    width: 100%;
+  }
+}

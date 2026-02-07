@@ -6,10 +6,26 @@ class GmailService {
    * List messages from Gmail
    */
   async listMessages(tokens, maxResults = 10, query = "") {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens) {
+      throw new Error("Gmail tokens are required but were not provided");
+    }
+
+    if (!tokens.access_token) {
+      console.error("❌ Invalid tokens object:", {
+        hasTokens: !!tokens,
+        hasAccessToken: !!tokens.access_token,
+        hasRefreshToken: !!tokens.refresh_token,
+        tokenKeys: Object.keys(tokens),
+      });
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
+      console.log(`📧 Listing messages: maxResults=${maxResults}, query="${query}"`);
+
       const response = await gmail.users.messages.list({
         userId: "me",
         maxResults,
@@ -17,6 +33,7 @@ class GmailService {
       });
 
       const messages = response.data.messages || [];
+      console.log(`✅ Found ${messages.length} messages`);
 
       if (messages.length === 0) {
         return [];
@@ -29,7 +46,28 @@ class GmailService {
 
       return detailedMessages;
     } catch (error) {
-      console.error("Error listing messages:", error);
+      console.error("❌ Error listing messages:", {
+        message: error.message,
+        code: error.code,
+        status: error.status,
+        errors: error.errors,
+      });
+
+      // Provide helpful error messages based on error type
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      } else if (error.code === 403) {
+        throw new Error(
+          "Gmail API access denied. Check your Google Cloud Console permissions and scopes."
+        );
+      } else if (error.message?.includes("invalid_client")) {
+        throw new Error(
+          "Invalid Gmail OAuth credentials. Check your GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET in .env"
+        );
+      }
+
       throw new Error(`Failed to list messages: ${error.message}`);
     }
   }
@@ -38,10 +76,14 @@ class GmailService {
    * Get a specific message by ID
    */
   async getMessage(tokens, messageId) {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens?.access_token) {
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
       const response = await gmail.users.messages.get({
         userId: "me",
         id: messageId,
@@ -62,7 +104,17 @@ class GmailService {
         body: this.getMessageBody(message.payload),
       };
     } catch (error) {
-      console.error(`Error getting message ${messageId}:`, error);
+      console.error(`❌ Error getting message ${messageId}:`, {
+        message: error.message,
+        code: error.code,
+      });
+
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      }
+
       throw new Error(`Failed to get message: ${error.message}`);
     }
   }
@@ -108,10 +160,16 @@ class GmailService {
    * Send a new email
    */
   async sendEmail(tokens, to, subject, body) {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens?.access_token) {
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
+      console.log(`📤 Sending email to: ${to}, subject: "${subject}"`);
+
       const email = [
         `To: ${to}`,
         `Subject: ${subject}`,
@@ -133,9 +191,24 @@ class GmailService {
         },
       });
 
+      console.log(`✅ Email sent successfully, ID: ${response.data.id}`);
       return response.data;
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("❌ Error sending email:", {
+        message: error.message,
+        code: error.code,
+      });
+
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      } else if (error.code === 403) {
+        throw new Error(
+          "Gmail send permission denied. Make sure 'gmail.send' scope is authorized."
+        );
+      }
+
       throw new Error(`Failed to send email: ${error.message}`);
     }
   }
@@ -144,16 +217,22 @@ class GmailService {
    * Reply to an email
    */
   async replyToEmail(tokens, messageId, threadId, body) {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens?.access_token) {
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
       // Get original message to extract subject and recipient
       const originalMessage = await this.getMessage(tokens, messageId);
 
       const replySubject = originalMessage.subject.startsWith("Re:")
         ? originalMessage.subject
         : `Re: ${originalMessage.subject}`;
+
+      console.log(`💬 Replying to: ${originalMessage.from}, subject: "${replySubject}"`);
 
       const email = [
         `To: ${originalMessage.from}`,
@@ -179,9 +258,20 @@ class GmailService {
         },
       });
 
+      console.log(`✅ Reply sent successfully, ID: ${response.data.id}`);
       return response.data;
     } catch (error) {
-      console.error("Error replying to email:", error);
+      console.error("❌ Error replying to email:", {
+        message: error.message,
+        code: error.code,
+      });
+
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      }
+
       throw new Error(`Failed to reply to email: ${error.message}`);
     }
   }
@@ -190,10 +280,16 @@ class GmailService {
    * Mark email as read
    */
   async markAsRead(tokens, messageId) {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens?.access_token) {
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
+      console.log(`✔ Marking email as read: ${messageId}`);
+
       await gmail.users.messages.modify({
         userId: "me",
         id: messageId,
@@ -201,8 +297,20 @@ class GmailService {
           removeLabelIds: ["UNREAD"],
         },
       });
+
+      console.log(`✅ Marked as read successfully`);
     } catch (error) {
-      console.error("Error marking as read:", error);
+      console.error("❌ Error marking as read:", {
+        message: error.message,
+        code: error.code,
+      });
+
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      }
+
       throw new Error(`Failed to mark as read: ${error.message}`);
     }
   }
@@ -211,10 +319,16 @@ class GmailService {
    * Archive email
    */
   async archiveEmail(tokens, messageId) {
-    const auth = setCredentials(tokens);
-    const gmail = google.gmail({ version: "v1", auth });
+    if (!tokens?.access_token) {
+      throw new Error("Invalid Gmail tokens: missing access_token");
+    }
 
     try {
+      const auth = setCredentials(tokens);
+      const gmail = google.gmail({ version: "v1", auth });
+
+      console.log(`📦 Archiving email: ${messageId}`);
+
       await gmail.users.messages.modify({
         userId: "me",
         id: messageId,
@@ -222,8 +336,20 @@ class GmailService {
           removeLabelIds: ["INBOX"],
         },
       });
+
+      console.log(`✅ Archived successfully`);
     } catch (error) {
-      console.error("Error archiving email:", error);
+      console.error("❌ Error archiving email:", {
+        message: error.message,
+        code: error.code,
+      });
+
+      if (error.code === 401 || error.message?.includes("invalid_grant")) {
+        throw new Error(
+          "Gmail authentication expired. Please reconnect your Gmail account."
+        );
+      }
+
       throw new Error(`Failed to archive email: ${error.message}`);
     }
   }

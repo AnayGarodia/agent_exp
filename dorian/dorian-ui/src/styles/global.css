@@ -1,49 +1,71 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap");
 
 :root {
-  /* Colors - Sophisticated earthy palette */
-  --color-bg: #f0f4f8;
-  --color-bg-secondary: #e1e8ed;
+  /* ========================================
+     SCRATCH-INSPIRED BLOCK CATEGORY COLOURS
+     ======================================== */
+  --block-motion: #4c97ff; /* Blue — movement/navigation */
+  --block-looks: #9966ff; /* Purple — display/output */
+  --block-sound: #cf63cf; /* Pink — audio/media */
+  --block-events: #ffbf00; /* Gold/Yellow — triggers/events */
+  --block-control: #ffab19; /* Orange — flow control */
+  --block-sensing: #5cb1d6; /* Cyan — input/sensing */
+  --block-operators: #59c059; /* Green — logic/math */
+  --block-variables: #ff6680; /* Coral/Red — data/variables */
+  --block-ai: #ff8c1a; /* Warm orange — AI/LLM actions */
+  --block-integration: #4ecdc4; /* Teal — API/service integrations */
+
+  /* ========================================
+     UI CHROME COLOURS (Light mode default)
+     ======================================== */
+  --color-bg: #f0f0f0;
+  --color-bg-secondary: #e8e8e8;
   --color-surface: #ffffff;
   --color-surface-rgb: 255, 255, 255;
-  --color-text: #1a2332;
-  --color-text-secondary: #4a5568;
-  --color-text-tertiary: #718096;
-  --color-accent: #ff6b6b;
-  --color-accent-hover: #ee5a52;
-  --color-accent-light: #ff8787;
-  --color-border: #cbd5e0;
+  --color-text: #2e2e2e;
+  --color-text-secondary: #575757;
+  --color-text-tertiary: #8c8c8c;
+  --color-accent: #4c97ff;
+  --color-accent-hover: #3d89f0;
+  --color-accent-light: #6aadff;
+  --color-border: #dcdcdc;
 
-  /* Dark mode colors */
-  --color-dark-bg: #0b1120;
-  --color-dark-bg-secondary: #151d2e;
-  --color-dark-surface: #1e2739;
-  --color-dark-surface-rgb: 30, 39, 57;
-  --color-dark-text: #e2e8f0;
-  --color-dark-text-secondary: #a0aec0;
-  --color-dark-text-tertiary: #4a5568;
-  --color-dark-accent: #ff7979;
-  --color-dark-accent-hover: #ff8f8f;
-  --color-dark-border: #2d3748;
+  /* Dark mode base colors */
+  --color-dark-bg: #1e1e2e;
+  --color-dark-bg-secondary: #252536;
+  --color-dark-surface: #2a2a3d;
+  --color-dark-surface-rgb: 42, 42, 61;
+  --color-dark-text: #e8e8f0;
+  --color-dark-text-secondary: #a8a8c0;
+  --color-dark-text-tertiary: #6b6b85;
+  --color-dark-accent: #5ca4ff;
+  --color-dark-accent-hover: #7bb8ff;
+  --color-dark-border: #3a3a52;
 
-  /* Builder-specific colors (Dark) */
-  --color-builder-bg: #0a0e27;
-  --color-builder-toolbar-bg: linear-gradient(180deg, #0f1629 0%, #0d1421 100%);
-  --color-builder-panel-bg: linear-gradient(180deg, #0f1629 0%, #0d1421 100%);
+  /* Builder-specific (defaults to dark) */
+  --color-builder-bg: #1e1e2e;
+  --color-builder-toolbar-bg: #252536;
+  --color-builder-panel-bg: #252536;
   --color-builder-border: rgba(255, 255, 255, 0.1);
   --color-builder-border-hover: rgba(255, 255, 255, 0.2);
-  --color-builder-button-bg: rgba(255, 255, 255, 0.05);
+  --color-builder-button-bg: rgba(255, 255, 255, 0.06);
   --color-builder-button-hover-bg: rgba(255, 255, 255, 0.12);
-  --color-builder-header-bg: rgba(255, 255, 255, 0.02);
-  --color-builder-text: #e5e7eb;
-  --color-builder-text-secondary: #9ca3af;
-  --color-builder-text-tertiary: #6b7280;
-  --color-builder-output-text: #d1d5db;
-  --color-builder-code-text: #d1d5db;
-  --color-builder-code-bg: #0a0e27;
-  --color-builder-item-hover-bg: rgba(255, 255, 255, 0.03);
+  --color-builder-header-bg: rgba(255, 255, 255, 0.03);
+  --color-builder-text: #e8e8f0;
+  --color-builder-text-secondary: #a8a8c0;
+  --color-builder-text-tertiary: #6b6b85;
+  --color-builder-output-text: #d0d0e0;
+  --color-builder-code-text: #d0d0e0;
+  --color-builder-code-bg: #1e1e2e;
+  --color-builder-item-hover-bg: rgba(255, 255, 255, 0.04);
 
-  /* Typography */
+  /* Canvas */
+  --canvas-bg: #f9f9f9;
+  --canvas-grid: #e8e8e8;
+  --canvas-bg-dark: #1e1e2e;
+  --canvas-grid-dark: #2d2d42;
+
+  /* Typography — Nunito for Scratch-like friendliness */
   --font-serif: "Newsreader", Georgia, serif;
   --font-mono: "Space Mono", "Courier New", monospace;
 
@@ -58,21 +80,18 @@
   --space-4xl: 6rem;
   --space-5xl: 8rem;
 
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
+  /* Border radius — rounder for Scratch feel */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05),
-    0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05),
-    0 4px 6px -4px rgb(0 0 0 / 0.05);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05),
-    0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.12);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -100,42 +119,25 @@
   --color-accent: var(--color-dark-accent);
   --color-accent-hover: var(--color-dark-accent-hover);
   --color-border: var(--color-dark-border);
-
-  /* Builder colors stay the same in dark mode (they're already dark) */
-  --color-builder-bg: #0a0e27;
-  --color-builder-toolbar-bg: linear-gradient(180deg, #0f1629 0%, #0d1421 100%);
-  --color-builder-panel-bg: linear-gradient(180deg, #0f1629 0%, #0d1421 100%);
-  --color-builder-border: rgba(255, 255, 255, 0.1);
-  --color-builder-border-hover: rgba(255, 255, 255, 0.2);
-  --color-builder-button-bg: rgba(255, 255, 255, 0.05);
-  --color-builder-button-hover-bg: rgba(255, 255, 255, 0.12);
-  --color-builder-header-bg: rgba(255, 255, 255, 0.02);
-  --color-builder-text: #e5e7eb;
-  --color-builder-text-secondary: #9ca3af;
-  --color-builder-text-tertiary: #6b7280;
-  --color-builder-output-text: #d1d5db;
-  --color-builder-code-text: #d1d5db;
-  --color-builder-code-bg: #0a0e27;
-  --color-builder-item-hover-bg: rgba(255, 255, 255, 0.03);
 }
 
 /* Light mode builder overrides */
 [data-theme="light"] {
-  --color-builder-bg: #f0f4f8;
-  --color-builder-toolbar-bg: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
-  --color-builder-panel-bg: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
-  --color-builder-border: #e5e7eb;
-  --color-builder-border-hover: #d1d5db;
+  --color-builder-bg: #f0f0f0;
+  --color-builder-toolbar-bg: #ffffff;
+  --color-builder-panel-bg: #ffffff;
+  --color-builder-border: #dcdcdc;
+  --color-builder-border-hover: #c0c0c0;
   --color-builder-button-bg: rgba(0, 0, 0, 0.04);
   --color-builder-button-hover-bg: rgba(0, 0, 0, 0.08);
   --color-builder-header-bg: rgba(0, 0, 0, 0.02);
-  --color-builder-text: #1f2937;
-  --color-builder-text-secondary: #6b7280;
-  --color-builder-text-tertiary: #9ca3af;
-  --color-builder-output-text: #374151;
-  --color-builder-code-text: #1f2937;
-  --color-builder-code-bg: #f9fafb;
-  --color-builder-item-hover-bg: rgba(0, 0, 0, 0.02);
+  --color-builder-text: #2e2e2e;
+  --color-builder-text-secondary: #6b6b6b;
+  --color-builder-text-tertiary: #9e9e9e;
+  --color-builder-output-text: #3a3a3a;
+  --color-builder-code-text: #2e2e2e;
+  --color-builder-code-bg: #f9f9f9;
+  --color-builder-item-hover-bg: rgba(0, 0, 0, 0.03);
 }
 
 /* Reset */
@@ -154,8 +156,14 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+html,
 body {
-  font-family: var(--font-serif);
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
@@ -164,15 +172,19 @@ body {
     color var(--transition-base);
 }
 
+#root {
+  height: 100%;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -197,13 +209,13 @@ svg {
   max-width: 100%;
 }
 
-/* Selection */
+/* Selection — Scratch blue */
 ::selection {
   background-color: var(--color-accent);
   color: white;
 }
 
-/* Scrollbar */
+/* Scrollbar — subtle */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
