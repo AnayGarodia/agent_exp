@@ -1,0 +1,233 @@
+/* Workflows Modal */
+.workflows-modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+}
+
+.workflows-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  background: var(--color-surface);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 60px rgba(106, 4, 29, 0.3), var(--shadow-xl);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workflows-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xl);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.workflows-modal__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.workflows-modal__title svg {
+  color: var(--primary);
+}
+
+.workflows-modal__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 var(--space-sm);
+  background: var(--primary);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+}
+
+.workflows-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.workflows-modal__close:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-text-tertiary);
+}
+
+.workflows-modal__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-xl);
+}
+
+.workflows-modal__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5xl) var(--space-xl);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.workflows-modal__empty svg {
+  margin-bottom: var(--space-lg);
+}
+
+.workflows-modal__empty p {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.workflows-modal__empty-hint {
+  margin-top: var(--space-sm) !important;
+  font-size: 0.9375rem !important;
+  color: var(--color-text-tertiary) !important;
+}
+
+.workflows-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.workflows-modal__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.workflows-modal__item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(106, 4, 29, 0.15);
+}
+
+.workflows-modal__item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.workflows-modal__item-name {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-xs) 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflows-modal__item-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+}
+
+.workflows-modal__item-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-left: var(--space-lg);
+}
+
+.workflows-modal__button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.workflows-modal__button--load {
+  background: var(--primary);
+  color: white;
+}
+
+.workflows-modal__button--load:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 2px 8px rgba(106, 4, 29, 0.3);
+  transform: translateY(-1px);
+}
+
+.workflows-modal__button--delete {
+  background: transparent;
+  color: #E05050;
+  border: 1px solid #E05050;
+  padding: var(--space-sm);
+}
+
+.workflows-modal__button--delete:hover {
+  background: rgba(224, 80, 80, 0.1);
+  border-color: #D03030;
+  color: #D03030;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .workflows-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .workflows-modal__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .workflows-modal__item-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .workflows-modal__button--load {
+    flex: 1;
+  }
+}

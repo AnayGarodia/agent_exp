@@ -1,5 +1,6 @@
 const Groq = require("groq-sdk");
 const { gmail } = require("./gmailService");
+const sheetsService = require("./sheetsService");
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -86,6 +87,20 @@ class WorkflowEngine {
           this.log(`📤 Sending email to ${to}...`, "email");
           const result = await gmail.sendEmail(googleTokens, to, subject, body);
           this.log(`✅ Email sent successfully`, "success");
+
+          // Log to Google Sheets
+          try {
+            await sheetsService.logAction(googleTokens, {
+              action: "Sent New Email",
+              summary: `Sent email to ${to} with subject: "${subject}"`,
+              response: body.substring(0, 200) + (body.length > 200 ? "..." : ""),
+              recipient: to
+            });
+            this.log(`📊 Action logged to Google Sheets`, "success");
+          } catch (error) {
+            this.log(`⚠️ Failed to log to Sheets: ${error.message}`, "warning");
+          }
+
           return result;
         },
 
@@ -105,6 +120,19 @@ class WorkflowEngine {
             body
           );
           this.log(`✅ Reply sent successfully`, "success");
+
+          // Log to Google Sheets
+          try {
+            await sheetsService.logAction(googleTokens, {
+              action: "Sent Reply",
+              summary: `Replied to email from ${email.from} (${email.subject})`,
+              response: body.substring(0, 200) + (body.length > 200 ? "..." : ""),
+              recipient: email.from
+            });
+            this.log(`📊 Reply logged to Google Sheets`, "success");
+          } catch (error) {
+            this.log(`⚠️ Failed to log to Sheets: ${error.message}`, "warning");
+          }
           return result;
         },
 

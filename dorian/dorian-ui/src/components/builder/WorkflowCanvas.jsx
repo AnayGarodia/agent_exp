@@ -81,14 +81,11 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
       trashcan: false, // We have our own clear button
       sounds: false,
       move: {
-        scrollbars: {
-          horizontal: true,
-          vertical: true,
-        },
+        scrollbars: false, // Disable all scrollbars
         drag: true,
         wheel: true,
       },
-      renderer: "zelos", // Modern block renderer
+      renderer: "geras", // More defined, less rounded blocks
     });
 
     console.log("[WorkflowCanvas] Blockly workspace initialized");

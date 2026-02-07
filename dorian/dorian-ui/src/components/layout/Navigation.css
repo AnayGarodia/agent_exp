@@ -35,16 +35,20 @@
 }
 
 .navigation__logo-text {
-  font-family: var(--font-sans, "Nunito", sans-serif);
+  font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 500;
   color: var(--color-text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   transition: color var(--transition-fast);
 }
 
+.navigation__logo-text {
+  color: var(--color-text);
+}
+
 .navigation__logo:hover .navigation__logo-text {
-  color: var(--color-accent);
+  color: var(--primary);
 }
 
 .navigation__menu {
@@ -54,21 +58,36 @@
 }
 
 .navigation__link {
-  font-family: var(--font-sans, "Nunito", sans-serif);
-  font-size: 0.875rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.005em;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   transition: all var(--transition-fast);
+  position: relative;
+}
+
+.navigation__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--space-md);
+  right: var(--space-md);
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary) 0%, #D4466E 100%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .navigation__link:hover {
   color: var(--color-text);
-  background-color: var(--color-bg-secondary);
+}
+
+.navigation__link:hover::after {
+  opacity: 1;
 }
 
 .navigation__actions {
@@ -126,13 +145,12 @@
 }
 
 .navigation__mobile-link {
-  font-family: var(--font-sans, "Nunito", sans-serif);
-  font-size: 0.875rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.005em;
   padding: var(--space-md);
   border-radius: var(--radius-md);
   transition: all var(--transition-fast);

@@ -22,8 +22,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.25rem;
-  background: var(--color-builder-toolbar-bg, #252536);
-  border-bottom: 2px solid var(--color-builder-border, rgba(255, 255, 255, 0.1));
+  background: linear-gradient(135deg, #2A1A1F 0%, #1F1318 100%);
+  border-bottom: 2px solid rgba(212, 70, 110, 0.3);
+  box-shadow: 0 2px 12px rgba(106, 4, 29, 0.2);
   z-index: 10;
 }
 
@@ -79,19 +80,21 @@
 .builder-toolbar__status-indicator {
   width: 8px;
   height: 8px;
-  background-color: #59C059;
+  background: linear-gradient(135deg, #4ecdc4 0%, #44b09e 100%);
   border-radius: 50%;
+  box-shadow: 0 0 8px rgba(78, 205, 196, 0.5);
   box-shadow: 0 0 0 2px rgba(89, 192, 89, 0.2);
 }
 
 .builder-toolbar__status-indicator.running {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
   animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 0 2px rgba(89, 192, 89, 0.2), 0 0 8px rgba(89, 192, 89, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3), 0 0 12px rgba(255, 107, 107, 0.6);
   }
   50% {
     opacity: 0.7;
@@ -153,17 +156,18 @@
   transform: none;
 }
 
-/* Primary button — Scratch blue */
+/* Primary button — Solid maroon */
 .builder-toolbar__button--primary {
-  background: var(--block-motion, #4C97FF);
+  background: var(--primary);
   border-color: transparent;
   color: white;
-  box-shadow: 0 2px 8px rgba(76, 151, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(106, 4, 29, 0.3);
 }
 
 .builder-toolbar__button--primary:hover {
-  background: #3D89F0;
-  box-shadow: 0 4px 16px rgba(76, 151, 255, 0.4);
+  background: var(--color-accent-hover);
+  box-shadow: 0 4px 16px rgba(106, 4, 29, 0.4);
+  transform: translateY(-2px);
 }
 
 /* ========================================
@@ -425,11 +429,31 @@
    ======================================== */
 
 [data-theme="light"] .builder-page {
-  background-color: #F0F0F0;
+  background-color: #F5F5F5;
 }
 
 [data-theme="light"] .builder-toolbar {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  background: linear-gradient(135deg, #F9E5E8 0%, #F0D5D8 100%);
+  border-bottom: 2px solid rgba(106, 4, 29, 0.2);
+  box-shadow: 0 2px 8px rgba(106, 4, 29, 0.1);
+}
+
+[data-theme="light"] .builder-toolbar__title,
+[data-theme="light"] .builder-toolbar__button,
+[data-theme="light"] .builder-toolbar__status {
+  color: var(--color-builder-text);
+}
+
+[data-theme="light"] .builder-output,
+[data-theme="light"] .builder-code {
+  background: #FFFFFF;
+  border-color: rgba(106, 4, 29, 0.2);
+}
+
+[data-theme="light"] .builder-output__header,
+[data-theme="light"] .builder-code__header {
+  border-bottom-color: rgba(106, 4, 29, 0.1);
+  background: var(--color-builder-header-bg);
 }
 
 /* ========================================

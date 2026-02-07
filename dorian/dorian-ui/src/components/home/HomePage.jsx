@@ -69,14 +69,13 @@ const HomePage = () => {
             </motion.div>
 
             <h1 className="hero__title">
-              Orchestrate Intelligence
+              Compose AI agents.
               <br />
-              <span className="hero__title-accent">Without Code</span>
+              <span className="hero__title-accent">Effortlessly.</span>
             </h1>
 
             <p className="hero__description">
-              Dorian transforms AI agent development into a visual art. 
-              Design, connect, and deploy sophisticated workflows that think and act on your behalf.
+              Dorian turns AI workflows into drag-and-drop blocks. Connect your Gmail, add AI steps, and automate the repetitive stuff.
             </p>
 
             <div className="hero__actions">
@@ -129,9 +128,9 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="features__title">Everything You Need</h2>
+            <h2 className="features__title">Everything you need</h2>
             <p className="features__description">
-              Powerful building blocks for your AI workflows
+              Powerful tools to build, test, and deploy AI workflows
             </p>
           </motion.div>
 
@@ -157,9 +156,9 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="cta__title">Ready to Build?</h2>
+            <h2 className="cta__title">Ready to build?</h2>
             <p className="cta__description">
-              Join developers who are building the future of AI agents
+              Start creating AI workflows that work for you
             </p>
             <Button 
               variant="primary" 
@@ -180,7 +179,7 @@ const HomePage = () => {
           <div className="footer__content">
             <div className="footer__brand">
               <div className="footer__logo">Dorian</div>
-              <p className="footer__tagline">Orchestrate Intelligence</p>
+              <p className="footer__tagline">Build AI agents. No code required.</p>
             </div>
             <div className="footer__links">
               <a href="#" className="footer__link">Documentation</a>

@@ -47,11 +47,22 @@ const AnimatedGrid = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Get theme colors
+      // Get theme colors - subtle and refined
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const dotColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(26, 22, 20, 0.15)';
-      const lineColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(26, 22, 20, 0.08)';
-      const accentColor = isDark ? 'rgba(232, 139, 111, 0.3)' : 'rgba(212, 116, 92, 0.3)';
+
+      // Fix variable shadowing - use let and conditional assignment
+      let dotColor, lineColor, accentColor;
+
+      if (isDark) {
+        dotColor = 'rgba(255, 255, 255, 0.08)';
+        lineColor = 'rgba(255, 255, 255, 0.04)';
+        accentColor = 'rgba(255, 255, 255, 0.2)';
+      } else {
+        // Light mode colors
+        dotColor = 'rgba(26, 45, 56, 0.1)';
+        lineColor = 'rgba(26, 45, 56, 0.05)';
+        accentColor = 'rgba(26, 45, 56, 0.25)';
+      }
 
       dots.forEach((dot, i) => {
         // Calculate distance from mouse

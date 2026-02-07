@@ -98,6 +98,26 @@
   z-index: 500 !important;
   transform: none !important;
   zoom: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Hide scrollbar but keep functionality */
+.blocklyToolboxDiv::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.blocklyToolboxDiv::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.blocklyToolboxDiv::-webkit-scrollbar-thumb {
+  background: var(--color-border, #DCDCDC) !important;
+  border-radius: 3px !important;
+}
+
+.blocklyToolboxDiv::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary, #9B9B9B) !important;
 }
 
 /* Category rows */
@@ -152,7 +172,8 @@
 }
 
 .blocklyFlyoutScrollbar {
-  z-index: 10 !important;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* Category separator */
@@ -165,27 +186,28 @@
    BLOCKLY SCROLLBARS
    ======================================== */
 
-/* Scrollbar background */
+/* Scrollbar background - nearly invisible */
 .blocklyScrollbarBackground {
-  fill: rgba(220, 220, 220, 0.5) !important;
-  fill-opacity: 1 !important;
+  fill: transparent !important;
+  fill-opacity: 0 !important;
   stroke: none !important;
   rx: 6 !important;
   ry: 6 !important;
 }
 
-/* Scrollbar handle */
+/* Scrollbar handle - very subtle, only visible on hover */
 .blocklyScrollbarHandle {
-  fill: rgba(140, 140, 140, 0.7) !important;
+  fill: rgba(140, 140, 140, 0.15) !important;
   fill-opacity: 1 !important;
   stroke: none !important;
   rx: 6 !important;
   ry: 6 !important;
   cursor: pointer !important;
+  transition: fill 0.2s ease !important;
 }
 
 .blocklyScrollbarHandle:hover {
-  fill: rgba(76, 151, 255, 0.7) !important;
+  fill: rgba(106, 4, 29, 0.5) !important;
 }
 
 .blocklyScrollbarCorner {
@@ -202,20 +224,28 @@
    BLOCKLY BLOCKS — Scratch-style appearance
    ======================================== */
 
-/* Block shadows */
-.blocklyBlockCanvas .blocklyDraggable {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-}
-
-/* Block being dragged — lift effect */
+/* Remove shadows for seamless block connection */
+.blocklyBlockCanvas .blocklyDraggable,
+.blocklyBlockCanvas .blocklyPath,
+.blocklyBlockCanvas .blocklyBlockBackground,
 .blocklyDragging {
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25)) !important;
-  opacity: 0.95 !important;
+  filter: none !important;
 }
 
-/* Smooth transitions */
-.blocklyBlockCanvas .blocklyDraggable {
-  transition: filter 0.15s ease-out;
+/* Ensure tight block connections with no gaps */
+.blocklyPath {
+  stroke-width: 0 !important;
+}
+
+/* Remove gaps in block connections */
+.blocklyBlockCanvas > g {
+  shape-rendering: crispEdges;
+}
+
+/* Ensure blocks snap tightly */
+.blocklyInsertionMarker > .blocklyPath {
+  stroke: none !important;
+  fill-opacity: 0.4 !important;
 }
 
 /* Block text fields */
@@ -231,6 +261,22 @@
   font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
+}
+
+/* Dark text on light-colored blocks (yellow, orange, cyan, green) */
+.blocklyText,
+.blocklyEditableText > text {
+  fill: #2A2A2A !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Keep white text on dark blocks */
+[data-category="ai"] .blocklyText,
+[data-category="gmail"] .blocklyText,
+.blocklyDraggable[data-type*="ai"] .blocklyText,
+.blocklyDraggable[data-type*="gmail"] .blocklyText {
+  fill: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Dropdown menus */
@@ -347,11 +393,16 @@
 }
 
 [data-theme="dark"] .blocklyScrollbarBackground {
-  fill: rgba(58, 58, 82, 0.5) !important;
+  fill: transparent !important;
+  fill-opacity: 0 !important;
 }
 
 [data-theme="dark"] .blocklyScrollbarHandle {
-  fill: rgba(168, 168, 192, 0.4) !important;
+  fill: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .blocklyScrollbarHandle:hover {
+  fill: rgba(212, 70, 110, 0.5) !important;
 }
 
 [data-theme="dark"] .blocklyDropDownDiv {

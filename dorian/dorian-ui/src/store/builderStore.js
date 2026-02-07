@@ -58,6 +58,14 @@ const useBuilderStore = create((set, get) => ({
   showGmailPrompt: false,
   showAccountManager: false,
   showDisconnectConfirm: false,
+  showWorkflowsModal: false,
+
+  // Saved workflows state
+  savedWorkflows: JSON.parse(localStorage.getItem('dorian-saved-workflows') || '[]'),
+  currentWorkflowName: 'Untitled Workflow',
+
+  // Theme state
+  theme: 'dark',
 
   // Actions for workspace state
   setIsRunning: (isRunning) => set({ isRunning }),
@@ -78,6 +86,21 @@ const useBuilderStore = create((set, get) => ({
   setShowAccountManager: (showAccountManager) => set({ showAccountManager }),
   setShowDisconnectConfirm: (showDisconnectConfirm) =>
     set({ showDisconnectConfirm }),
+  setShowWorkflowsModal: (showWorkflowsModal) => set({ showWorkflowsModal }),
+  setCurrentWorkflowName: (currentWorkflowName) => set({ currentWorkflowName }),
+
+  // Theme actions
+  setTheme: (theme) => {
+    set({ theme });
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('dorian-theme', theme);
+  },
+  initTheme: () => {
+    const saved = localStorage.getItem('dorian-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = saved || (prefersDark ? 'dark' : 'light');
+    get().setTheme(initial);
+  },
 
   // Combined actions
   resetState: () =>
@@ -582,6 +605,85 @@ const useBuilderStore = create((set, get) => ({
 
   handleSave: (workspace) => {
     if (!workspace) return;
+
+    // Prompt for workflow name
+    const name = window.prompt("Enter workflow name:", get().currentWorkflowName);
+    if (!name) return;
+
+    const state = Blockly.serialization.workspaces.save(workspace);
+    const savedWorkflows = get().savedWorkflows;
+
+    // Check if workflow with this name already exists
+    const existingIndex = savedWorkflows.findIndex(w => w.name === name);
+
+    const workflow = {
+      id: existingIndex >= 0 ? savedWorkflows[existingIndex].id : Date.now().toString(),
+      name,
+      state,
+      createdAt: existingIndex >= 0 ? savedWorkflows[existingIndex].createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    let newWorkflows;
+    if (existingIndex >= 0) {
+      // Update existing
+      newWorkflows = [...savedWorkflows];
+      newWorkflows[existingIndex] = workflow;
+    } else {
+      // Add new
+      newWorkflows = [...savedWorkflows, workflow];
+    }
+
+    localStorage.setItem('dorian-saved-workflows', JSON.stringify(newWorkflows));
+    set({ savedWorkflows: newWorkflows, currentWorkflowName: name });
+
+    // Show success message
+    alert(`Workflow "${name}" saved successfully!`);
+  },
+
+  loadWorkflow: (workflow, workspace) => {
+    if (!workspace || !workflow) return;
+
+    try {
+      workspace.clear();
+      Blockly.serialization.workspaces.load(workflow.state, workspace);
+      set({ currentWorkflowName: workflow.name, showWorkflowsModal: false });
+
+      // Center the workspace on the loaded blocks
+      setTimeout(() => {
+        const metrics = workspace.getMetrics();
+        const blocksBox = workspace.getBlocksBoundingBox();
+
+        if (blocksBox) {
+          // Calculate center position
+          const centerX = (blocksBox.right + blocksBox.left) / 2;
+          const centerY = (blocksBox.bottom + blocksBox.top) / 2;
+
+          // Center the viewport on the blocks
+          workspace.scroll(
+            centerX - metrics.viewWidth / 2,
+            centerY - metrics.viewHeight / 2
+          );
+
+          // Optional: zoom to fit all blocks
+          workspace.zoomToFit();
+        }
+      }, 100);
+    } catch (e) {
+      alert(`Error loading workflow: ${e.message}`);
+    }
+  },
+
+  deleteWorkflow: (workflowId) => {
+    if (!window.confirm("Delete this workflow?")) return;
+
+    const newWorkflows = get().savedWorkflows.filter(w => w.id !== workflowId);
+    localStorage.setItem('dorian-saved-workflows', JSON.stringify(newWorkflows));
+    set({ savedWorkflows: newWorkflows });
+  },
+
+  downloadWorkflow: (workspace) => {
+    if (!workspace) return;
     const state = Blockly.serialization.workspaces.save(workspace);
     const blob = new Blob([JSON.stringify(state, null, 2)], {
       type: "application/json",
@@ -589,7 +691,7 @@ const useBuilderStore = create((set, get) => ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `workflow-${Date.now()}.json`;
+    a.download = `${get().currentWorkflowName.replace(/\s+/g, '-')}-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   },

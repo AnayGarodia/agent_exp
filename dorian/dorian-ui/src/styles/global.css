@@ -1,73 +1,89 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@300;500;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
 
 :root {
   /* ========================================
-     SCRATCH-INSPIRED BLOCK CATEGORY COLOURS
+     MUTED BLOCK CATEGORY COLOURS
+     Sophisticated, easier on the eyes
      ======================================== */
-  --block-motion: #4c97ff; /* Blue — movement/navigation */
-  --block-looks: #9966ff; /* Purple — display/output */
-  --block-sound: #cf63cf; /* Pink — audio/media */
-  --block-events: #ffbf00; /* Gold/Yellow — triggers/events */
-  --block-control: #ffab19; /* Orange — flow control */
-  --block-sensing: #5cb1d6; /* Cyan — input/sensing */
-  --block-operators: #59c059; /* Green — logic/math */
-  --block-variables: #ff6680; /* Coral/Red — data/variables */
-  --block-ai: #ff8c1a; /* Warm orange — AI/LLM actions */
-  --block-integration: #4ecdc4; /* Teal — API/service integrations */
+  --block-motion: #6B8FA3; /* Muted blue — movement/navigation */
+  --block-looks: #8B7BA8; /* Muted purple — display/output */
+  --block-sound: #B8799F; /* Muted pink — audio/media */
+  --block-events: #C4A05A; /* Muted gold — triggers/events */
+  --block-control: #C39A5F; /* Muted orange — flow control */
+  --block-sensing: #7BA5B5; /* Muted cyan — input/sensing */
+  --block-operators: #7BA876; /* Muted green — logic/math */
+  --block-variables: #B87B8C; /* Muted coral — data/variables */
+  --block-ai: #C39A6F; /* Muted warm orange — AI/LLM actions */
+  --block-integration: #72A8A0; /* Muted teal — API/service integrations */
 
   /* ========================================
-     UI CHROME COLOURS (Light mode default)
+     DESIGN SYSTEM - PROFESSIONAL & WARM
+     Based on: Arc, Linear, Stripe, Claude.ai
      ======================================== */
-  --color-bg: #f0f0f0;
-  --color-bg-secondary: #e8e8e8;
-  --color-surface: #ffffff;
+
+  /* Primary Colors */
+  --primary: #6A041D;        /* Maroon - PRIMARY ACCENT throughout */
+  --neutral: #FAF7F2;        /* Warm off-white background */
+  --accent: #4c97ff;         /* Blue - secondary accent (use sparingly) */
+  --charcoal: #2A2A2A;       /* Body text */
+  --charcoal-light: #6B6B6B; /* Secondary text */
+  --border: #E8EDE8;         /* Subtle borders */
+  --cream: #FBF9F6;          /* Alternate background */
+
+  /* UI Chrome Colors (Light mode) */
+  --color-bg: #FAF7F2;
+  --color-bg-secondary: #FBF9F6;
+  --color-surface: #FFFFFF;
   --color-surface-rgb: 255, 255, 255;
-  --color-text: #2e2e2e;
-  --color-text-secondary: #575757;
-  --color-text-tertiary: #8c8c8c;
-  --color-accent: #4c97ff;
-  --color-accent-hover: #3d89f0;
-  --color-accent-light: #6aadff;
-  --color-border: #dcdcdc;
+  --color-text: #2A2A2A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary: #9B9B9B;
+  --color-accent: #6A041D;
+  --color-accent-hover: #8B1538;
+  --color-accent-secondary: #4c97ff;
+  --color-border: #E8EDE8;
 
   /* Dark mode base colors */
-  --color-dark-bg: #1e1e2e;
-  --color-dark-bg-secondary: #252536;
-  --color-dark-surface: #2a2a3d;
-  --color-dark-surface-rgb: 42, 42, 61;
-  --color-dark-text: #e8e8f0;
-  --color-dark-text-secondary: #a8a8c0;
-  --color-dark-text-tertiary: #6b6b85;
-  --color-dark-accent: #5ca4ff;
-  --color-dark-accent-hover: #7bb8ff;
-  --color-dark-border: #3a3a52;
+  --color-dark-bg: #0F0F0F;
+  --color-dark-bg-secondary: #1A1A1A;
+  --color-dark-surface: #1F1F1F;
+  --color-dark-surface-rgb: 31, 31, 31;
+  --color-dark-text: #EDEDED;
+  --color-dark-text-secondary: #A0A0A0;
+  --color-dark-text-tertiary: #6B6B6B;
+  --color-dark-accent: #D4466E;
+  --color-dark-accent-hover: #E85B7D;
+  --color-dark-accent-secondary: #6B8FA3;
+  --color-dark-border: #2A2A2A;
 
   /* Builder-specific (defaults to dark) */
-  --color-builder-bg: #1e1e2e;
-  --color-builder-toolbar-bg: #252536;
-  --color-builder-panel-bg: #252536;
-  --color-builder-border: rgba(255, 255, 255, 0.1);
-  --color-builder-border-hover: rgba(255, 255, 255, 0.2);
-  --color-builder-button-bg: rgba(255, 255, 255, 0.06);
-  --color-builder-button-hover-bg: rgba(255, 255, 255, 0.12);
-  --color-builder-header-bg: rgba(255, 255, 255, 0.03);
-  --color-builder-text: #e8e8f0;
-  --color-builder-text-secondary: #a8a8c0;
-  --color-builder-text-tertiary: #6b6b85;
-  --color-builder-output-text: #d0d0e0;
-  --color-builder-code-text: #d0d0e0;
-  --color-builder-code-bg: #1e1e2e;
-  --color-builder-item-hover-bg: rgba(255, 255, 255, 0.04);
+  --color-builder-bg: #1A1A1A;
+  --color-builder-toolbar-bg: linear-gradient(135deg, #2A1A1F 0%, #1F1318 100%);
+  --color-builder-panel-bg: #242424;
+  --color-builder-border: rgba(212, 70, 110, 0.2);
+  --color-builder-border-hover: rgba(212, 70, 110, 0.4);
+  --color-builder-button-bg: rgba(212, 70, 110, 0.1);
+  --color-builder-button-hover-bg: rgba(212, 70, 110, 0.2);
+  --color-builder-header-bg: rgba(106, 4, 29, 0.15);
+  --color-builder-text: #EDEDED;
+  --color-builder-text-secondary: #B0B0B0;
+  --color-builder-text-tertiary: #808080;
+  --color-builder-output-text: #E0E0E0;
+  --color-builder-code-text: #E0E0E0;
+  --color-builder-code-bg: #1A1A1A;
+  --color-builder-item-hover-bg: rgba(212, 70, 110, 0.08);
 
   /* Canvas */
   --canvas-bg: #f9f9f9;
   --canvas-grid: #e8e8e8;
-  --canvas-bg-dark: #1e1e2e;
-  --canvas-grid-dark: #2d2d42;
+  --canvas-bg-dark: #1A1A1A;
+  --canvas-grid-dark: #2A2A2A;
 
-  /* Typography — Nunito for Scratch-like friendliness */
-  --font-serif: "Newsreader", Georgia, serif;
-  --font-mono: "Space Mono", "Courier New", monospace;
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;      /* Headings - elegant, editorial */
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -87,11 +103,17 @@
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.12);
+  /* Shadows - Subtle and refined */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12), 0 24px 64px rgba(0, 0, 0, 0.08);
+
+  /* Dark mode shadows */
+  --shadow-dark-sm: 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 4px rgba(0, 0, 0, 0.2);
+  --shadow-dark-md: 0 2px 8px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-dark-lg: 0 8px 24px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-dark-xl: 0 16px 48px rgba(0, 0, 0, 0.5), 0 24px 64px rgba(0, 0, 0, 0.45);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -118,26 +140,32 @@
   --color-text-tertiary: var(--color-dark-text-tertiary);
   --color-accent: var(--color-dark-accent);
   --color-accent-hover: var(--color-dark-accent-hover);
+  --color-accent-secondary: var(--color-dark-accent-secondary);
   --color-border: var(--color-dark-border);
+
+  --shadow-sm: var(--shadow-dark-sm);
+  --shadow-md: var(--shadow-dark-md);
+  --shadow-lg: var(--shadow-dark-lg);
+  --shadow-xl: var(--shadow-dark-xl);
 }
 
 /* Light mode builder overrides */
 [data-theme="light"] {
-  --color-builder-bg: #f0f0f0;
-  --color-builder-toolbar-bg: #ffffff;
+  --color-builder-bg: #f5f5f5;
+  --color-builder-toolbar-bg: linear-gradient(135deg, #F9E5E8 0%, #F0D5D8 100%);
   --color-builder-panel-bg: #ffffff;
-  --color-builder-border: #dcdcdc;
-  --color-builder-border-hover: #c0c0c0;
-  --color-builder-button-bg: rgba(0, 0, 0, 0.04);
-  --color-builder-button-hover-bg: rgba(0, 0, 0, 0.08);
-  --color-builder-header-bg: rgba(0, 0, 0, 0.02);
-  --color-builder-text: #2e2e2e;
-  --color-builder-text-secondary: #6b6b6b;
-  --color-builder-text-tertiary: #9e9e9e;
-  --color-builder-output-text: #3a3a3a;
-  --color-builder-code-text: #2e2e2e;
-  --color-builder-code-bg: #f9f9f9;
-  --color-builder-item-hover-bg: rgba(0, 0, 0, 0.03);
+  --color-builder-border: rgba(106, 4, 29, 0.2);
+  --color-builder-border-hover: rgba(106, 4, 29, 0.4);
+  --color-builder-button-bg: rgba(106, 4, 29, 0.05);
+  --color-builder-button-hover-bg: rgba(106, 4, 29, 0.1);
+  --color-builder-header-bg: rgba(106, 4, 29, 0.08);
+  --color-builder-text: #2A2A2A;
+  --color-builder-text-secondary: #6B6B6B;
+  --color-builder-text-tertiary: #9B9B9B;
+  --color-builder-output-text: #3A3A3A;
+  --color-builder-code-text: #2A2A2A;
+  --color-builder-code-bg: #FAFAFA;
+  --color-builder-item-hover-bg: rgba(106, 4, 29, 0.04);
 }
 
 /* Reset */
@@ -163,11 +191,12 @@ body {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-y: auto;
   transition: background-color var(--transition-base),
     color var(--transition-base);
 }
@@ -182,9 +211,25 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+h2 {
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 2.25rem);
+}
+
+h3 {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
 }
 
 p {
@@ -209,9 +254,14 @@ svg {
   max-width: 100%;
 }
 
-/* Selection — Scratch blue */
+/* Selection - High contrast in both modes */
 ::selection {
-  background-color: var(--color-accent);
+  background-color: var(--primary); /* Maroon */
+  color: white;
+}
+
+[data-theme="dark"] ::selection {
+  background-color: var(--color-dark-accent); /* Lighter maroon for dark mode */
   color: white;
 }
 

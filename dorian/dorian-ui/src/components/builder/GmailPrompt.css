@@ -17,12 +17,12 @@
   left: 50%;
   /* transform handled by framer-motion style prop: x="-50%", y="-50%" */
   background: var(--color-surface, #FFFFFF);
-  border: 2px solid var(--color-border, #DCDCDC);
+  border: 2px solid var(--primary);
   border-radius: var(--radius-xl, 1.5rem);
   padding: 2rem;
   max-width: 460px;
   width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(106, 4, 29, 0.3), var(--shadow-xl);
   z-index: 9999;
 }
 
@@ -55,17 +55,17 @@
   gap: 1.25rem;
 }
 
-/* Icon — Scratch gold/events color */
+/* Icon — Maroon gradient to match theme */
 .gmail-prompt-icon {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--block-events, #FFBF00) 0%, #FFD54F 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #8B1538 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 4px 16px rgba(255, 191, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(106, 4, 29, 0.3);
 }
 
 .gmail-prompt-title {
@@ -103,7 +103,7 @@
 
 .gmail-prompt-feature svg {
   flex-shrink: 0;
-  color: var(--block-events, #FFBF00);
+  color: var(--primary);
   margin-top: 0.125rem;
 }
 
@@ -157,17 +157,17 @@
   color: var(--color-text, #2E2E2E);
 }
 
-/* Primary button — Scratch blue */
+/* Primary button — Maroon to match workflows modal */
 .gmail-prompt-button--primary {
-  background: var(--block-motion, #4C97FF);
+  background: var(--primary);
   color: white;
-  box-shadow: 0 3px 10px rgba(76, 151, 255, 0.3);
+  box-shadow: 0 3px 10px rgba(106, 4, 29, 0.3);
 }
 
 .gmail-prompt-button--primary:hover {
-  background: #3D89F0;
+  background: var(--color-accent-hover);
   transform: translateY(-1px);
-  box-shadow: 0 5px 14px rgba(76, 151, 255, 0.4);
+  box-shadow: 0 5px 14px rgba(106, 4, 29, 0.4);
 }
 
 .gmail-prompt-button--primary:active {

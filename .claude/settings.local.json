@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(npm test:*)",
-      "Bash(node -c:*)"
+      "Bash(node -c:*)",
+      "Bash(afplay:*)"
     ]
   }
 }

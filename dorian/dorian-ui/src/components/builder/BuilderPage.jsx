@@ -9,13 +9,13 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   CheckCircle,
-  Sun,
-  Moon,
+  FolderOpen,
 } from "lucide-react";
 import Navigation from "../layout/Navigation";
 import WorkflowCanvas from "./WorkflowCanvas";
 import PropertiesPanel from "./PropertiesPanel";
-import GmailPrompt from "./GmailPrompt"; // NEW: Import Gmail prompt modal
+import GmailPrompt from "./GmailPrompt";
+import WorkflowsModal from "./WorkflowsModal";
 import useBuilderStore from "../../store/builderStore";
 import "./BuilderPage.css";
 
@@ -26,9 +26,10 @@ const BuilderPage = () => {
   const [isToolboxOpen, setIsToolboxOpen] = useState(true);
   const [showGmailBadge, setShowGmailBadge] = useState(false);
   const [prevGmailConnected, setPrevGmailConnected] = useState(false);
-  const [theme, setTheme] = useState("dark");
 
   const {
+    theme,
+    setTheme,
     isRunning,
     outputItems,
     showOutput,
@@ -42,6 +43,8 @@ const BuilderPage = () => {
     checkGmailStatus,
     setShowGmailPrompt,
     outputClass,
+    currentWorkflowName,
+    setShowWorkflowsModal,
   } = useBuilderStore();
 
   useEffect(() => {
@@ -60,11 +63,6 @@ const BuilderPage = () => {
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, [checkGmailStatus, setShowGmailPrompt]);
-
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
 
   // Show Gmail badge for 3 seconds when connection changes
   useEffect(() => {
@@ -100,10 +98,6 @@ const BuilderPage = () => {
     setIsToolboxOpen(!isToolboxOpen);
   };
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
   return (
     <div className="builder-page">
       <Navigation />
@@ -128,7 +122,7 @@ const BuilderPage = () => {
                 <PanelLeftOpen size={20} />
               )}
             </button>
-            <h1 className="builder-toolbar__title">Untitled Workflow</h1>
+            <h1 className="builder-toolbar__title">{currentWorkflowName}</h1>
             <span className="builder-toolbar__status">
               <span
                 className={`builder-toolbar__status-indicator ${
@@ -156,20 +150,18 @@ const BuilderPage = () => {
           </div>
 
           <div className="builder-toolbar__right">
-            {/* Theme Toggle */}
             <button
               className="builder-toolbar__button"
-              onClick={toggleTheme}
-              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              onClick={() => setShowWorkflowsModal(true)}
+              title="Load saved workflow"
             >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-              <span>{theme === "dark" ? "Light" : "Dark"}</span>
+              <FolderOpen size={16} />
+              <span>Load</span>
             </button>
-
             <button
               className="builder-toolbar__button"
               onClick={handleSaveWorkflow}
-              title="Save workflow as JSON"
+              title="Save workflow"
             >
               <Save size={16} />
               <span>Save</span>
@@ -324,8 +316,11 @@ const BuilderPage = () => {
             )}
           </AnimatePresence>
 
-          {/* NEW: Gmail Connection Prompt Modal */}
+          {/* Gmail Connection Prompt Modal */}
           <GmailPrompt />
+
+          {/* Workflows Modal */}
+          <WorkflowsModal workspaceRef={workspaceRef} />
         </div>
       </div>
     </div>
