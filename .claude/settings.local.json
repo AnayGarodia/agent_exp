@@ -4,7 +4,13 @@
       "Bash(npm run build:*)",
       "Bash(npm test:*)",
       "Bash(node -c:*)",
-      "Bash(afplay:*)"
+      "Bash(afplay:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 5 npm start:*)",
+      "Bash(node -e:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(lsof:*)"
     ]
   }
 }

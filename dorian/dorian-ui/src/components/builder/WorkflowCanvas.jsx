@@ -85,7 +85,7 @@ const WorkflowCanvas = ({ workspaceRef, isToolboxOpen, onToolboxToggle }) => {
         drag: true,
         wheel: true,
       },
-      renderer: "geras", // More defined, less rounded blocks
+      renderer: "zelos", // Rounded modern blocks with smooth connections
     });
 
     console.log("[WorkflowCanvas] Blockly workspace initialized");

@@ -23,18 +23,59 @@ async function req(path, options = {}) {
 }
 
 export const api = {
-  // ── Auth ──────────────────────────────────────────────
+  // ── User Auth ─────────────────────────────────────────
+  /** Sign up a new user */
+  async signup(userData) {
+    const res = await fetch(`${BASE}/user/signup`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Login existing user */
+  async login(email, password) {
+    const res = await fetch(`${BASE}/user/login`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Get current user */
+  async getCurrentUser() {
+    const res = await fetch(`${BASE}/user/me`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Logout user */
+  async logoutUser() {
+    const res = await fetch(`${BASE}/user/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  // ── Google OAuth ──────────────────────────────────────
   /** Returns the Google OAuth URL for the popup to navigate to. */
   getAuthUrl() {
-    // FIXED: Return the full URL path that the popup should open
-    // The backend /auth/google/url endpoint will redirect to Google's OAuth
     return `${BASE}/auth/google/url`;
   },
 
   /** Check whether the session is authenticated. */
   async checkAuthStatus() {
     return req("/auth/status");
-    // Expected shape: { authenticated: bool, hasGmailTokens: bool, tokenExpiry: number }
   },
 
   /** End the session (logout). */
@@ -83,5 +124,110 @@ export const api = {
   /** List saved workflows. */
   async listWorkflows() {
     return req("/workflows/list");
+  },
+
+  // ── User Workflows ────────────────────────────────────
+  /** Get user's workflows */
+  async getUserWorkflows() {
+    const res = await fetch(`${BASE}/user/workflows`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Save workflow to user account */
+  async saveUserWorkflow(workflowData) {
+    const res = await fetch(`${BASE}/user/workflows`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(workflowData),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Get specific workflow */
+  async getWorkflow(id) {
+    const res = await fetch(`${BASE}/user/workflows/${id}`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Update workflow */
+  async updateWorkflow(id, workflowData) {
+    const res = await fetch(`${BASE}/user/workflows/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(workflowData),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Delete workflow */
+  async deleteWorkflow(id) {
+    const res = await fetch(`${BASE}/user/workflows/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  // ── Credits & Usage ───────────────────────────────────
+  /** Get credit balance */
+  async getCredits() {
+    const res = await fetch(`${BASE}/user/credits`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Get credit transaction history */
+  async getCreditHistory() {
+    const res = await fetch(`${BASE}/user/credits/history`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Use credits (deduct from balance) */
+  async useCredits(amount, actionType, workflowId, details) {
+    const res = await fetch(`${BASE}/user/credits/use`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, actionType, workflowId, details }),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Add credits (purchase or bonus) */
+  async addCredits(amount, transactionType, description) {
+    const res = await fetch(`${BASE}/user/credits/add`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, transactionType, description }),
+    });
+    const data = await res.json();
+    return data;
+  },
+
+  /** Get usage statistics */
+  async getUsageStats() {
+    const res = await fetch(`${BASE}/user/usage/stats`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
   },
 };

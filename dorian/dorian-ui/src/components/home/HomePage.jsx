@@ -1,14 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Layers, GitBranch } from 'lucide-react';
 import Navigation from '../layout/Navigation';
 import Button from '../shared/Button';
 import AnimatedGrid from './AnimatedGrid';
 import FeatureCard from './FeatureCard';
+import { api } from '../../services/api';
 import './HomePage.css';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const heroRef = useRef(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
@@ -16,6 +20,37 @@ const HomePage = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  // Redirect to dashboard if authenticated and onboarding is complete
+  useEffect(() => {
+    const checkAuthAndRedirect = async () => {
+      try {
+        const hasCompletedOnboarding = localStorage.getItem('dorian_onboarding_complete');
+        if (hasCompletedOnboarding === 'true') {
+          // Check if actually logged in
+          const result = await api.getCurrentUser();
+          if (result.success && result.user) {
+            navigate('/dashboard', { replace: true });
+          } else {
+            // Clear the flag if not authenticated
+            localStorage.removeItem('dorian_onboarding_complete');
+          }
+        }
+      } catch (error) {
+        // Not authenticated, clear flag
+        localStorage.removeItem('dorian_onboarding_complete');
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuthAndRedirect();
+  }, [navigate]);
+
+  // Show nothing while checking auth
+  if (isCheckingAuth) {
+    return null;
+  }
 
   const features = [
     {
@@ -79,16 +114,23 @@ const HomePage = () => {
             </p>
 
             <div className="hero__actions">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="large"
                 icon={<ArrowRight size={18} />}
                 iconPosition="right"
-                onClick={() => window.location.href = '/builder'}
+                onClick={() => {
+                  const hasCompletedOnboarding = localStorage.getItem('dorian_onboarding_complete');
+                  window.location.href = hasCompletedOnboarding ? '/dashboard' : '/onboarding';
+                }}
               >
                 Start Building
               </Button>
-              <Button variant="secondary" size="large">
+              <Button
+                variant="secondary"
+                size="large"
+                onClick={() => navigate('/demo')}
+              >
                 View Demo
               </Button>
             </div>
@@ -160,12 +202,15 @@ const HomePage = () => {
             <p className="cta__description">
               Start creating AI workflows that work for you
             </p>
-            <Button 
-              variant="primary" 
+            <Button
+              variant="primary"
               size="large"
               icon={<ArrowRight size={18} />}
               iconPosition="right"
-              onClick={() => window.location.href = '/builder'}
+              onClick={() => {
+                const hasCompletedOnboarding = localStorage.getItem('dorian_onboarding_complete');
+                window.location.href = hasCompletedOnboarding ? '/dashboard' : '/onboarding';
+              }}
             >
               Start Building Now
             </Button>
@@ -182,7 +227,7 @@ const HomePage = () => {
               <p className="footer__tagline">Build AI agents. No code required.</p>
             </div>
             <div className="footer__links">
-              <a href="#" className="footer__link">Documentation</a>
+              <Link to="/docs" className="footer__link">Documentation</Link>
               <a href="#" className="footer__link">GitHub</a>
               <a href="#" className="footer__link">Community</a>
             </div>

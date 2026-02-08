@@ -1,0 +1,346 @@
+.demo-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 2rem 4rem 2rem;
+}
+
+/* Header */
+.demo-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.demo-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.demo-description {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Workspace */
+.demo-workspace {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Canvas */
+.demo-canvas {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 0;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-canvas--blockly {
+  padding: 0;
+}
+
+.demo-blockly-workspace {
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+
+/* Removed old custom block styles - now using real Blockly blocks */
+
+/* Output Panel */
+.demo-output {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-output__header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-output__header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.demo-output__status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #59C059;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.demo-output__content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 400px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  font-size: 0.875rem;
+}
+
+.demo-output__message {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.demo-output__message--idle {
+  color: var(--color-text-secondary);
+}
+
+.demo-output__message--success {
+  color: #59C059;
+}
+
+.demo-output__message p {
+  margin: 0;
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+.demo-output__stats {
+  font-size: 0.875rem !important;
+  opacity: 0.7;
+}
+
+.demo-output__log {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+}
+
+.demo-output__log--success {
+  border-color: rgba(89, 192, 89, 0.3);
+  color: #59C059;
+}
+
+.demo-output__log-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.demo-output__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Blockly Block States */
+.demo-block-active {
+  filter: drop-shadow(0 0 16px rgba(76, 151, 255, 0.6));
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.demo-block-complete {
+  opacity: 0.7;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(76, 151, 255, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 24px rgba(76, 151, 255, 0.8));
+  }
+}
+
+/* Controls */
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.demo-control-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-control-btn--primary {
+  background: var(--color-accent);
+  color: white;
+}
+
+.demo-control-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(76, 151, 255, 0.3);
+}
+
+.demo-control-btn--secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.demo-control-btn--secondary:hover {
+  background: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+/* CTA */
+.demo-cta {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+}
+
+.demo-cta h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 300;
+  margin: 0 0 0.75rem 0;
+}
+
+.demo-cta p {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 2rem 0;
+}
+
+.demo-cta__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--color-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.demo-cta__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(76, 151, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .demo-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-canvas {
+    min-height: 400px;
+  }
+
+  .demo-blockly-workspace {
+    height: 400px;
+  }
+
+  .demo-output {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .demo-container {
+    padding: 100px 1.5rem 3rem 1.5rem;
+  }
+
+  .demo-title {
+    font-size: 2.5rem;
+  }
+
+  .demo-description {
+    font-size: 1.125rem;
+  }
+
+  .demo-canvas {
+    padding: 2rem 1rem;
+  }
+
+  .demo-block {
+    width: 140px;
+  }
+
+  .demo-controls {
+    flex-direction: column;
+  }
+
+  .demo-control-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

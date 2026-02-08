@@ -19,7 +19,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
+  background: linear-gradient(90deg, var(--primary), transparent);
   opacity: 0;
   transition: opacity var(--transition-base);
 }
@@ -43,12 +43,12 @@
   margin-bottom: var(--space-lg);
   background: var(--color-bg);
   border-radius: var(--radius-md);
-  color: var(--accent);
+  color: var(--primary);
   transition: all var(--transition-base);
 }
 
 .feature-card:hover .feature-card__icon {
-  background: var(--accent);
+  background: var(--primary);
   color: white;
 }
 

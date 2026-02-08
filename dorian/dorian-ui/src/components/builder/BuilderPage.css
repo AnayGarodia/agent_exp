@@ -542,6 +542,11 @@
   }
 }
 
-.builder-toolbar__button--primary {
-  color: #ededed !important;
+/* Ensure Run button text stays white in both themes */
+[data-theme="light"] .builder-toolbar__button--primary {
+  color: white !important;
+}
+
+[data-theme="dark"] .builder-toolbar__button--primary {
+  color: white !important;
 }

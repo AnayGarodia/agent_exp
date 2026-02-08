@@ -2,19 +2,19 @@
 
 :root {
   /* ========================================
-     MUTED BLOCK CATEGORY COLOURS
-     Sophisticated, easier on the eyes
+     PASTEL BLOCK CATEGORY COLORS
+     Distinct, vibrant, easy to differentiate
      ======================================== */
-  --block-motion: #6b8fa3; /* Muted blue — movement/navigation */
-  --block-looks: #8b7ba8; /* Muted purple — display/output */
-  --block-sound: #b8799f; /* Muted pink — audio/media */
-  --block-events: #c4a05a; /* Muted gold — triggers/events */
-  --block-control: #c39a5f; /* Muted orange — flow control */
-  --block-sensing: #7ba5b5; /* Muted cyan — input/sensing */
-  --block-operators: #7ba876; /* Muted green — logic/math */
-  --block-variables: #b87b8c; /* Muted coral — data/variables */
-  --block-ai: #c39a6f; /* Muted warm orange — AI/LLM actions */
-  --block-integration: #72a8a0; /* Muted teal — API/service integrations */
+  --block-motion: #85C1FF; /* Sky blue — movement/navigation */
+  --block-looks: #C5A3FF; /* Lavender — display/output */
+  --block-sound: #FFB3D9; /* Soft pink — audio/media */
+  --block-events: #FFD666; /* Lemon yellow — triggers/events */
+  --block-control: #FFB366; /* Peach — flow control */
+  --block-sensing: #66E0E0; /* Aqua — input/sensing */
+  --block-operators: #A3E6A3; /* Mint green — logic/math */
+  --block-variables: #FF9999; /* Coral — data/variables */
+  --block-ai: #B399FF; /* Medium purple — AI/LLM actions */
+  --block-integration: #99DED6; /* Teal — API/service integrations */
 
   /* ========================================
      DESIGN SYSTEM - PROFESSIONAL & WARM

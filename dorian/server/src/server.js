@@ -8,6 +8,10 @@ const path = require("path");
 const authRoutes = require("./routes/auth");
 const gmailRoutes = require("./routes/gmail-routes");
 const workflowRoutes = require("./routes/workflows");
+const userRoutes = require("./routes/user");
+
+// Initialize database
+require("./config/database");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -71,6 +75,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/gmail", gmailRoutes);
 app.use("/api/workflows", workflowRoutes);
+app.use("/api/user", userRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

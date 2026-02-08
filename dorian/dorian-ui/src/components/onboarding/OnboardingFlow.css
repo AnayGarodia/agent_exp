@@ -1,0 +1,636 @@
+/* ========================================
+   ONBOARDING FLOW - ANTHROPIC-STYLE
+   Sophisticated, thoughtful, premium
+   ======================================== */
+
+.onboarding-flow {
+  min-height: 100vh;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.onboarding-flow__container {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ========================================
+   STEP CONTENT
+   ======================================== */
+
+.onboarding-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.onboarding-step--wide {
+  max-width: 900px;
+}
+
+.onboarding-step__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.onboarding-step__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3xl);
+  text-align: center;
+  max-width: 560px;
+}
+
+.onboarding-step__label {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.onboarding-button {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: var(--space-lg) var(--space-3xl);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: var(--space-3xl);
+  box-shadow: 0 2px 8px rgba(106, 4, 29, 0.2);
+  min-width: 200px;
+}
+
+.onboarding-button:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  box-shadow: 0 4px 16px rgba(106, 4, 29, 0.3);
+  transform: translateY(-2px);
+}
+
+.onboarding-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.onboarding-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.onboarding-skip {
+  position: absolute;
+  top: var(--space-2xl);
+  right: var(--space-2xl);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.onboarding-skip:hover {
+  color: var(--color-text);
+  background: var(--color-bg-secondary);
+}
+
+.onboarding-skip-link {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.onboarding-skip-link:hover {
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   CARDS (Business Categories, Intents)
+   ======================================== */
+
+.onboarding-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: 800px;
+  margin-top: var(--space-xl);
+}
+
+.onboarding-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+  min-height: 120px;
+}
+
+.onboarding-card:hover {
+  border-color: rgba(106, 4, 29, 0.4);
+  box-shadow: 0 4px 16px rgba(106, 4, 29, 0.08);
+}
+
+.onboarding-card--selected {
+  border-color: var(--primary);
+  background: rgba(106, 4, 29, 0.03);
+  box-shadow: 0 4px 16px rgba(106, 4, 29, 0.12);
+}
+
+.onboarding-card__content {
+  flex: 1;
+  width: 100%;
+}
+
+.onboarding-card__title {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+  line-height: 1.3;
+}
+
+.onboarding-card__description {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.onboarding-card__check {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   PILLS (Team Size)
+   ======================================== */
+
+.onboarding-pills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 480px;
+  margin-top: var(--space-2xl);
+}
+
+.onboarding-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+  min-height: 72px;
+}
+
+.onboarding-pill:hover {
+  border-color: rgba(106, 4, 29, 0.4);
+  background: var(--color-bg-secondary);
+}
+
+.onboarding-pill--selected {
+  border-color: var(--primary);
+  background: rgba(106, 4, 29, 0.03);
+}
+
+.onboarding-pill__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.onboarding-pill__title {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.onboarding-pill__description {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+}
+
+.onboarding-pill__check {
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   SEARCH (Toolkit Step)
+   ======================================== */
+
+.onboarding-search {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: var(--space-2xl) 0;
+}
+
+.onboarding-search__icon {
+  position: absolute;
+  left: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+
+.onboarding-search__input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) calc(var(--space-lg) + 36px);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.onboarding-search__input::placeholder {
+  color: var(--color-text-tertiary);
+  opacity: 0.6;
+}
+
+.onboarding-search__input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(106, 4, 29, 0.08);
+}
+
+/* ========================================
+   TOOLS GRID
+   ======================================== */
+
+.onboarding-tools {
+  width: 100%;
+  max-width: 800px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: var(--space-sm);
+}
+
+.onboarding-tools__category {
+  margin-bottom: var(--space-3xl);
+}
+
+.onboarding-tools__category-title {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-md);
+}
+
+.onboarding-tools__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-sm);
+}
+
+.onboarding-tool {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 48px;
+}
+
+.onboarding-tool:hover {
+  border-color: rgba(106, 4, 29, 0.4);
+  background: var(--color-bg-secondary);
+}
+
+.onboarding-tool--selected {
+  border-color: var(--primary);
+  background: rgba(106, 4, 29, 0.03);
+}
+
+.onboarding-tool__name {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  flex: 1;
+  text-align: left;
+}
+
+.onboarding-tool__check {
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+}
+
+.onboarding-tools__empty {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-3xl);
+}
+
+.onboarding-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-top: var(--space-3xl);
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   LOADING STEP
+   ======================================== */
+
+.loading-step {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4xl) var(--space-xl);
+}
+
+.loading-step__content {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+
+.loading-step__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3xl);
+}
+
+.loading-step__messages {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.loading-step__message {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.loading-step__progress {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.loading-step__progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(106, 4, 29, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-md);
+}
+
+.loading-step__progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+.loading-step__progress-text {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+.loading-step__complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.loading-step__check {
+  width: 96px;
+  height: 96px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(106, 4, 29, 0.2);
+}
+
+.loading-step__complete-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.loading-step__complete-message {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+[data-theme="dark"] .onboarding-button {
+  background: var(--color-dark-accent);
+  box-shadow: 0 2px 8px rgba(212, 70, 110, 0.3);
+}
+
+[data-theme="dark"] .onboarding-button:hover:not(:disabled) {
+  background: var(--color-dark-accent-hover);
+  box-shadow: 0 4px 16px rgba(212, 70, 110, 0.4);
+}
+
+[data-theme="dark"] .onboarding-card--selected,
+[data-theme="dark"] .onboarding-pill--selected,
+[data-theme="dark"] .onboarding-tool--selected {
+  border-color: var(--color-dark-accent);
+  background: rgba(212, 70, 110, 0.08);
+}
+
+[data-theme="dark"] .onboarding-card__check,
+[data-theme="dark"] .onboarding-pill__check,
+[data-theme="dark"] .onboarding-tool__check {
+  background: var(--color-dark-accent);
+}
+
+[data-theme="dark"] .onboarding-search__input:focus {
+  border-color: var(--color-dark-accent);
+  box-shadow: 0 0 0 4px rgba(212, 70, 110, 0.15);
+}
+
+[data-theme="dark"] .loading-step__progress-bar {
+  background: rgba(212, 70, 110, 0.15);
+}
+
+[data-theme="dark"] .loading-step__progress-fill {
+  background: var(--color-dark-accent);
+}
+
+[data-theme="dark"] .loading-step__check {
+  background: var(--color-dark-accent);
+  box-shadow: 0 8px 32px rgba(212, 70, 110, 0.3);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .onboarding-flow {
+    padding: var(--space-lg);
+  }
+
+  .onboarding-step__title {
+    font-size: 1.75rem;
+  }
+
+  .onboarding-step__subtitle {
+    font-size: 1rem;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .onboarding-cards {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .onboarding-card {
+    padding: var(--space-lg);
+    min-height: 100px;
+  }
+
+  .onboarding-pill {
+    padding: var(--space-md) var(--space-lg);
+    min-height: 64px;
+  }
+
+  .onboarding-tools__grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .onboarding-button {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .onboarding-skip {
+    top: var(--space-lg);
+    right: var(--space-lg);
+    font-size: 0.875rem;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-card,
+  .onboarding-pill,
+  .onboarding-tool,
+  .onboarding-button {
+    transition: none !important;
+  }
+}

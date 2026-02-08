@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import * as Blockly from "blockly";
 import {
   Play,
   Save,
@@ -20,6 +22,7 @@ import useBuilderStore from "../../store/builderStore";
 import "./BuilderPage.css";
 
 const BuilderPage = () => {
+  const location = useLocation();
   const workspaceRef = useRef(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [isPropertiesOpen, setIsPropertiesOpen] = useState(false);
@@ -75,6 +78,21 @@ const BuilderPage = () => {
     }
     setPrevGmailConnected(gmailConnected);
   }, [gmailConnected, prevGmailConnected]);
+
+  // Load template from navigation state
+  useEffect(() => {
+    const template = location.state?.template;
+    if (template && workspaceRef.current && template.blocks) {
+      try {
+        // Clear workspace first
+        workspaceRef.current.clear();
+        // Load template blocks
+        Blockly.serialization.workspaces.load(template.blocks, workspaceRef.current);
+      } catch (error) {
+        console.error('Error loading template:', error);
+      }
+    }
+  }, [location.state]);
 
   const handleRunWorkflow = () => {
     if (workspaceRef.current) {

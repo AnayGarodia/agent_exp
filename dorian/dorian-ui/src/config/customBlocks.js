@@ -2,18 +2,18 @@ import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import "./blockly.css";
 // ===========================================================================
-// BLOCK COLORS - Distinct, High-Contrast Colors
+// BLOCK COLORS - Distinct Pastel Colors
 // ===========================================================================
-// Each category has a unique, vibrant color with good text contrast
+// Each category has a unique, distinct pastel color for easy differentiation
 const COLORS = {
-  CONTROL: "#FF6B6B", // Coral Red - Flow control (if/then, loops)
-  INPUT: "#4ECDC4", // Bright Teal - Input/Data retrieval
-  GMAIL: "#FFD93D", // Golden Yellow - Gmail/Email operations
-  AI: "#A78BFA", // Purple - AI/LLM operations
-  DATA: "#6BCF7F", // Fresh Green - Variables and data operations
-  OUTPUT: "#5B9BD5", // Professional Blue - Display/Output
-  UTILITY: "#FF8C94", // Soft Pink - Utility functions (wait, delay)
-  INTEGRATION: "#45B7D1", // Sky Blue - API/Service integrations
+  CONTROL: "#FFB366", // Peach - Flow control (if/then, loops)
+  INPUT: "#66E0E0", // Aqua - Input/Data retrieval
+  GMAIL: "#FFD666", // Lemon yellow - Gmail/Email operations
+  AI: "#B399FF", // Medium purple - AI/LLM operations
+  DATA: "#A3E6A3", // Mint green - Variables and data operations
+  OUTPUT: "#85C1FF", // Sky blue - Display/Output
+  UTILITY: "#FF9999", // Coral - Utility functions (wait, delay)
+  INTEGRATION: "#99DED6", // Teal - API/Service integrations
 };
 
 // ===========================================================================

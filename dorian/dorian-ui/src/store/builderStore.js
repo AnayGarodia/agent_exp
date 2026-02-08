@@ -603,7 +603,7 @@ const useBuilderStore = create((set, get) => ({
     set((state) => ({ showCode: !state.showCode }));
   },
 
-  handleSave: (workspace) => {
+  handleSave: async (workspace) => {
     if (!workspace) return;
 
     // Prompt for workflow name
@@ -634,8 +634,39 @@ const useBuilderStore = create((set, get) => ({
       newWorkflows = [...savedWorkflows, workflow];
     }
 
+    // Save to localStorage
     localStorage.setItem('dorian-saved-workflows', JSON.stringify(newWorkflows));
     set({ savedWorkflows: newWorkflows, currentWorkflowName: name });
+
+    // Try to save to backend if user is authenticated
+    try {
+      const workflowData = {
+        name,
+        description: '', // Could add a description field
+        blocklyState: state,
+        agentType: 'custom'
+      };
+
+      if (existingIndex >= 0 && workflow.id) {
+        // Update existing workflow
+        await api.updateWorkflow(workflow.id, workflowData);
+      } else {
+        // Create new workflow
+        const result = await api.saveUserWorkflow(workflowData);
+        if (result.success && result.workflow) {
+          // Update the workflow ID with the backend ID
+          workflow.id = result.workflow.id;
+          newWorkflows = existingIndex >= 0
+            ? newWorkflows.map((w, i) => i === existingIndex ? workflow : w)
+            : [...newWorkflows.slice(0, -1), workflow];
+          localStorage.setItem('dorian-saved-workflows', JSON.stringify(newWorkflows));
+          set({ savedWorkflows: newWorkflows });
+        }
+      }
+    } catch (error) {
+      console.log('Could not save to backend (user may not be logged in):', error);
+      // Still show success since localStorage save worked
+    }
 
     // Show success message
     alert(`Workflow "${name}" saved successfully!`);
@@ -655,6 +686,9 @@ const useBuilderStore = create((set, get) => ({
         const blocksBox = workspace.getBlocksBoundingBox();
 
         if (blocksBox) {
+          // Set reasonable zoom level (1.0 = 100%)
+          workspace.setScale(1.0);
+
           // Calculate center position
           const centerX = (blocksBox.right + blocksBox.left) / 2;
           const centerY = (blocksBox.bottom + blocksBox.top) / 2;
@@ -664,9 +698,6 @@ const useBuilderStore = create((set, get) => ({
             centerX - metrics.viewWidth / 2,
             centerY - metrics.viewHeight / 2
           );
-
-          // Optional: zoom to fit all blocks
-          workspace.zoomToFit();
         }
       }, 100);
     } catch (e) {

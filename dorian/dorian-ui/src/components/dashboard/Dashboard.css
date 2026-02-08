@@ -1,0 +1,538 @@
+/* ========================================
+   DASHBOARD - CLEAN & SPACIOUS (Canva-inspired)
+   ======================================== */
+
+.dashboard {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.dashboard__container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--space-5xl) var(--space-3xl);
+}
+
+/* ========================================
+   LOADING & ERROR STATES
+   ======================================== */
+
+.dashboard__loading,
+.dashboard__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: var(--space-xl);
+}
+
+.dashboard__spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.dashboard__loading p,
+.dashboard__error p {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+.dashboard__error button {
+  padding: var(--space-md) var(--space-xl);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dashboard__error button:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   HERO SECTION - Large, Centered
+   ======================================== */
+
+.dashboard__hero {
+  text-align: center;
+  margin-bottom: var(--space-5xl);
+  padding: var(--space-3xl) 0;
+}
+
+.dashboard__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  margin-bottom: var(--space-xl);
+  line-height: 1.1;
+}
+
+/* ========================================
+   CREDITS DISPLAY
+   ======================================== */
+
+.dashboard__credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-surface);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-full);
+  margin: 0 auto var(--space-3xl) auto;
+  width: fit-content;
+  color: var(--primary);
+}
+
+[data-theme="dark"] .dashboard__credits {
+  border-color: var(--color-dark-accent);
+  color: var(--color-dark-accent);
+}
+
+.dashboard__credits svg {
+  flex-shrink: 0;
+}
+
+.dashboard__credits-amount {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.dashboard__credits-label {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   SEARCH BAR - Large, Prominent
+   ======================================== */
+
+.dashboard__search {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-2xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-fast);
+}
+
+.dashboard__search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 4px 24px rgba(106, 4, 29, 0.08);
+}
+
+.dashboard__search svg {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.dashboard__search input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.dashboard__search input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+[data-theme="dark"] .dashboard__search:focus-within {
+  border-color: var(--color-dark-accent);
+  box-shadow: 0 4px 24px rgba(212, 70, 110, 0.15);
+}
+
+/* ========================================
+   QUICK ACTIONS
+   ======================================== */
+
+.dashboard__quick-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-5xl);
+}
+
+.dashboard__action-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-2xl);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dashboard__action-button--primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 12px rgba(106, 4, 29, 0.2);
+}
+
+.dashboard__action-button--primary:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 6px 24px rgba(106, 4, 29, 0.3);
+}
+
+[data-theme="dark"] .dashboard__action-button--primary {
+  background: var(--color-dark-accent);
+  box-shadow: 0 2px 12px rgba(212, 70, 110, 0.3);
+}
+
+[data-theme="dark"] .dashboard__action-button--primary:hover {
+  background: var(--color-dark-accent-hover);
+  box-shadow: 0 6px 24px rgba(212, 70, 110, 0.4);
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.dashboard__section {
+  margin-bottom: var(--space-5xl);
+}
+
+.dashboard__section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: var(--space-3xl);
+}
+
+.dashboard__section-title svg {
+  color: var(--primary);
+}
+
+[data-theme="dark"] .dashboard__section-title svg {
+  color: var(--color-dark-accent);
+}
+
+/* ========================================
+   TEMPLATES GRID - Clean, Spacious
+   ======================================== */
+
+.dashboard__templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-2xl);
+}
+
+.dashboard__template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-3xl) var(--space-2xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 240px;
+}
+
+.dashboard__template-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 12px 40px rgba(106, 4, 29, 0.08);
+}
+
+[data-theme="dark"] .dashboard__template-card:hover {
+  border-color: var(--color-dark-accent);
+  box-shadow: 0 12px 40px rgba(212, 70, 110, 0.15);
+}
+
+.dashboard__template-icon {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-xl);
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.dashboard__template-icon::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.dashboard__template-card:hover .dashboard__template-icon {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard__template-name {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.dashboard__template-desc {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.dashboard__empty-search {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-5xl) var(--space-2xl);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+}
+
+/* ========================================
+   WORKFLOWS GRID - Recent Work
+   ======================================== */
+
+.dashboard__workflows-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-xl);
+}
+
+.dashboard__workflow-card {
+  display: flex;
+  gap: var(--space-lg);
+  padding: var(--space-2xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dashboard__workflow-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 32px rgba(106, 4, 29, 0.08);
+}
+
+[data-theme="dark"] .dashboard__workflow-card:hover {
+  border-color: var(--color-dark-accent);
+  box-shadow: 0 8px 32px rgba(212, 70, 110, 0.15);
+}
+
+.dashboard__workflow-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  background: var(--primary);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-fast);
+}
+
+[data-theme="dark"] .dashboard__workflow-icon {
+  background: var(--color-dark-accent);
+}
+
+.dashboard__workflow-card:hover .dashboard__workflow-icon {
+  transform: scale(1.05);
+}
+
+.dashboard__workflow-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard__workflow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.dashboard__workflow-name {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+}
+
+.dashboard__workflow-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.dashboard__workflow-delete:hover {
+  background: rgba(224, 80, 80, 0.1);
+  border-color: #e05050;
+  color: #e05050;
+}
+
+.dashboard__workflow-desc {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.dashboard__workflow-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1200px) {
+  .dashboard__templates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .dashboard__workflows-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard__container {
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .dashboard__hero {
+    padding: var(--space-2xl) 0;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .dashboard__title {
+    font-size: 2rem;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .dashboard__search {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .dashboard__search input {
+    font-size: 1rem;
+  }
+
+  .dashboard__quick-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard__action-button {
+    justify-content: center;
+  }
+
+  .dashboard__templates-grid,
+  .dashboard__workflows-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .dashboard__template-card {
+    padding: var(--space-2xl) var(--space-lg);
+    min-height: 200px;
+  }
+
+  .dashboard__template-icon {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard__spinner {
+    animation: none;
+  }
+
+  .dashboard__template-icon {
+    transition: none;
+  }
+}

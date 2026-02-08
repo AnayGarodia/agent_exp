@@ -149,8 +149,8 @@
   color: var(--color-text, #2E2E2E) !important;
   font-size: 0.9rem !important;
   font-weight: 600 !important;
-  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
-  letter-spacing: 0.01em !important;
+  font-family: var(--font-body) !important;
+  letter-spacing: 0.02em !important;
 }
 
 /* Category color swatches */
@@ -258,25 +258,31 @@
 
 .blocklyEditableText > text {
   fill: #FFFFFF !important;
-  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: var(--font-body) !important;
   font-size: 13px !important;
   font-weight: 600 !important;
 }
 
-/* Dark text on light-colored blocks (yellow, orange, cyan, green) */
-.blocklyText,
-.blocklyEditableText > text {
+/* Dark text on all pastel blocks for good contrast */
+.blocklyText {
   fill: #2A2A2A !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
 }
 
-/* Keep white text on dark blocks */
-[data-category="ai"] .blocklyText,
-[data-category="gmail"] .blocklyText,
-.blocklyDraggable[data-type*="ai"] .blocklyText,
-.blocklyDraggable[data-type*="gmail"] .blocklyText {
-  fill: #FFFFFF !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+/* Editable text fields also get dark text */
+.blocklyEditableText > text {
+  fill: #2A2A2A !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+}
+
+/* Input field backgrounds - slightly darker for contrast */
+.blocklyEditableText > rect {
+  fill: rgba(0, 0, 0, 0.08) !important;
+  stroke: rgba(0, 0, 0, 0.15) !important;
+  rx: 8 !important;
+  ry: 8 !important;
 }
 
 /* Dropdown menus */
@@ -294,49 +300,49 @@
 }
 
 /* ========================================
-   SCRATCH-STYLE CATEGORY ICON GRADIENTS
+   PASTEL CATEGORY ICON GRADIENTS
    ======================================== */
 
-/* Control - Orange */
+/* Control - Peach */
 .blocklyTreeRow[data-id*="control"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #FFAB19 0%, #FFC14D 100%) !important;
-  box-shadow: 0 2px 6px rgba(255, 171, 25, 0.3) !important;
+  background: linear-gradient(135deg, #FFB366 0%, #FFC999 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 179, 102, 0.3) !important;
 }
 
-/* Input - Cyan */
+/* Input - Aqua */
 .blocklyTreeRow[data-id*="input"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #5CB1D6 0%, #7EC8E8 100%) !important;
-  box-shadow: 0 2px 6px rgba(92, 177, 214, 0.3) !important;
+  background: linear-gradient(135deg, #66E0E0 0%, #99EBEB 100%) !important;
+  box-shadow: 0 2px 6px rgba(102, 224, 224, 0.3) !important;
 }
 
-/* Gmail - Gold */
+/* Gmail - Lemon Yellow */
 .blocklyTreeRow[data-id*="gmail"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #FFBF00 0%, #FFD54F 100%) !important;
-  box-shadow: 0 2px 6px rgba(255, 191, 0, 0.3) !important;
+  background: linear-gradient(135deg, #FFD666 0%, #FFE699 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 214, 102, 0.3) !important;
 }
 
-/* AI - Purple */
+/* AI - Medium Purple */
 .blocklyTreeRow[data-id*="ai"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #9966FF 0%, #B38AFF 100%) !important;
-  box-shadow: 0 2px 6px rgba(153, 102, 255, 0.3) !important;
+  background: linear-gradient(135deg, #B399FF 0%, #CCB3FF 100%) !important;
+  box-shadow: 0 2px 6px rgba(179, 153, 255, 0.3) !important;
 }
 
-/* Data - Green */
+/* Data - Mint Green */
 .blocklyTreeRow[data-id*="data"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #59C059 0%, #79D479 100%) !important;
-  box-shadow: 0 2px 6px rgba(89, 192, 89, 0.3) !important;
+  background: linear-gradient(135deg, #A3E6A3 0%, #C2F0C2 100%) !important;
+  box-shadow: 0 2px 6px rgba(163, 230, 163, 0.3) !important;
 }
 
-/* Output - Blue */
+/* Output - Sky Blue */
 .blocklyTreeRow[data-id*="output"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #4C97FF 0%, #70B0FF 100%) !important;
-  box-shadow: 0 2px 6px rgba(76, 151, 255, 0.3) !important;
+  background: linear-gradient(135deg, #85C1FF 0%, #A8D4FF 100%) !important;
+  box-shadow: 0 2px 6px rgba(133, 193, 255, 0.3) !important;
 }
 
 /* Utility - Coral */
 .blocklyTreeRow[data-id*="utility"] .blocklyTreeIcon {
-  background: linear-gradient(135deg, #FF6680 0%, #FF8DA0 100%) !important;
-  box-shadow: 0 2px 6px rgba(255, 102, 128, 0.3) !important;
+  background: linear-gradient(135deg, #FF9999 0%, #FFB3B3 100%) !important;
+  box-shadow: 0 2px 6px rgba(255, 153, 153, 0.3) !important;
 }
 
 /* ========================================

@@ -364,10 +364,16 @@ svg {
   font-size: 14px !important;
 }
 
-/* Block text - ensure high contrast with Glacial Indifference */
+/* Block text - NO DEFAULT COLOR (let Blockly auto-calculate based on brightness) */
 .blocklyText {
-  fill: #1a1a1a !important;
   font-weight: 500 !important;
+  /* Blockly will automatically choose white or black based on block color */
+}
+
+/* Field labels - NO DEFAULT COLOR (let Blockly auto-calculate) */
+.blocklyEditableText > text {
+  font-weight: 500 !important;
+  /* Blockly will automatically choose white or black based on block color */
 }
 
 /* Dropdown text */
@@ -444,12 +450,6 @@ svg {
 
 .blocklyDraggable:hover {
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-}
-
-/* Field labels - better contrast */
-.blocklyEditableText > text {
-  fill: #1a1a1a !important;
-  font-weight: 500 !important;
 }
 
 /* Make block corners rounder to match design system */
