@@ -14,7 +14,6 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: 90%;
   max-width: 700px;
   max-height: 80vh;
@@ -198,15 +197,15 @@
 
 .workflows-modal__button--delete {
   background: transparent;
-  color: #E05050;
-  border: 1px solid #E05050;
+  color: #e05050;
+  border: 1px solid #e05050;
   padding: var(--space-sm);
 }
 
 .workflows-modal__button--delete:hover {
   background: rgba(224, 80, 80, 0.1);
-  border-color: #D03030;
-  color: #D03030;
+  border-color: #d03030;
+  color: #d03030;
 }
 
 /* Responsive */

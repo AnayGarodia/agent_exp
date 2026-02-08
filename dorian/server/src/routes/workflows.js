@@ -14,7 +14,7 @@ router.post("/execute", async (req, res) => {
     // Use tokens from session if not provided in request
     const googleTokens = tokens || req.session.googleTokens;
 
-    console.log("📝 Executing workflow...");
+    console.log(" Executing workflow...");
     const result = await executeWorkflow(code, googleTokens);
 
     res.json({
@@ -47,7 +47,7 @@ router.post("/save", (req, res) => {
 
     const workflowId = `workflow_${Date.now()}`;
 
-    console.log(`💾 Workflow "${name}" saved (mock): ${workflowId}`);
+    console.log(` Workflow "${name}" saved (mock): ${workflowId}`);
 
     res.json({
       success: true,

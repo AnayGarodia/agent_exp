@@ -24,7 +24,7 @@ class WorkflowEngine {
     this.logs = [];
     this.variables = {};
 
-    this.log("🚀 Starting workflow execution...", "info");
+    this.log(" Starting workflow execution...", "info");
 
     try {
       // Check if Gmail tokens are available when needed
@@ -37,7 +37,7 @@ class WorkflowEngine {
         generatedCode.includes("archiveEmail");
 
       if (needsGmail && !googleTokens) {
-        this.log("❌ Gmail authentication required", "error");
+        this.log(" Gmail authentication required", "error");
         throw new Error(
           "Gmail authentication required. Please connect your Gmail account first."
         );
@@ -46,8 +46,8 @@ class WorkflowEngine {
       // Create execution context with all the methods blocks can call
       const context = {
         // Logging
-        log: (msg) => this.log(`📝 ${msg}`, "log"),
-        output: (msg) => this.log(`📤 Output: ${msg}`, "result"),
+        log: (msg) => this.log(` ${msg}`, "log"),
+        output: (msg) => this.log(` Output: ${msg}`, "result"),
 
         // Gmail operations
         fetchEmails: async (max) => {
@@ -56,13 +56,13 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`📧 Fetching ${max} unread emails...`, "email");
+          this.log(` Fetching ${max} unread emails...`, "email");
           const emails = await gmail.listMessages(
             googleTokens,
             max,
             "is:unread"
           );
-          this.log(`✅ Found ${emails.length} emails`, "success");
+          this.log(` Found ${emails.length} emails`, "success");
           return emails;
         },
 
@@ -72,9 +72,9 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`🔍 Searching Gmail: "${query}"`, "email");
+          this.log(` Searching Gmail: "${query}"`, "email");
           const emails = await gmail.listMessages(googleTokens, max, query);
-          this.log(`✅ Found ${emails.length} matching emails`, "success");
+          this.log(` Found ${emails.length} matching emails`, "success");
           return emails;
         },
 
@@ -84,9 +84,9 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`📤 Sending email to ${to}...`, "email");
+          this.log(` Sending email to ${to}...`, "email");
           const result = await gmail.sendEmail(googleTokens, to, subject, body);
-          this.log(`✅ Email sent successfully`, "success");
+          this.log(` Email sent successfully`, "success");
 
           // Log to Google Sheets
           try {
@@ -96,9 +96,9 @@ class WorkflowEngine {
               response: body.substring(0, 200) + (body.length > 200 ? "..." : ""),
               recipient: to
             });
-            this.log(`📊 Action logged to Google Sheets`, "success");
+            this.log(` Action logged to Google Sheets`, "success");
           } catch (error) {
-            this.log(`⚠️ Failed to log to Sheets: ${error.message}`, "warning");
+            this.log(` Failed to log to Sheets: ${error.message}`, "warning");
           }
 
           return result;
@@ -110,7 +110,7 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`💬 Sending reply to message ${messageId}...`, "email");
+          this.log(` Sending reply to message ${messageId}...`, "email");
           // We need to get the email to get threadId
           const email = await gmail.getMessage(googleTokens, messageId);
           const result = await gmail.replyToEmail(
@@ -119,7 +119,7 @@ class WorkflowEngine {
             email.threadId,
             body
           );
-          this.log(`✅ Reply sent successfully`, "success");
+          this.log(` Reply sent successfully`, "success");
 
           // Log to Google Sheets
           try {
@@ -129,9 +129,9 @@ class WorkflowEngine {
               response: body.substring(0, 200) + (body.length > 200 ? "..." : ""),
               recipient: email.from
             });
-            this.log(`📊 Reply logged to Google Sheets`, "success");
+            this.log(` Reply logged to Google Sheets`, "success");
           } catch (error) {
-            this.log(`⚠️ Failed to log to Sheets: ${error.message}`, "warning");
+            this.log(` Failed to log to Sheets: ${error.message}`, "warning");
           }
           return result;
         },
@@ -142,9 +142,9 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`✔ Marking email as read...`, "email");
+          this.log(` Marking email as read...`, "email");
           await gmail.markAsRead(googleTokens, messageId);
-          this.log(`✅ Marked as read`, "success");
+          this.log(` Marked as read`, "success");
         },
 
         archiveEmail: async (messageId) => {
@@ -153,14 +153,14 @@ class WorkflowEngine {
               "Gmail authentication required. Please connect your Gmail account first."
             );
           }
-          this.log(`📦 Archiving email...`, "email");
+          this.log(` Archiving email...`, "email");
           await gmail.archiveEmail(googleTokens, messageId);
-          this.log(`✅ Archived`, "success");
+          this.log(` Archived`, "success");
         },
 
         // AI operations
         generateReply: async (emailBody, instructions) => {
-          this.log(`🤖 Generating AI reply...`, "ai");
+          this.log(` Generating AI reply...`, "ai");
           const prompt = `You are a helpful email assistant. Generate a professional reply to this email based on these instructions: ${instructions}\n\nEmail content:\n${emailBody}`;
 
           const completion = await groq.chat.completions.create({
@@ -178,12 +178,12 @@ class WorkflowEngine {
           });
 
           const reply = completion.choices[0].message.content;
-          this.log(`✅ AI reply generated`, "success");
+          this.log(` AI reply generated`, "success");
           return reply;
         },
 
         callAI: async (input, task) => {
-          this.log(`🤖 Processing with AI: ${task}`, "ai");
+          this.log(` Processing with AI: ${task}`, "ai");
 
           const completion = await groq.chat.completions.create({
             messages: [
@@ -199,15 +199,15 @@ class WorkflowEngine {
           });
 
           const result = completion.choices[0].message.content;
-          this.log(`✅ AI processing complete`, "success");
+          this.log(` AI processing complete`, "success");
           return result;
         },
 
         // Utility
         delay: async (seconds) => {
-          this.log(`⏱️  Waiting ${seconds} second(s)...`, "info");
+          this.log(`  Waiting ${seconds} second(s)...`, "info");
           await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-          this.log(`✅ Wait complete`, "success");
+          this.log(` Wait complete`, "success");
         },
 
         // Input data (can be passed when executing workflow)
@@ -222,7 +222,7 @@ class WorkflowEngine {
 
       await workflowFunction(context);
 
-      this.log("✅ Workflow completed successfully", "success");
+      this.log(" Workflow completed successfully", "success");
 
       return {
         success: true,
@@ -230,7 +230,7 @@ class WorkflowEngine {
         variables: this.variables,
       };
     } catch (error) {
-      this.log(`❌ Workflow failed: ${error.message}`, "error");
+      this.log(` Workflow failed: ${error.message}`, "error");
       console.error("Workflow execution error:", error);
 
       return {

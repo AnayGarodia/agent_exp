@@ -13,11 +13,11 @@ const {
  * Redirect to Google OAuth consent screen
  */
 router.get("/google/url", (req, res) => {
-  console.log("🔐 [auth] Generating Google OAuth URL");
+  console.log(" [auth] Generating Google OAuth URL");
 
   const authUrl = getAuthUrl();
 
-  console.log("🔐 [auth] Redirecting to:", authUrl);
+  console.log(" [auth] Redirecting to:", authUrl);
   res.redirect(authUrl);
 });
 
@@ -28,22 +28,22 @@ router.get("/google/url", (req, res) => {
 router.get("/google/callback", async (req, res) => {
   const { code } = req.query;
 
-  console.log("✅ [auth/callback] Received OAuth code");
+  console.log(" [auth/callback] Received OAuth code");
 
   if (!code) {
-    console.error("❌ [auth/callback] No code in query params");
+    console.error(" [auth/callback] No code in query params");
     return res.status(400).send("No authorization code received");
   }
 
   try {
     // Exchange code for tokens
     const { tokens } = await getTokenFromCode(code);
-    console.log("✅ [auth/callback] Received tokens");
+    console.log(" [auth/callback] Received tokens");
     console.log(
-      "🔑 [auth/callback] Has refresh token:",
+      " [auth/callback] Has refresh token:",
       !!tokens.refresh_token
     );
-    console.log("🔑 [auth/callback] Token expiry:", new Date(tokens.expiry_date).toISOString());
+    console.log(" [auth/callback] Token expiry:", new Date(tokens.expiry_date).toISOString());
 
     // Get user email using a dedicated OAuth2 client instance
     const oauth2Client = createOAuth2Client();
@@ -52,14 +52,14 @@ router.get("/google/callback", async (req, res) => {
     const userInfo = await oauth2.userinfo.get();
     const email = userInfo.data.email;
 
-    console.log("📧 [auth/callback] User email:", email);
+    console.log(" [auth/callback] User email:", email);
 
     // Store tokens in session - CRITICAL: Use googleTokens key to match workflows.js
     req.session.googleTokens = tokens;
     req.session.email = email;
     req.session.authenticated = true;
 
-    console.log("💾 [auth/callback] Storing in session:", {
+    console.log(" [auth/callback] Storing in session:", {
       sessionId: req.session.id,
       email: email,
       hasAccessToken: !!tokens.access_token,
@@ -70,10 +70,10 @@ router.get("/google/callback", async (req, res) => {
     // Save session before responding
     req.session.save((err) => {
       if (err) {
-        console.error("❌ [auth/callback] Session save error:", err);
+        console.error(" [auth/callback] Session save error:", err);
       } else {
-        console.log("✅ [auth/callback] Session saved successfully");
-        console.log("🔑 [auth/callback] Session ID:", req.session.id);
+        console.log(" [auth/callback] Session saved successfully");
+        console.log(" [auth/callback] Session ID:", req.session.id);
       }
 
       const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
@@ -111,7 +111,7 @@ router.get("/google/callback", async (req, res) => {
           </head>
           <body>
             <div class="container">
-              <h1>✅ Gmail Connected!</h1>
+              <h1> Gmail Connected!</h1>
               <p>Successfully authenticated</p>
               <p class="email">${email}</p>
               <p style="margin-top: 1.5rem; font-size: 0.9rem;">Redirecting back...</p>
@@ -129,8 +129,8 @@ router.get("/google/callback", async (req, res) => {
       `);
     });
   } catch (error) {
-    console.error("❌ [auth/callback] Error:", error);
-    console.error("❌ [auth/callback] Error details:", {
+    console.error(" [auth/callback] Error:", error);
+    console.error(" [auth/callback] Error details:", {
       message: error.message,
       code: error.code,
       status: error.status,
@@ -200,7 +200,7 @@ router.get("/google/callback", async (req, res) => {
         </head>
         <body>
           <div class="container">
-            <h1>❌ Authentication Failed</h1>
+            <h1> Authentication Failed</h1>
             <p class="message">${userMessage}</p>
             ${technicalDetails ? `<div class="details">${technicalDetails}</div>` : ''}
             <p class="retry">Close this window and try again.</p>
@@ -223,9 +223,9 @@ router.get("/google/callback", async (req, res) => {
  * Check authentication status and token validity
  */
 router.get("/status", async (req, res) => {
-  console.log("🔍 [auth/status] Checking auth status");
-  console.log("🔍 [auth/status] Session ID:", req.session?.id);
-  console.log("🔍 [auth/status] Has tokens:", !!req.session?.googleTokens);
+  console.log(" [auth/status] Checking auth status");
+  console.log(" [auth/status] Session ID:", req.session?.id);
+  console.log(" [auth/status] Has tokens:", !!req.session?.googleTokens);
 
   try {
     const authenticated = !!(
@@ -247,7 +247,7 @@ router.get("/status", async (req, res) => {
 
         if (refreshedTokens) {
           req.session.googleTokens = refreshedTokens;
-          console.log("🔄 [auth/status] Tokens refreshed");
+          console.log(" [auth/status] Tokens refreshed");
           // Persist updated session so refreshed tokens survive
           await new Promise((resolve, reject) => {
             req.session.save((err) => (err ? reject(err) : resolve()));
@@ -256,14 +256,14 @@ router.get("/status", async (req, res) => {
 
         hasGmailTokens = true;
       } catch (refreshError) {
-        console.error("❌ [auth/status] Token refresh failed:", refreshError);
+        console.error(" [auth/status] Token refresh failed:", refreshError);
         hasGmailTokens = false;
       }
     }
 
-    console.log("✅ [auth/status] Authenticated:", authenticated);
-    console.log("✅ [auth/status] Has Gmail tokens:", hasGmailTokens);
-    console.log("📧 [auth/status] Email:", email);
+    console.log(" [auth/status] Authenticated:", authenticated);
+    console.log(" [auth/status] Has Gmail tokens:", hasGmailTokens);
+    console.log(" [auth/status] Email:", email);
 
     res.json({
       authenticated: authenticated && hasGmailTokens,
@@ -273,7 +273,7 @@ router.get("/status", async (req, res) => {
       testMode: !authenticated || !hasGmailTokens,
     });
   } catch (error) {
-    console.error("❌ [auth/status] Error:", error);
+    console.error(" [auth/status] Error:", error);
     res.json({
       authenticated: false,
       hasGmailTokens: false,
@@ -289,11 +289,11 @@ router.get("/status", async (req, res) => {
  * Clear session and log out
  */
 router.post("/logout", (req, res) => {
-  console.log("🚪 [auth/logout] Logging out user:", req.session?.email);
+  console.log(" [auth/logout] Logging out user:", req.session?.email);
 
   req.session.destroy((err) => {
     if (err) {
-      console.error("❌ [auth/logout] Error destroying session:", err);
+      console.error(" [auth/logout] Error destroying session:", err);
       return res.status(500).json({
         success: false,
         error: "Failed to log out",
@@ -301,7 +301,7 @@ router.post("/logout", (req, res) => {
     }
 
     res.clearCookie("dorian.sid");
-    console.log("✅ [auth/logout] Session destroyed");
+    console.log(" [auth/logout] Session destroyed");
 
     res.json({
       success: true,

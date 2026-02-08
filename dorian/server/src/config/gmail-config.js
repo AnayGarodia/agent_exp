@@ -45,7 +45,7 @@ function setCredentials(tokens) {
  */
 async function refreshTokenIfNeeded(tokens) {
   if (!tokens || !tokens.refresh_token) {
-    console.error("❌ No refresh token available in tokens:", {
+    console.error(" No refresh token available in tokens:", {
       hasTokens: !!tokens,
       hasRefreshToken: !!tokens?.refresh_token,
       tokenKeys: tokens ? Object.keys(tokens) : [],
@@ -61,12 +61,12 @@ async function refreshTokenIfNeeded(tokens) {
   if (expiryDate > now + bufferTime) {
     // Token is still valid
     console.log(
-      `✅ Token still valid (expires in ${Math.round((expiryDate - now) / 1000 / 60)} minutes)`
+      ` Token still valid (expires in ${Math.round((expiryDate - now) / 1000 / 60)} minutes)`
     );
     return null;
   }
 
-  console.log("🔄 Refreshing expired access token...");
+  console.log(" Refreshing expired access token...");
 
   try {
     // Create a new client for refresh to avoid race conditions
@@ -74,8 +74,8 @@ async function refreshTokenIfNeeded(tokens) {
     client.setCredentials(tokens);
     const { credentials } = await client.refreshAccessToken();
 
-    console.log("✅ Token refreshed successfully");
-    console.log("🔑 New expiry:", new Date(credentials.expiry_date).toISOString());
+    console.log(" Token refreshed successfully");
+    console.log(" New expiry:", new Date(credentials.expiry_date).toISOString());
 
     // Return new tokens (keeping the refresh token)
     return {
@@ -86,8 +86,8 @@ async function refreshTokenIfNeeded(tokens) {
       refresh_token: credentials.refresh_token || tokens.refresh_token,
     };
   } catch (error) {
-    console.error("❌ Token refresh failed:", error.message);
-    console.error("❌ Error details:", {
+    console.error(" Token refresh failed:", error.message);
+    console.error(" Error details:", {
       code: error.code,
       status: error.status,
       message: error.message,

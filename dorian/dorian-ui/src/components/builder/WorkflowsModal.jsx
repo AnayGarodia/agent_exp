@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, FolderOpen, Trash2, Clock } from 'lucide-react';
-import useBuilderStore from '../../store/builderStore';
-import './WorkflowsModal.css';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, FolderOpen, Trash2, Clock } from "lucide-react";
+import useBuilderStore from "../../store/builderStore";
+import "./WorkflowsModal.css";
 
 const WorkflowsModal = ({ workspaceRef }) => {
   const {
@@ -10,17 +10,17 @@ const WorkflowsModal = ({ workspaceRef }) => {
     setShowWorkflowsModal,
     savedWorkflows,
     loadWorkflow,
-    deleteWorkflow
+    deleteWorkflow,
   } = useBuilderStore();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -46,9 +46,9 @@ const WorkflowsModal = ({ workspaceRef }) => {
           {/* Modal */}
           <motion.div
             className="workflows-modal"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, x: "-50%", y: "-50%" }}
+            animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+            exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-50%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
           >
             <div className="workflows-modal__header">
@@ -73,7 +73,8 @@ const WorkflowsModal = ({ workspaceRef }) => {
                   <FolderOpen size={48} opacity={0.3} />
                   <p>No saved workflows yet</p>
                   <p className="workflows-modal__empty-hint">
-                    Click <strong>Save</strong> in the toolbar to save your first workflow
+                    Click <strong>Save</strong> in the toolbar to save your
+                    first workflow
                   </p>
                 </div>
               ) : (

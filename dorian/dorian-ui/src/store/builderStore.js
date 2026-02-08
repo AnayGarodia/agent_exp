@@ -26,7 +26,7 @@ const hasGmailBlocks = (workspace) => {
   const gmailBlockTypes = [
     "gmail_fetch_unread",
     "gmail_search",
-    "gmail_send_new", // ✅ Fixed: was "gmail_send_email"
+    "gmail_send_new", //  Fixed: was "gmail_send_email"
     "gmail_send_reply",
     "gmail_mark_read",
     "gmail_archive",
@@ -392,12 +392,12 @@ const useBuilderStore = create((set, get) => ({
           outputItems: [
             {
               type: "warning",
-              content: "⚠️ This workflow requires Gmail access",
+              content: " This workflow requires Gmail access",
               timestamp: new Date().toISOString(),
             },
             {
               type: "info",
-              content: "🔐 Please connect your Gmail account to continue",
+              content: " Please connect your Gmail account to continue",
               timestamp: new Date().toISOString(),
             },
           ],
@@ -420,7 +420,7 @@ const useBuilderStore = create((set, get) => ({
           outputItems: [
             {
               type: "warning",
-              content: "⚠️ No blocks to execute. Add blocks to your workflow.",
+              content: " No blocks to execute. Add blocks to your workflow.",
               timestamp: new Date().toISOString(),
             },
           ],
@@ -439,17 +439,17 @@ const useBuilderStore = create((set, get) => ({
         outputItems: [
           {
             type: "info",
-            content: `🚀 Starting ${agentType} agent workflow...`,
+            content: ` Starting ${agentType} agent workflow...`,
             timestamp: new Date().toISOString(),
           },
           {
             type: "log",
-            content: `📊 Workspace has ${blocks.length} blocks`,
+            content: ` Workspace has ${blocks.length} blocks`,
             timestamp: new Date().toISOString(),
           },
           {
             type: "log",
-            content: `📤 Sending workflow to backend...`,
+            content: ` Sending workflow to backend...`,
             timestamp: new Date().toISOString(),
           },
         ],
@@ -512,7 +512,7 @@ const useBuilderStore = create((set, get) => ({
             ...state.outputItems,
             {
               type: "success",
-              content: "✅ Workflow completed successfully",
+              content: " Workflow completed successfully",
               timestamp: new Date().toISOString(),
             },
           ],
@@ -525,7 +525,7 @@ const useBuilderStore = create((set, get) => ({
             ...state.outputItems,
             {
               type: "error",
-              content: `❌ Workflow failed: ${result.error}`,
+              content: ` Workflow failed: ${result.error}`,
               timestamp: new Date().toISOString(),
             },
           ],
@@ -551,12 +551,12 @@ const useBuilderStore = create((set, get) => ({
             ...state.outputItems,
             {
               type: "error",
-              content: `❌ ${error.message}`,
+              content: ` ${error.message}`,
               timestamp: new Date().toISOString(),
             },
             {
               type: "info",
-              content: "🔐 Click the button below to connect Gmail",
+              content: " Click the button below to connect Gmail",
               timestamp: new Date().toISOString(),
             },
           ],
@@ -574,12 +574,12 @@ const useBuilderStore = create((set, get) => ({
             ...state.outputItems,
             {
               type: "error",
-              content: `❌ Error: ${errorMessage}`,
+              content: ` Error: ${errorMessage}`,
               timestamp: new Date().toISOString(),
             },
             {
               type: "warning",
-              content: "💡 Check the browser console (F12) for details",
+              content: " Check the browser console (F12) for details",
               timestamp: new Date().toISOString(),
             },
           ],

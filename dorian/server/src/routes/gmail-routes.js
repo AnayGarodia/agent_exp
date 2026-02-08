@@ -34,7 +34,7 @@ router.get("/messages", requireAuth, async (req, res) => {
   try {
     const { maxResults = 10, query = "" } = req.query;
 
-    console.log(`📧 Fetching emails: max=${maxResults}, query="${query}"`);
+    console.log(` Fetching emails: max=${maxResults}, query="${query}"`);
 
     const messages = await gmail.listMessages(
       req.session.googleTokens,
@@ -59,7 +59,7 @@ router.get("/messages", requireAuth, async (req, res) => {
 // Get specific email by ID
 router.get("/messages/:id", requireAuth, async (req, res) => {
   try {
-    console.log(`📧 Fetching message: ${req.params.id}`);
+    console.log(` Fetching message: ${req.params.id}`);
 
     const message = await gmail.getMessage(
       req.session.googleTokens,
@@ -91,7 +91,7 @@ router.post("/send", requireAuth, async (req, res) => {
       });
     }
 
-    console.log(`📤 Sending email to: ${to}`);
+    console.log(` Sending email to: ${to}`);
 
     const result = await gmail.sendEmail(
       req.session.googleTokens,
@@ -126,7 +126,7 @@ router.post("/reply", requireAuth, async (req, res) => {
       });
     }
 
-    console.log(`💬 Replying to message: ${messageId}`);
+    console.log(` Replying to message: ${messageId}`);
 
     // Get original message to get threadId
     const originalMessage = await gmail.getMessage(
@@ -178,7 +178,7 @@ router.post("/mark-read/:id", requireAuth, async (req, res) => {
 // Archive email
 router.post("/archive/:id", requireAuth, async (req, res) => {
   try {
-    console.log(`📦 Archiving: ${req.params.id}`);
+    console.log(` Archiving: ${req.params.id}`);
 
     await gmail.archiveEmail(req.session.googleTokens, req.params.id);
 

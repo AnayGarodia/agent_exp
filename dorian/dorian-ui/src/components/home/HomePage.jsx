@@ -188,7 +188,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="footer__bottom">
-            <p>© 2026 Dorian. Building the future of AI agents.</p>
+            <p> 2026 Dorian. Building the future of AI agents.</p>
           </div>
         </div>
       </footer>

@@ -106,26 +106,24 @@ src/
 - ✅ **Design**: Scratch-style palette applied across all components
 - ✅ **Regression**: All original bugs fixed (scrollbar, centering, cookie, logs)
 
-## Design System & Style Rules
+Design System
+Design Philosophy
+The UI should feel like Anthropic.com meets Quanta Magazine — editorial, warm, intellectual, quietly beautiful. NOT a typical SaaS dashboard. Think premium publication that happens to be a tool.
+Typography
 
-Scratch-inspired palette with CSS custom properties. No AI-brand colors (no Claude beige, ChatGPT green, Gemini purple).
+Headings: Serif font — use Instrument Serif, Newsreader, or Playfair Display (Google Fonts). Let headings breathe with generous line-height and letter-spacing.
+Body: Clean sans-serif — Inter, DM Sans, or Source Sans 3.
+Hierarchy: Clear and deliberate. Should feel like a beautifully typeset publication.
 
-### Block Category Colors
+Color Palette (Warm, Muted, Earthy)
+DO NOT use the old blue-purple scheme. The palette should be warm and sophisticated:
 
-- Control: `--block-control: #FFAB19` (Orange)
-- Input: `--block-sensing: #5CB1D6` (Cyan)
-- Gmail: `--block-events: #FFBF00` (Gold)
-- AI: `--block-looks: #9966FF` (Purple)
-- Data: `--block-operators: #59C059` (Green)
-- Output: `--block-motion: #4C97FF` (Blue)
-- Utility: `--block-variables: #FF6680` (Coral)
-
-### UI Chrome
-
-- Workspace bg: `#F9F9F9` (light) / `#1E1E2E` (dark)
-- Sidebar: `#FFFFFF` / `#252536`
-- Accent: `#4C97FF` (Scratch blue)
-- Grid dots: subtle dot pattern
+Backgrounds: Warm off-white / cream (#FAF8F5, #F5F0EB) — never stark white
+Text: Rich warm dark (#1a1a1a, #2d2b28) — never pure black
+Primary accent: Warm terracotta / burnt sienna / warm coral
+Secondary accent: Muted sage green or dusty blue
+Surfaces: Subtle warm grays and tans for cards, panels
+Dark mode: Deep warm darks, not cold blue-blacks
 
 ## Commands
 

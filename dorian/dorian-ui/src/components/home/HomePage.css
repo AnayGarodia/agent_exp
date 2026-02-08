@@ -20,15 +20,21 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-4xl) 0;
-  background:
-    radial-gradient(ellipse at top, rgba(106, 4, 29, 0.15) 0%, transparent 50%),
-    linear-gradient(to bottom, #0A0A0A 0%, #0F0F0F 100%);
+  background: radial-gradient(
+      ellipse at top,
+      rgba(106, 4, 29, 0.15) 0%,
+      transparent 50%
+    ),
+    linear-gradient(to bottom, #0a0a0a 0%, #0f0f0f 100%);
   overflow: hidden;
 }
 
 [data-theme="light"] .hero {
-  background:
-    radial-gradient(ellipse at top, rgba(106, 4, 29, 0.08) 0%, transparent 50%),
+  background: radial-gradient(
+      ellipse at top,
+      rgba(106, 4, 29, 0.08) 0%,
+      transparent 50%
+    ),
     linear-gradient(to bottom, var(--neutral) 0%, var(--cream) 100%);
 }
 
@@ -46,7 +52,11 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
-  background: linear-gradient(135deg, rgba(212, 70, 110, 0.15) 0%, rgba(106, 4, 29, 0.08) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 70, 110, 0.15) 0%,
+    rgba(106, 4, 29, 0.08) 100%
+  );
   border: 1px solid rgba(212, 70, 110, 0.3);
   border-radius: var(--radius-full);
   font-family: var(--font-body);
@@ -61,24 +71,36 @@
 }
 
 [data-theme="light"] .hero__badge {
-  background: linear-gradient(135deg, rgba(106, 4, 29, 0.08) 0%, rgba(106, 4, 29, 0.04) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(106, 4, 29, 0.08) 0%,
+    rgba(106, 4, 29, 0.04) 100%
+  );
   border-color: var(--primary);
   color: var(--primary);
 }
 
 .hero__badge:hover {
-  background: linear-gradient(135deg, rgba(212, 70, 110, 0.25) 0%, rgba(106, 4, 29, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 70, 110, 0.25) 0%,
+    rgba(106, 4, 29, 0.15) 100%
+  );
   border-color: rgba(212, 70, 110, 0.5);
   box-shadow: 0 8px 24px rgba(106, 4, 29, 0.3);
   transform: translateY(-2px);
 }
 
 [data-theme="light"] .hero__badge:hover {
-  background: linear-gradient(135deg, rgba(106, 4, 29, 0.12) 0%, rgba(106, 4, 29, 0.06) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(106, 4, 29, 0.12) 0%,
+    rgba(106, 4, 29, 0.06) 100%
+  );
 }
 
 .hero__badge-icon {
-  color: #D4466E;
+  color: #d4466e;
   font-size: 1rem;
 }
 
@@ -94,7 +116,7 @@
   line-height: 1.05;
   letter-spacing: -0.04em;
   margin-bottom: var(--space-xl);
-  color: #FFFFFF;
+  color: #ffffff;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
@@ -106,16 +128,22 @@
 .hero__title-accent {
   font-style: italic;
   font-weight: 500;
-  background: linear-gradient(135deg, #D4466E 0%, #E85B7D 50%, #FF8FA3 100%);
+  background: linear-gradient(135deg, #d4466e 0%, #e85b7d 50%, #ff8fa3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  display: inline-block;
+  display: inline;
   text-shadow: none;
+  padding-right: 0.05em;
 }
 
 [data-theme="light"] .hero__title-accent {
-  background: linear-gradient(135deg, var(--primary) 0%, #8B1538 50%, #D4466E 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    #8b1538 50%,
+    #d4466e 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -174,7 +202,7 @@
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 300;
-  color: #FFFFFF;
+  color: #ffffff;
   line-height: 1;
   margin-bottom: var(--space-xs);
   letter-spacing: -0.02em;
@@ -252,13 +280,18 @@
 
 .cta {
   padding: var(--space-5xl) 0;
-  background: linear-gradient(135deg, rgba(106, 4, 29, 0.03) 0%, var(--color-bg-secondary) 50%, rgba(106, 4, 29, 0.03) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(106, 4, 29, 0.03) 0%,
+    var(--color-bg-secondary) 50%,
+    rgba(106, 4, 29, 0.03) 100%
+  );
   position: relative;
   overflow: hidden;
 }
 
 .cta::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -272,8 +305,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.12; }
-  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.18; }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.18;
+  }
 }
 
 .cta__content {
@@ -364,7 +404,7 @@
 }
 
 .footer__link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;

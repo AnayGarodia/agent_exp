@@ -11,7 +11,7 @@ class GmailService {
     }
 
     if (!tokens.access_token) {
-      console.error("❌ Invalid tokens object:", {
+      console.error(" Invalid tokens object:", {
         hasTokens: !!tokens,
         hasAccessToken: !!tokens.access_token,
         hasRefreshToken: !!tokens.refresh_token,
@@ -24,7 +24,7 @@ class GmailService {
       const auth = setCredentials(tokens);
       const gmail = google.gmail({ version: "v1", auth });
 
-      console.log(`📧 Listing messages: maxResults=${maxResults}, query="${query}"`);
+      console.log(` Listing messages: maxResults=${maxResults}, query="${query}"`);
 
       const response = await gmail.users.messages.list({
         userId: "me",
@@ -33,7 +33,7 @@ class GmailService {
       });
 
       const messages = response.data.messages || [];
-      console.log(`✅ Found ${messages.length} messages`);
+      console.log(` Found ${messages.length} messages`);
 
       if (messages.length === 0) {
         return [];
@@ -46,7 +46,7 @@ class GmailService {
 
       return detailedMessages;
     } catch (error) {
-      console.error("❌ Error listing messages:", {
+      console.error(" Error listing messages:", {
         message: error.message,
         code: error.code,
         status: error.status,
@@ -104,7 +104,7 @@ class GmailService {
         body: this.getMessageBody(message.payload),
       };
     } catch (error) {
-      console.error(`❌ Error getting message ${messageId}:`, {
+      console.error(` Error getting message ${messageId}:`, {
         message: error.message,
         code: error.code,
       });
@@ -168,7 +168,7 @@ class GmailService {
       const auth = setCredentials(tokens);
       const gmail = google.gmail({ version: "v1", auth });
 
-      console.log(`📤 Sending email to: ${to}, subject: "${subject}"`);
+      console.log(` Sending email to: ${to}, subject: "${subject}"`);
 
       const email = [
         `To: ${to}`,
@@ -191,10 +191,10 @@ class GmailService {
         },
       });
 
-      console.log(`✅ Email sent successfully, ID: ${response.data.id}`);
+      console.log(` Email sent successfully, ID: ${response.data.id}`);
       return response.data;
     } catch (error) {
-      console.error("❌ Error sending email:", {
+      console.error(" Error sending email:", {
         message: error.message,
         code: error.code,
       });
@@ -232,7 +232,7 @@ class GmailService {
         ? originalMessage.subject
         : `Re: ${originalMessage.subject}`;
 
-      console.log(`💬 Replying to: ${originalMessage.from}, subject: "${replySubject}"`);
+      console.log(` Replying to: ${originalMessage.from}, subject: "${replySubject}"`);
 
       const email = [
         `To: ${originalMessage.from}`,
@@ -258,10 +258,10 @@ class GmailService {
         },
       });
 
-      console.log(`✅ Reply sent successfully, ID: ${response.data.id}`);
+      console.log(` Reply sent successfully, ID: ${response.data.id}`);
       return response.data;
     } catch (error) {
-      console.error("❌ Error replying to email:", {
+      console.error(" Error replying to email:", {
         message: error.message,
         code: error.code,
       });
@@ -288,7 +288,7 @@ class GmailService {
       const auth = setCredentials(tokens);
       const gmail = google.gmail({ version: "v1", auth });
 
-      console.log(`✔ Marking email as read: ${messageId}`);
+      console.log(` Marking email as read: ${messageId}`);
 
       await gmail.users.messages.modify({
         userId: "me",
@@ -298,9 +298,9 @@ class GmailService {
         },
       });
 
-      console.log(`✅ Marked as read successfully`);
+      console.log(` Marked as read successfully`);
     } catch (error) {
-      console.error("❌ Error marking as read:", {
+      console.error(" Error marking as read:", {
         message: error.message,
         code: error.code,
       });
@@ -327,7 +327,7 @@ class GmailService {
       const auth = setCredentials(tokens);
       const gmail = google.gmail({ version: "v1", auth });
 
-      console.log(`📦 Archiving email: ${messageId}`);
+      console.log(` Archiving email: ${messageId}`);
 
       await gmail.users.messages.modify({
         userId: "me",
@@ -337,9 +337,9 @@ class GmailService {
         },
       });
 
-      console.log(`✅ Archived successfully`);
+      console.log(` Archived successfully`);
     } catch (error) {
-      console.error("❌ Error archiving email:", {
+      console.error(" Error archiving email:", {
         message: error.message,
         code: error.code,
       });

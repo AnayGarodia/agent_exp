@@ -36,11 +36,12 @@
 
 .navigation__logo-text {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 500;
   color: var(--color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.1em;
   transition: color var(--transition-fast);
+  text-transform: lowercase;
 }
 
 .navigation__logo-text {
@@ -71,13 +72,13 @@
 }
 
 .navigation__link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: var(--space-md);
   right: var(--space-md);
   height: 2px;
-  background: linear-gradient(90deg, var(--primary) 0%, #D4466E 100%);
+  background: linear-gradient(90deg, var(--primary) 0%, #d4466e 100%);
   opacity: 0;
   transition: opacity var(--transition-fast);
 }

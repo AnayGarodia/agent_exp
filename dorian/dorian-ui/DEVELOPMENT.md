@@ -204,19 +204,19 @@ var(--font-mono)             /* Technical font */
 
 1. **Use Functional Components**
    ```javascript
-   // ✅ Good
+   //  Good
    const Component = () => { ... }
    
-   // ❌ Avoid
+   //  Avoid
    class Component extends React.Component { ... }
    ```
 
 2. **Destructure Props**
    ```javascript
-   // ✅ Good
+   //  Good
    const Component = ({ prop1, prop2 }) => { ... }
    
-   // ❌ Avoid
+   //  Avoid
    const Component = (props) => {
      const prop1 = props.prop1;
      ...
@@ -225,11 +225,11 @@ var(--font-mono)             /* Technical font */
 
 3. **Use Hooks Properly**
    ```javascript
-   // ✅ Good - At top level
+   //  Good - At top level
    const [state, setState] = useState(initial);
    useEffect(() => { ... }, [deps]);
    
-   // ❌ Avoid - Inside conditions
+   //  Avoid - Inside conditions
    if (condition) {
      useState(...); // Never do this
    }
@@ -440,11 +440,11 @@ npx vite-bundle-visualizer
 **Problem**: Component not re-rendering
 **Solution**: Check if state update is creating new reference
 ```javascript
-// ❌ Wrong - Mutating state
+//  Wrong - Mutating state
 state.push(item);
 setState(state);
 
-// ✅ Correct - New reference
+//  Correct - New reference
 setState([...state, item]);
 ```
 
@@ -458,12 +458,12 @@ import './Component.css';
 **Problem**: Animation not smooth
 **Solution**: Use transform instead of position
 ```css
-/* ❌ Less performant */
+/*  Less performant */
 .element {
   left: 100px;
 }
 
-/* ✅ More performant */
+/*  More performant */
 .element {
   transform: translateX(100px);
 }
@@ -489,4 +489,4 @@ import './Component.css';
 
 ---
 
-Happy coding! 🚀
+Happy coding! 

@@ -19,7 +19,7 @@ const SESSION_SECRET =
   process.env.SESSION_SECRET ||
   (() => {
     console.warn(
-      "⚠️  WARNING: No SESSION_SECRET in .env! Using fallback. Generate one with:"
+      "  WARNING: No SESSION_SECRET in .env! Using fallback. Generate one with:"
     );
     console.warn(
       "   node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
@@ -60,9 +60,9 @@ app.use(
 app.use((req, res, next) => {
   const isHealthCheck = req.path === "/api/health";
   if (!isHealthCheck) {
-    console.log(`📋 [${req.method}] ${req.path}`);
-    console.log(`🍪 Session ID: ${req.session?.id}`);
-    console.log(`🔑 Has tokens: ${!!req.session?.googleTokens}`);
+    console.log(` [${req.method}] ${req.path}`);
+    console.log(` Session ID: ${req.session?.id}`);
+    console.log(` Has tokens: ${!!req.session?.googleTokens}`);
   }
   next();
 });
@@ -90,7 +90,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Error handling
 app.use((err, req, res, next) => {
-  console.error("❌ Error:", err);
+  console.error(" Error:", err);
   res.status(500).json({
     error: "Internal server error",
     message: err.message,
@@ -98,13 +98,13 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Dorian server running on http://localhost:${PORT}`);
-  console.log(`📧 Gmail OAuth callback: ${process.env.GMAIL_REDIRECT_URI}`);
+  console.log(` Dorian server running on http://localhost:${PORT}`);
+  console.log(` Gmail OAuth callback: ${process.env.GMAIL_REDIRECT_URI}`);
   console.log(
-    `🔐 Session secret configured: ${
+    ` Session secret configured: ${
       SESSION_SECRET !== "INSECURE-FALLBACK-SECRET-CHANGE-IN-PRODUCTION"
-        ? "✅"
-        : "⚠️  USING FALLBACK"
+        ? ""
+        : "  USING FALLBACK"
     }`
   );
 });
