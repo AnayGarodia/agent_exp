@@ -1,0 +1,121 @@
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-xl);
+  background: var(--color-bg);
+}
+
+.error-boundary__content {
+  max-width: 600px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.error-boundary__icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-md);
+}
+
+.error-boundary__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.error-boundary__message {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.error-boundary__details {
+  margin-top: var(--space-lg);
+  text-align: left;
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}
+
+.error-boundary__details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  user-select: none;
+}
+
+.error-boundary__stack {
+  margin: var(--space-md) 0 0 0;
+  padding: var(--space-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary__button {
+  margin-top: var(--space-md);
+  padding: 0.75rem 2rem;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.error-boundary__button:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.error-boundary__button:active {
+  transform: translateY(0);
+}
+
+/* Dark mode */
+[data-theme="dark"] .error-boundary {
+  background: var(--color-dark-bg);
+}
+
+[data-theme="dark"] .error-boundary__title {
+  color: var(--color-dark-text);
+}
+
+[data-theme="dark"] .error-boundary__message {
+  color: var(--color-dark-text-secondary);
+}
+
+[data-theme="dark"] .error-boundary__details {
+  background: var(--color-dark-surface);
+  border-color: var(--color-dark-border);
+}
+
+[data-theme="dark"] .error-boundary__details summary {
+  color: var(--color-dark-text);
+}
+
+[data-theme="dark"] .error-boundary__stack {
+  background: var(--color-dark-bg);
+  border-color: var(--color-dark-border);
+  color: var(--color-dark-text-secondary);
+}

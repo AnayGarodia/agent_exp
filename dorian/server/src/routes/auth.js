@@ -17,8 +17,8 @@ router.get("/google/url", (req, res) => {
 
   const authUrl = getAuthUrl();
 
-  console.log(" [auth] Redirecting to:", authUrl);
-  res.redirect(authUrl);
+  console.log(" [auth] Sending URL:", authUrl);
+  res.json({ url: authUrl });
 });
 
 /**

@@ -105,6 +105,6 @@ try {
   console.log('Credits columns already exist or migration not needed');
 }
 
-console.log('✅ Database initialized successfully with credits system');
+console.log(' Database initialized successfully with credits system');
 
 module.exports = db;

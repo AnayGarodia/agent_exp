@@ -8,8 +8,13 @@ const GmailPrompt = () => {
   const { showGmailPrompt, setShowGmailPrompt, connectGmail, gmailConnected } =
     useBuilderStore();
 
-  const handleConnect = () => {
-    connectGmail();
+  const handleConnect = async () => {
+    try {
+      await connectGmail();
+    } catch (error) {
+      console.error('Gmail connect failed:', error);
+      alert('Failed to connect Gmail: ' + error.message);
+    }
   };
 
   const handleClose = () => {

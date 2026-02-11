@@ -22,7 +22,15 @@ async function req(path, options = {}) {
   return res.json();
 }
 
+/* helper: GET request */
+async function get(path) {
+  return req(path, { method: "GET" });
+}
+
 export const api = {
+  // ── Generic helpers ───────────────────────────────────
+  get,
+
   // ── User Auth ─────────────────────────────────────────
   /** Sign up a new user */
   async signup(userData) {

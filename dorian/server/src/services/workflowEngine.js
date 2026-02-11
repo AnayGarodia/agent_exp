@@ -1,8 +1,71 @@
-const Groq = require("groq-sdk");
 const { gmail } = require("./gmailService");
 const sheetsService = require("./sheetsService");
+const Groq = require("groq-sdk");
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Groq API helper function
+async function callGroqAPI(messages, temperature = 0.7, maxTokens = 1024, model = null) {
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY not found in environment variables");
+  }
+
+  // Input validation
+  if (!Array.isArray(messages) || messages.length === 0) {
+    throw new Error("Messages must be a non-empty array");
+  }
+
+  if (typeof temperature !== "number" || temperature < 0 || temperature > 2) {
+    throw new Error("Temperature must be a number between 0 and 2");
+  }
+
+  if (typeof maxTokens !== "number" || maxTokens <= 0) {
+    throw new Error("Max tokens must be a positive number");
+  }
+
+  try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+    // Use user-selected model from localStorage or default
+    const selectedModel = model || "llama-3.3-70b-versatile";
+
+    const completion = await groq.chat.completions.create({
+      model: selectedModel,
+      messages: messages,
+      temperature: temperature,
+      max_tokens: maxTokens,
+    });
+
+    if (!completion?.choices?.[0]?.message?.content) {
+      throw new Error("Invalid response from Groq API");
+    }
+
+    return completion.choices[0].message.content;
+  } catch (error) {
+    const errorMsg = error?.message || error?.toString() || "Unknown error";
+
+    // Handle decommissioned models
+    if (errorMsg.includes("decommissioned") || errorMsg.includes("model_decommissioned")) {
+      throw new Error(
+        `Model ${model || "llama-3.3-70b-versatile"} is no longer supported. Please select a different model from the toolbar.`
+      );
+    }
+
+    // Handle quota/capacity errors
+    if (errorMsg.includes("rate_limit") || errorMsg.includes("capacity")) {
+      throw new Error(
+        `Model ${model || "llama-3.3-70b-versatile"} is out of capacity. Please select another model.`
+      );
+    }
+
+    // Handle invalid request errors
+    if (errorMsg.includes("invalid_request_error")) {
+      throw new Error(
+        `Invalid request to AI model. Please try a different model or check your configuration.`
+      );
+    }
+
+    throw new Error(`Groq API error: ${errorMsg}`);
+  }
+}
 
 class WorkflowEngine {
   constructor() {
@@ -20,11 +83,14 @@ class WorkflowEngine {
     });
   }
 
-  async executeWorkflow(generatedCode, googleTokens) {
+  async executeWorkflow(generatedCode, googleTokens, selectedModel = null) {
     this.logs = [];
     this.variables = {};
 
     this.log(" Starting workflow execution...", "info");
+
+    // Store the selected model for use in AI operations
+    this.selectedModel = selectedModel || "llama-3.3-70b-versatile";
 
     try {
       // Check if Gmail tokens are available when needed
@@ -160,47 +226,55 @@ class WorkflowEngine {
 
         // AI operations
         generateReply: async (emailBody, instructions) => {
-          this.log(` Generating AI reply...`, "ai");
+          this.log(` Generating AI reply with ${this.selectedModel}...`, "ai");
           const prompt = `You are a helpful email assistant. Generate a professional reply to this email based on these instructions: ${instructions}\n\nEmail content:\n${emailBody}`;
 
-          const completion = await groq.chat.completions.create({
-            messages: [
-              {
-                role: "system",
-                content:
-                  "You are a professional email assistant. Generate concise, polite email replies.",
-              },
-              { role: "user", content: prompt },
-            ],
-            model: "llama-3.1-8b-instant",
-            temperature: 0.7,
-            max_tokens: 500,
-          });
+          try {
+            const reply = await callGroqAPI(
+              [
+                {
+                  role: "system",
+                  content:
+                    "You are a professional email assistant. Generate concise, polite email replies.",
+                },
+                { role: "user", content: prompt },
+              ],
+              0.7,
+              500,
+              this.selectedModel
+            );
 
-          const reply = completion.choices[0].message.content;
-          this.log(` AI reply generated`, "success");
-          return reply;
+            this.log(` AI reply generated`, "success");
+            return reply;
+          } catch (error) {
+            this.log(` AI error: ${error.message}`, "error");
+            throw error;
+          }
         },
 
         callAI: async (input, task) => {
-          this.log(` Processing with AI: ${task}`, "ai");
+          this.log(` Processing with AI (${this.selectedModel}): ${task}`, "ai");
 
-          const completion = await groq.chat.completions.create({
-            messages: [
-              {
-                role: "system",
-                content: `You are a helpful AI assistant. Task: ${task}`,
-              },
-              { role: "user", content: input || "Process this request" },
-            ],
-            model: "llama-3.1-8b-instant",
-            temperature: 0.7,
-            max_tokens: 1024,
-          });
+          try {
+            const result = await callGroqAPI(
+              [
+                {
+                  role: "system",
+                  content: `You are a helpful AI assistant. Task: ${task}`,
+                },
+                { role: "user", content: input || "Process this request" },
+              ],
+              0.7,
+              1024,
+              this.selectedModel
+            );
 
-          const result = completion.choices[0].message.content;
-          this.log(` AI processing complete`, "success");
-          return result;
+            this.log(` AI processing complete`, "success");
+            return result;
+          } catch (error) {
+            this.log(` AI error: ${error.message}`, "error");
+            throw error;
+          }
         },
 
         // Utility
@@ -242,9 +316,9 @@ class WorkflowEngine {
   }
 }
 
-async function executeWorkflow(generatedCode, tokens) {
+async function executeWorkflow(generatedCode, tokens, selectedModel) {
   const engine = new WorkflowEngine();
-  return await engine.executeWorkflow(generatedCode, tokens);
+  return await engine.executeWorkflow(generatedCode, tokens, selectedModel);
 }
 
 module.exports = { executeWorkflow };

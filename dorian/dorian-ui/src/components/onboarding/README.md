@@ -126,14 +126,14 @@ interface OnboardingData {
 - Confident without being pushy
 
 ### Word Choices
-✅ **Use**: Understanding, experience, context, workflow, intelligent, personalize
-❌ **Avoid**: Knowing, setup, info, stuff, smart, customize
+ **Use**: Understanding, experience, context, workflow, intelligent, personalize
+ **Avoid**: Knowing, setup, info, stuff, smart, customize
 
 ### Examples
-- ❌ "Great choice!" → ✅ "This will help us serve you better"
-- ❌ "You're almost done!" → ✅ "Just a few more questions"
-- ❌ "Let's go!" → ✅ "Continue"
-- ❌ "Yay!" → ✅ "All set"
+-  "Great choice!" →  "This will help us serve you better"
+-  "You're almost done!" →  "Just a few more questions"
+-  "Let's go!" →  "Continue"
+-  "Yay!" →  "All set"
 
 ## Styling
 

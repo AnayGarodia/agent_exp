@@ -9,6 +9,7 @@ import SignupPage from './pages/SignupPage';
 import DocsPage from './pages/DocsPage';
 import DemoPage from './pages/DemoPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import ErrorBoundary from './components/shared/ErrorBoundary';
 import useBuilderStore from './store/builderStore';
 import './styles/global.css';
 
@@ -19,32 +20,20 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/docs" element={<DocsPage />} />
-        <Route path="/demo" element={<DemoPage />} />
-        <Route path="/onboarding" element={<OnboardingFlow />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/builder"
-          element={
-            <ProtectedRoute>
-              <BuilderPage />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/demo" element={<DemoPage />} />
+          <Route path="/onboarding" element={<OnboardingFlow />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/builder" element={<BuilderPage />} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

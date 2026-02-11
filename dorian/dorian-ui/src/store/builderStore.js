@@ -461,9 +461,14 @@ const useBuilderStore = create((set, get) => ({
         code.substring(0, 100) + "..."
       );
 
+      // Get selected model from localStorage
+      const selectedModel = localStorage.getItem("dorian_selected_model") || "llama-3.3-70b-versatile";
+      console.log("[runWorkflow] Using Groq model:", selectedModel);
+
       const result = await api.executeWorkflow({
         code, // Send the generated JavaScript code
         agentType,
+        selectedModel, // Pass the selected model to the backend
       });
 
       console.log("[runWorkflow] Backend response:", result);
@@ -561,6 +566,43 @@ const useBuilderStore = create((set, get) => ({
             },
           ],
           showGmailPrompt: true, // Show the Gmail connection modal
+        }));
+      } else if (
+        error.message?.includes("out of capacity") ||
+        error.message?.includes("rate_limit") ||
+        error.message?.includes("no longer supported") ||
+        error.message?.includes("decommissioned")
+      ) {
+        // Model quota/decommissioned error - suggest selecting a different model
+        console.log("[runWorkflow] Model error detected:", error.message);
+
+        // Auto-switch to default model and clear cache
+        if (error.message?.includes("no longer supported") || error.message?.includes("decommissioned")) {
+          localStorage.removeItem("dorian_groq_models");
+          localStorage.removeItem("dorian_groq_models_time");
+          // Auto-switch to latest stable model
+          localStorage.setItem("dorian_selected_model", "llama-3.3-70b-versatile");
+          console.log("[runWorkflow] Auto-switched to llama-3.3-70b-versatile");
+        }
+
+        const isDecommissioned = error.message?.includes("no longer supported") || error.message?.includes("decommissioned");
+
+        set((state) => ({
+          outputItems: [
+            ...state.outputItems,
+            {
+              type: "error",
+              content: ` ${error.message}`,
+              timestamp: new Date().toISOString(),
+            },
+            {
+              type: "success",
+              content: isDecommissioned
+                ? "✓ Auto-switched to Llama 3.3 70B. Please run again."
+                : " Please select a different AI model from the toolbar and try again",
+              timestamp: new Date().toISOString(),
+            },
+          ],
         }));
       } else {
         // Other errors
@@ -765,43 +807,64 @@ const useBuilderStore = create((set, get) => ({
     }
   },
 
-  connectGmail: () => {
+  connectGmail: async () => {
     const { setShowGmailPrompt, setShowAccountManager } = get();
 
-    const authUrl = api.getAuthUrl();
-    const popup = window.open(
-      authUrl,
-      "gmailAuth",
-      "width=600,height=700,resizable=yes,scrollbars=yes"
-    );
+    try {
+      console.log(' Fetching auth URL...');
 
-    // If popup was blocked, fall back to same-window redirect
-    if (!popup || popup.closed || typeof popup.closed === "undefined") {
-      window.location.href = authUrl;
-      return;
-    }
+      // Fetch the actual Google OAuth URL from the server
+      const response = await fetch('http://localhost:3001/api/auth/google/url', {
+        credentials: 'include'
+      });
 
-    // Poll for authentication completion (backup if postMessage is missed)
-    const interval = setInterval(async () => {
-      try {
-        const data = await api.checkAuthStatus();
-        if (data.authenticated) {
-          set({
-            gmailConnected: true,
-            gmailUserEmail: data.email || null,
-            gmailTestMode: data.testMode ?? true,
-          });
-          setShowGmailPrompt(false);
-          setShowAccountManager(false);
-          clearInterval(interval);
-          if (popup && !popup.closed) popup.close();
-        }
-      } catch (e) {
-        // Ignore errors during polling
+      console.log(' Response status:', response.status);
+
+      const data = await response.json();
+      console.log(' Auth URL received:', data.url);
+
+      const authUrl = data.url;
+
+      console.log(' Opening popup...');
+      const popup = window.open(
+        authUrl,
+        "gmailAuth",
+        "width=600,height=700,resizable=yes,scrollbars=yes"
+      );
+
+      console.log(' Popup opened:', !!popup);
+
+      // If popup was blocked, fall back to same-window redirect
+      if (!popup || popup.closed || typeof popup.closed === "undefined") {
+        console.log(' Popup blocked, redirecting in same window');
+        window.location.href = authUrl;
+        return;
       }
-    }, 1500);
 
-    setTimeout(() => clearInterval(interval), 120_000);
+      // Poll for authentication completion (backup if postMessage is missed)
+      const interval = setInterval(async () => {
+        try {
+          const data = await api.checkAuthStatus();
+          if (data.authenticated) {
+            set({
+              gmailConnected: true,
+              gmailUserEmail: data.email || null,
+              gmailTestMode: data.testMode ?? true,
+            });
+            setShowGmailPrompt(false);
+            setShowAccountManager(false);
+            clearInterval(interval);
+            if (popup && !popup.closed) popup.close();
+          }
+        } catch (e) {
+          // Ignore errors during polling
+        }
+      }, 1500);
+
+      setTimeout(() => clearInterval(interval), 120_000);
+    } catch (error) {
+      console.error('Gmail connect error:', error);
+    }
   },
 
   disconnectGmail: async () => {

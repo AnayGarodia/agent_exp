@@ -18,6 +18,7 @@ import WorkflowCanvas from "./WorkflowCanvas";
 import PropertiesPanel from "./PropertiesPanel";
 import GmailPrompt from "./GmailPrompt";
 import WorkflowsModal from "./WorkflowsModal";
+import ModelSelector from "./ModelSelector";
 import useBuilderStore from "../../store/builderStore";
 import "./BuilderPage.css";
 
@@ -168,6 +169,7 @@ const BuilderPage = () => {
           </div>
 
           <div className="builder-toolbar__right">
+            <ModelSelector />
             <button
               className="builder-toolbar__button"
               onClick={() => setShowWorkflowsModal(true)}

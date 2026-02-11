@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { api } from '../../services/api';
+import React, { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { api } from "../../services/api";
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -11,8 +11,10 @@ const ProtectedRoute = ({ children }) => {
     const checkAuth = async () => {
       try {
         const result = await api.getCurrentUser();
+        console.log("ProtectedRoute auth check:", result);
         setIsAuthenticated(result.success && result.user);
       } catch (error) {
+        console.error("ProtectedRoute auth error:", error);
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);
@@ -24,14 +26,16 @@ const ProtectedRoute = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        fontFamily: 'var(--font-body)',
-        color: 'var(--color-text)'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          fontFamily: "var(--font-body)",
+          color: "var(--color-text)",
+        }}
+      >
         Loading...
       </div>
     );
